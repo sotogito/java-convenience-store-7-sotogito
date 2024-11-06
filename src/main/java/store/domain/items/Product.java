@@ -17,12 +17,7 @@ public class Product {
 
     @Override
     public String toString() {
-        if (promotion == null) {
-            return String.format(ItemPrintout.GENERAL.getPrintout(),
-                    name, price, quantity);
-        }
-        return String.format(ItemPrintout.PROMOTION.getPrintout(),
-                name, price, quantity, promotion);
+        return ItemPrintout.getPrintout(name, price, quantity, promotion);
     }
 
 
