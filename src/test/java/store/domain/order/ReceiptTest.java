@@ -71,10 +71,26 @@ class ReceiptTest {
         Cart cart = new Cart();
         Order promotionProduct = new Order(
                 convenienceStoreroom.findProductByName("콜라"), 2);
-
         cart.addProduct(promotionProduct);
 
+        receipt = new Receipt(cart);
         Assertions.assertTrue(receipt.canPromotion(DateTimes.now()));
+    }
+
+    @Test
+    void 수량이_부족한_프로모션_상품_주문_반환() {
+        Cart cart = new Cart();
+
+        Order lackPromotionOrder = new Order(convenienceStoreroom.findProductByName("콜라"), 2);
+        Order generalOrder = new Order(convenienceStoreroom.findProductByName("에너지바"), 2);
+
+        cart.addProduct(lackPromotionOrder);
+        cart.addProduct(generalOrder);
+
+        receipt = new Receipt(cart);
+        List<Order> lackQuantityPromotionOrders = receipt.getLackQuantityOrders();
+
+        Assertions.assertTrue(lackQuantityPromotionOrders.contains(lackPromotionOrder));
     }
 
 

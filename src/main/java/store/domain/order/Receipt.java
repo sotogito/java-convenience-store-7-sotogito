@@ -1,6 +1,7 @@
 package store.domain.order;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 구매한 상품과 할인 금액으로 최종 금액을 정한다.
@@ -11,6 +12,10 @@ public class Receipt {
 
     public Receipt(Cart cart) {
         this.cart = cart;
+    }
+
+    public List<Order> getLackQuantityOrders() {
+        return cart.getLackQuantityPromotionOrders();
     }
 
     public boolean canPromotion(LocalDateTime nowTime) {

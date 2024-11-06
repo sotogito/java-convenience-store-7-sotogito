@@ -13,16 +13,17 @@ public class Cart {
         this.promotionProducts = new ArrayList<>();
     }
 
-    /*
-    public List<Order> getQuantityInCorrectPromotionOrders() {
+    public List<Order> getLackQuantityPromotionOrders() {
         List<Order> result = new ArrayList<>();
 
         for (Order product : promotionProducts) {
-getInsufficientQuantity >0
+            if (product.getInsufficientQuantity() > 0) {
+                result.add(product);
+            }
         }
+        return result;
     }
 
-     */
 
     public boolean validDatePromotion(LocalDateTime nowTime) {
         for (Order order : promotionProducts) {
