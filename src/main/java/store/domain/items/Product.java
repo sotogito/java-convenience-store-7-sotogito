@@ -15,12 +15,20 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public boolean isInStock(int purchaseQuantity) {
+        return purchaseQuantity <= quantity;
+    }
+
     public int getPrice() {
         return price;
     }
 
     public boolean isSameName(String name) {
         return this.name.equals(name);
+    }
+
+    public boolean isPromotionItem() {
+        return this.promotion != null;
     }
 
     @Override

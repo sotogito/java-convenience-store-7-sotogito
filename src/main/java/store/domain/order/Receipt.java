@@ -9,9 +9,20 @@ import java.util.List;
 public class Receipt {
     private final List<Order> orders;
     private int finalAmount;
+    private boolean hasPromotion;
+    private boolean isMembership;
 
     public Receipt() {
         this.orders = new ArrayList<>();
+
+    }
+
+
+    public boolean hasPromotionProduct() {
+        for (Order order : orders) {
+            return order.isPromotionItem();
+        }
+        return false;
     }
 
     public void addOrder(Order order) {

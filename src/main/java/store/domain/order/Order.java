@@ -11,6 +11,10 @@ public class Order {
         this.purchaseQuantity = purchaseQuantity;
     }
 
+    public boolean isPromotionItem() {
+        return product.isPromotionItem();
+    }
+
     public int getTotalAmount() {
         return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
     }
