@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import store.domain.items.ConvenienceStoreroom;
+import store.domain.ConvenienceStoreroom;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 
@@ -20,7 +21,7 @@ class ReceiptTest {
 
     @BeforeEach
     void setUp() {
-        receipt = new Receipt();
+        receipt = new Receipt(new Cart());
     }
 
     @Test
@@ -42,5 +43,27 @@ class ReceiptTest {
 
         Assertions.assertEquals(expect, actual);
     }
+
+    @DisplayName("일반 상품과, 프로모션 상품 따로 관리")
+    @Test
+    void 프로모션_상품_구분_저장_확인() {
+        Order order = new Order(
+                convenienceStoreroom.findProductByName("오렌지주스"), 2);
+
+        receipt.addOrder(order);
+
+        Assertions.assertTrue(receipt.hasPromotionProduct());
+    }
+
+    @Test
+    void 일반_상품_프로모션_상품에_미저장_확인() {
+        Order order = new Order(
+                convenienceStoreroom.findProductByName("에너지바"), 2);
+
+        receipt.addOrder(order);
+
+        Assertions.assertFalse(receipt.hasPromotionProduct());
+    }
+
 
 }
