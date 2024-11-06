@@ -1,6 +1,7 @@
 package store.domain.order;
 
-import store.domain.items.Product;
+import store.domain.items.item.Product;
+import store.domain.items.item.PromotionProduct;
 
 public class Order {
     private final Product product;
@@ -11,11 +12,11 @@ public class Order {
         this.purchaseQuantity = purchaseQuantity;
     }
 
-    public boolean isPromotionItem() {
-        return product.isPromotionItem();
+    public boolean isPromotionProduct() {
+        return product instanceof PromotionProduct;
     }
 
-    public int getTotalAmount() {
+    public int calculateTotalAmount() {
         return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
     }
 
