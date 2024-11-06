@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import store.domain.items.Product;
 import store.domain.items.Promotion;
+import store.domain.items.PromotionProduct;
 import store.domain.items.Promotions;
 
 public class ProductReader {
@@ -28,14 +29,15 @@ public class ProductReader {
             String name = splitLine[0];
             int price = Integer.parseInt(splitLine[1]);
             int quantity = Integer.parseInt(splitLine[2]);
-            Promotion promotion = null;
 
             String promotionName = splitLine[3];
             if (!promotionName.equals("null")) {
-                promotion = promotions.getPromotionByName(promotionName);
+                Promotion promotion = promotions.getPromotionByName(promotionName);
+                result.add(new PromotionProduct(name, price, quantity, promotion));
+                continue;
             }
 
-            result.add(new Product(name, price, quantity, promotion));
+            result.add(new Product(name, price, quantity));
         }
         br.close();
         return result;
