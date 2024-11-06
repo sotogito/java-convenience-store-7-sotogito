@@ -15,6 +15,14 @@ public class Product {
         this.promotion = promotion;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public boolean isSameName(String name) {
+        return this.name.equals(name);
+    }
+
     @Override
     public String toString() {
         return ItemPrintout.getPrintout(name, price, quantity, promotion);

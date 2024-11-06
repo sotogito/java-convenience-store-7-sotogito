@@ -9,6 +9,14 @@ public class Products {
         this.products = products;
     }
 
+    public Product getProductByName(String name) {
+        for (Product product : products) {
+            if (product.isSameName(name)) {
+                return product;
+            }
+        }
+        throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+    }
 
     @Override
     public String toString() {

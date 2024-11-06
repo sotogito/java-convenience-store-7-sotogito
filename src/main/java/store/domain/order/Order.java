@@ -11,7 +11,7 @@ public class Order {
         this.purchaseQuantity = purchaseQuantity;
     }
 
-    public int getPurchaseAmountBasedOnQuantity() {
+    public int getTotalAmount() {
         return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
     }
 

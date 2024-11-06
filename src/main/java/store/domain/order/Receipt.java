@@ -14,14 +14,18 @@ public class Receipt {
         this.orders = new ArrayList<>();
     }
 
-    private void addOrder(Order order) {
+    public void addOrder(Order order) {
         this.orders.add(order);
     }
 
-    private void calculateFinalAmount() {
+    public void calculateFinalAmount() {
         for (Order order : orders) {
-            this.finalAmount += order.getPurchaseAmountBasedOnQuantity();
+            this.finalAmount += order.getTotalAmount();
         }
+    }
+
+    public int getFinalAmount() {
+        return finalAmount;
     }
 
 
