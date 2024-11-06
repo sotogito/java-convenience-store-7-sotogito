@@ -5,7 +5,7 @@ public enum ItemPrintout {
     GENERAL("%s %,d원 %d개"),
     PROMOTION("%s %,d원 %d개 %s");
 
-    private String printout;
+    private final String printout;
 
     ItemPrintout(String printout) {
         this.printout = printout;
