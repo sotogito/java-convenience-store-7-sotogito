@@ -1,6 +1,7 @@
 package store.domain;
 
 import java.util.List;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import store.domain.order.OrderForm;
@@ -16,7 +17,22 @@ class OrderParserTest {
         int expect = 2;
 
         Assertions.assertEquals(actual, expect);
+    }
 
+    @Test
+    void 괄호가_없을_경우_예외_처리() {
+        String inputOrder = "[사이다-2,[감자칩-1]";
+
+        AssertionsForClassTypes.assertThatThrownBy(() -> OrderParser.parse(inputOrder))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void 하이픈이_없을_경우_예외_처리() {
+        String inputOrder = "[사이다,2],[감자칩-1]";
+
+        AssertionsForClassTypes.assertThatThrownBy(() -> OrderParser.parse(inputOrder))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 
 }
