@@ -1,5 +1,6 @@
 package store.domain.order;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,26 @@ public class Cart {
     public Cart() {
         this.generalProducts = new ArrayList<>();
         this.promotionProducts = new ArrayList<>();
+    }
+
+    /*
+    public List<Order> getQuantityInCorrectPromotionOrders() {
+        List<Order> result = new ArrayList<>();
+
+        for (Order product : promotionProducts) {
+getInsufficientQuantity >0
+        }
+    }
+
+     */
+
+    public boolean validDatePromotion(LocalDateTime nowTime) {
+        for (Order order : promotionProducts) {
+            if (!order.isValidDate(nowTime)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean hasPromotionProduct() {

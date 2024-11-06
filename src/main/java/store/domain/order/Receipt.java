@@ -1,5 +1,7 @@
 package store.domain.order;
 
+import java.time.LocalDateTime;
+
 /**
  * 구매한 상품과 할인 금액으로 최종 금액을 정한다.
  */
@@ -11,6 +13,9 @@ public class Receipt {
         this.cart = cart;
     }
 
+    public boolean canPromotion(LocalDateTime nowTime) {
+        return cart.validDatePromotion(nowTime);
+    }
 
     public boolean hasPromotionProduct() {
         return cart.hasPromotionProduct();

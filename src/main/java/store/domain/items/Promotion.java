@@ -18,6 +18,19 @@ public class Promotion {
         this.endDate = endDate;
     }
 
+    public boolean isValidDate(LocalDateTime nowTime) {
+        if (endDate.isAfter(nowTime) && startDate.isBefore(nowTime)) {
+            return true;
+        } else if (startDate.equals(nowTime) || endDate.equals(nowTime)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int calculateInsufficientQuantity(int totalPurchaseQuantity) {
+        return (buy + get) - totalPurchaseQuantity;
+    }
+
     public boolean isSameName(String name) {
         return this.name.equals(name);
     }
