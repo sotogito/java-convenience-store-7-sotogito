@@ -1,5 +1,6 @@
 package store.domain.order;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,17 @@ class ReceiptTest {
         receipt.addOrder(order);
 
         Assertions.assertFalse(receipt.hasPromotionProduct());
+    }
+
+    @Test
+    void 프로모션_상품_기간_유효성_확인() {
+        Cart cart = new Cart();
+        Order promotionProduct = new Order(
+                convenienceStoreroom.findProductByName("콜라"), 2);
+
+        cart.addProduct(promotionProduct);
+
+        Assertions.assertTrue(receipt.canPromotion(DateTimes.now()));
     }
 
 
