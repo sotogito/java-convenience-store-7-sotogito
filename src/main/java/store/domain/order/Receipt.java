@@ -1,34 +1,18 @@
 package store.domain.order;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 /**
  * 구매한 상품과 할인 금액으로 최종 금액을 정한다.
  */
 public class Receipt {
     private final Cart cart;
     private int finalAmount;
+    private int promotionDiscount;
+    private int membershipDiscount;
 
     public Receipt(Cart cart) {
         this.cart = cart;
     }
 
-    public List<Order> getLackQuantityOrders() {
-        return cart.getLackQuantityPromotionOrders();
-    }
-
-    public boolean canPromotion(LocalDateTime nowTime) {
-        return cart.validDatePromotion(nowTime);
-    }
-
-    public boolean hasPromotionProduct() {
-        return cart.hasPromotionProduct();
-    }
-
-    public void addOrder(Order order) {
-        cart.addProduct(order);
-    }
 
     public void calculateFinalAmount() {
         finalAmount = cart.getTotalPrice();
@@ -37,6 +21,10 @@ public class Receipt {
     public int getFinalAmount() {
         return finalAmount;
     }
+
+    /**
+     * 상품에 따른 가격 계산만
+     */
 
 
 }

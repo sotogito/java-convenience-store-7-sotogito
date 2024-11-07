@@ -27,20 +27,15 @@ public class Promotion {
         return false;
     }
 
-    public int calculateInsufficientQuantity(int totalPurchaseQuantity) {
-        return (buy + get) - totalPurchaseQuantity;
+    public int calculateCorrectQuantity(int totalPurchaseQuantity) {
+        int bundle = totalPurchaseQuantity / (buy + get);
+        return bundle * (buy + get);
     }
 
     public boolean isSameName(String name) {
         return this.name.equals(name);
     }
 
-    /**
-     * LocalDateTime now = LocalDateTime.now(); System.out.println("getYear() = " + now.getYear());
-     * System.out.println("getMonth() = " + now.getMonth()); System.out.println("getDayOfMonth() = " +
-     * now.getDayOfMonth()); System.out.println("getDayOfWeek() = " + now.getDayOfWeek());
-     * System.out.println("getDayOfYear() = " + now.getDayOfYear());
-     */
 
     @Override
     public String toString() {

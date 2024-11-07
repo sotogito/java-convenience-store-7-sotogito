@@ -16,16 +16,26 @@ public class Cart {
     public List<Order> getLackQuantityPromotionOrders() {
         List<Order> result = new ArrayList<>();
 
-        for (Order product : promotionProducts) {
-            if (product.getInsufficientQuantity() > 0) {
-                result.add(product);
+        for (Order orderProduct : promotionProducts) {
+            if (orderProduct.getInsufficientQuantity() > 0) {
+                result.add(orderProduct);
             }
         }
         return result;
     }
 
+    public List<Order> getShortageStockPromotionOrders() {
+        List<Order> result = new ArrayList<>();
 
-    public boolean validDatePromotion(LocalDateTime nowTime) {
+        for (Order orderProduct : promotionProducts) {
+            if (orderProduct.getNoPromotionQuantity() > 0) { //note 값이 더 크면 구매 수량이 더 큰것이다.
+                result.add(orderProduct);
+            }
+        }
+    }
+
+
+    public boolean canDatePromotion(LocalDateTime nowTime) {
         for (Order order : promotionProducts) {
             if (!order.isValidDate(nowTime)) {
                 return false;

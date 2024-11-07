@@ -1,16 +1,27 @@
-package store.domain.items;
+package store.domain.items.item;
 
 import store.enums.ItemPrintout;
 
 public class Product {
     private final String name;
     private final int price;
-    private final int quantity;
+    private int quantity;
 
     public Product(String name, int price, int quantity) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int calculateQuantityDeduction(int promotionCorrectQuantity) {
+        if (promotionCorrectQuantity >= quantity) {
+            return promotionCorrectQuantity - quantity;
+        }
+        return 0;
     }
 
     public boolean isInStock(int purchaseQuantity) {
@@ -21,8 +32,20 @@ public class Product {
         return price;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
     public boolean isSameName(String name) {
         return this.name.equals(name);
+    }
+
+    public void decreaseQuantity(int purchaseQuantity) {
+        this.quantity -= purchaseQuantity;
+    }
+
+    public boolean isOutOfStock() {
+        return quantity <= 0;
     }
 
     @Override
