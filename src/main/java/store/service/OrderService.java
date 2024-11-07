@@ -83,9 +83,9 @@ public class OrderService {
         return cart.getLackQuantityPromotionOrders();
     }
 
-    public void processUpdatePromotionOrderStock(String answer, Order order, int quantity) {
+    public void processLackQuantityPromotionOrders(String answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
-            order.updatePromotionProductQuantity(quantity);
+            promotionOrder.updatePromotionProductQuantity(needAddQuantity);
         }
         //cart에서 찾아서 일반 상푸으로 이동
     }

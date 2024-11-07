@@ -17,6 +17,31 @@ public class Order {
         return product.getName();
     }
 
+
+    public int getQuantityNoPromotionApplied() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            int correctQuantity = promotionProduct.getCorrectQuantity(purchaseQuantity);
+            return purchaseQuantity - correctQuantity;
+        }
+        return 0;
+    }
+
+    public int getNeedAddQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            promotionProduct.getGetQuantity();
+        }
+        return purchaseQuantity;
+    }
+
+    public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
+        //buy를 넘는지
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity);
+        }
+        return false;
+    }
+
+
     //note 현재 콜라 4개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
     public int getShortageQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {

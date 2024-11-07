@@ -36,6 +36,13 @@ public class Promotion {
         return this.name.equals(name);
     }
 
+    public boolean isOverMin(int noAppliedQuantity) {
+        return noAppliedQuantity >= buy;
+    }
+
+    public int getGetQuantity() {
+        return get;
+    }
 
     @Override
     public String toString() {

@@ -18,7 +18,8 @@ public class Cart {
         List<Order> result = new ArrayList<>();
 
         for (Order orderProduct : promotionProducts) {
-            if (orderProduct.getInsufficientQuantity() > 0) {
+            int noAppliedQuantity = orderProduct.getQuantityNoPromotionApplied();
+            if (noAppliedQuantity > 0 && orderProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity)) {
                 result.add(orderProduct);
             }
         }

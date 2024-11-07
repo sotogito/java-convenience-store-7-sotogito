@@ -45,25 +45,22 @@ public class ConvenienceStoreController {
                             int shortageQuantity = order.getNoPromotionQuantity();
                             String answer = "인풋 값 넣어줘야함";
 
-                            orderService.processShortagePromotionalStock(
-                                    answer, order, shortageQuantity
-                            );
+                            orderService.processShortagePromotionalStock(answer, order, shortageQuantity);
                         }
                     }
 
-
-
-                    /*
                     //note 부족한 수량 체울거냐 물어보고 업데이트 하는 로직
-                    for (Order order : orderService.getLackQuantityPromotionOrders()) {
-                        String name = order.getProductName();
-                        int insufficientQuantity = order.getLackQuantityPromotionOrders();
-                        //출력, 결과받고
-                        orderService.processUpdatePromotionOrderStock("N", order, insufficientQuantity);
-                    }
-                    //프로모션  재고 확인
+                    List<Order> lackQuantityPromotionOrders = orderService.getLackQuantityPromotionOrders();
+                    if (!lackQuantityPromotionOrders.isEmpty()) {
+                        for (Order order : lackQuantityPromotionOrders) {
+                            String name = order.getProductName();
+                            int needAddQuantity = order.getNeedAddQuantity();
+                            String answer = "인풋 값 넣어줘야함";
 
-                     */
+                            orderService.processLackQuantityPromotionOrders(answer, order, needAddQuantity);
+                        }
+                    }
+
                 }
                 //일반으로 꼐산
             }

@@ -19,6 +19,14 @@ public class PromotionProduct extends Product {
         return promotion.calculateCorrectQuantity(totalPurchaseQuantity);
     }
 
+    public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
+        return promotion.isOverMin(noAppliedQuantity);
+    }
+
+    public int getGetQuantity() {
+        return promotion.getGetQuantity();
+    }
+
 
     @Override
     public String toString() {
