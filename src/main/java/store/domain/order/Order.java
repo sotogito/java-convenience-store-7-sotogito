@@ -48,11 +48,8 @@ public class Order {
 
     public int getNoPromotionQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            int correctQuantity = promotionProduct.getCorrectQuantity(purchaseQuantity);
-            int alreadyNotPromotion = purchaseQuantity - correctQuantity;
-            int shortageQuantity = promotionProduct.calculateShortageQuantity(purchaseQuantity);
-
-            return (alreadyNotPromotion + shortageQuantity);
+            int canPromotionInStock = promotionProduct.getCorrectQuantity(product.getQuantity());
+            return (purchaseQuantity - canPromotionInStock);
         }
         return 0;
     }

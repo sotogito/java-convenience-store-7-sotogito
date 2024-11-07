@@ -20,10 +20,6 @@ public class Product {
         return 0;
     }
 
-    public int calculateShortageQuantity(int promotionPurchaseQuantity) {
-        return promotionPurchaseQuantity - quantity;
-    }
-
 
     public void decreaseQuantity(int purchaseQuantity) {
         this.quantity -= purchaseQuantity;
