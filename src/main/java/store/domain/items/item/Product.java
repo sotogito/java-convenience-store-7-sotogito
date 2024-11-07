@@ -20,14 +20,25 @@ public class Product {
         return 0;
     }
 
+    public void decreaseQuantity(int purchasedQuantity) {
+        if (quantity >= purchasedQuantity) {
+            quantity -= purchasedQuantity;
+            return;
+        }
+        throw new IllegalStateException("재고 오류");
+    }
 
-    public void decreaseQuantity(int purchaseQuantity) {
-        this.quantity -= purchaseQuantity;
+    public void decreaseQuantitySingly() {
+        quantity -= 1;
     }
 
 
     public boolean isOutOfStock() {
         return quantity <= 0;
+    }
+
+    public boolean isSufficientStock(int purchasedQuantity) {
+        return quantity >= purchasedQuantity;
     }
 
     public boolean isSameName(String name) {

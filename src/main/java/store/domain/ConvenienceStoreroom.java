@@ -1,9 +1,12 @@
 package store.domain;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import store.domain.items.Products;
 import store.domain.items.Promotions;
 import store.domain.items.item.Product;
+import store.domain.items.item.PromotionProduct;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.enums.ResourcePath;
@@ -19,11 +22,49 @@ public class ConvenienceStoreroom {
 
     public ConvenienceStoreroom(PromotionReader promotionReader, ProductReader productReader) throws IOException {
         this.promotions = new Promotions(promotionReader.read(ResourcePath.PROMOTION.getPath()));
-        this.products = new Products(productReader.read(ResourcePath.PRODUCT.getPath(), promotions));
+        List<Product> products1 = productReader.read(ResourcePath.PRODUCT.getPath(), promotions);
+        for (Product product : products1) {
+            System.out.println(product.getName());
+        }
+
+        this.products = new Products(products1);
     }
 
     public Product findProductByName(String name, int quantity) {
         return products.getProductByName(name, quantity);
+    }
+
+    public Product getGeneralProduct(String name, int quantity) {
+        return products.getGeneralProduct(name, quantity);
+
+    }
+
+    public Product findGeneralProductByName(String name) {
+        return products.getGeneralProductByName(name);
+    }
+
+    public void decreaseStock(Map<Product, Integer> productQuantity) {
+        for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+
+            if (product instanceof PromotionProduct promotionProduct) {
+
+                for (int i = 0; i < quantity; i++) {
+                    if (promotionProduct.isOutOfStock()) {
+                        Product generalProduct = findGeneralProductByName(product.getName());
+                        generalProduct.decreaseQuantitySingly();
+                    }
+                    promotionProduct.decreaseQuantitySingly();
+                }
+                return;
+            }
+            product.decreaseQuantity(quantity);
+        }
+        /**
+         * 만약 20개 사고 둘다 재고 없음이면 존재하지 앟는 상품이라고뜸
+         * 만약 19개사고 콜라 1개 더 사면 재고 안줄어듦
+         */
     }
 
 

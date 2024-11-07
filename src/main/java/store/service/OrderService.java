@@ -1,10 +1,12 @@
 package store.service;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
 import store.domain.items.item.Product;
+import store.domain.items.item.PromotionProduct;
 import store.domain.order.Cart;
 import store.domain.order.Order;
 import store.domain.order.Receipt;
@@ -33,6 +35,14 @@ public class OrderService {
         return isPurchase;
     }
 
+    public void stopPurchase() {
+        isPurchase = false;
+    }
+
+    public void clearOrderList() {
+        cart.clearCart();
+    }
+
     public boolean isContainPromotionProduct() {
         return cart.hasPromotionProduct();
     }
@@ -48,8 +58,10 @@ public class OrderService {
     }
 
 
-    public void processShortagePromotionalStock(String answer, Order promotionOrder, int shortageQuantity) {
+    public void processShortagePromotionalStock(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
+            //todo 프로모션 -> 일반으로 추가하는 로직 -> 그래야 멤버십 할인 가능함
+            cart.changePromotionToGeneral(promotionOrder, shortageQuantity);
             return;
         }
         promotionOrder.deleteQuantity(shortageQuantity);
@@ -61,7 +73,7 @@ public class OrderService {
         return cart.getLackQuantityPromotionOrders();
     }
 
-    public void processLackQuantityPromotionOrders(String answer, Order promotionOrder, int needAddQuantity) {
+    public void processLackQuantityPromotionOrders(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             promotionOrder.updatePromotionProductQuantity(needAddQuantity);
         }
@@ -69,13 +81,19 @@ public class OrderService {
 
 
     public void handlePurchaseProgress(String inputAnswer) {
-        this.isPurchase = AnswerWhether.findMeaningByAnswer(inputAnswer);
+        //this.isPurchase = AnswerWhether.findMeaningByAnswer();
     }
 
     public void handleMembership(String inputAnswer) {
-        boolean answer = AnswerWhether.findMeaningByAnswer(inputAnswer);
+        //boolean answer = AnswerWhether.findMeaningByAnswer();
         //멤버십 계산 및 적용
         // 아니면 바로 출력
+    }
+
+    public void decreaseStockInConvenienceStore() {
+        //프로모션 기간일 경우
+        //프로모션 상품 재고 먼저 삭제
+        cart.decreaseProductQuantity(convenienceStoreroom);
     }
 
 
@@ -94,9 +112,18 @@ public class OrderService {
             int quantity = order.quantity();
             Product product = convenienceStoreroom.findProductByName(order.name(), quantity);
 
+            if (product instanceof PromotionProduct promotionProduct) {
+                if (!promotionProduct.isValidDate(DateTimes.now())) {
+                    product = convenienceStoreroom.getGeneralProduct(order.name(), quantity);
+                }
+            }
             orderList.add(new Order(product, quantity));
         }
         return orderList;
+    }
+
+    public void printCart() {
+        System.out.println(cart);
     }
 
 }

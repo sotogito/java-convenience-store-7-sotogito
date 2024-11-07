@@ -32,6 +32,10 @@ public class PromotionProduct extends Product {
         return promotion.getGetQuantity();
     }
 
+    public boolean getIsValidDate() {
+        return isValidDate;
+    }
+
 
     @Override
     public String toString() {

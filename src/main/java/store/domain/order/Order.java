@@ -1,6 +1,7 @@
 package store.domain.order;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
 
@@ -39,7 +40,6 @@ public class Order {
 
     public int getShortageQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            //int correctQuantity = ((PromotionProduct) product).getCorrectQuantity(purchaseQuantity);
             return promotionProduct.calculateQuantityDeduction(purchaseQuantity);
             //note 그냥 재고가 전체 구매 수보다 부족한지만 판단
         }
@@ -79,17 +79,45 @@ public class Order {
         return product instanceof PromotionProduct;
     }
 
+    public boolean isSameProduct(Product product) {
+        return this.product.equals(product);
+    }
+
     public int calculateTotalAmount() {
         return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
     }
 
     //todo 구매하면 그냥 수량만큼 -해주면 되네 자체적으로
-    public void updateBuyQuantity() {
-        product.decreaseQuantity(purchaseQuantity);
+    public void decreasePurchasedProductQuantity() {
+        if (product.isSufficientStock(purchaseQuantity)) {
+            product.decreaseQuantity(purchaseQuantity);
+        }
     }
 
     public String getProductName() {
         return product.getName();
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Map<Product, Integer> updateProductQuantityMap(Map<Product, Integer> productQuantityMap) {
+        productQuantityMap.merge(product, purchaseQuantity, Integer::sum);
+        return productQuantityMap;
+    }
+
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Order [product=");
+        builder.append(product.getName());
+        builder.append(", purchaseQuantity=");
+        builder.append(purchaseQuantity);
+        builder.append("]");
+        builder.append("\n");
+        return builder.toString();
     }
 
 

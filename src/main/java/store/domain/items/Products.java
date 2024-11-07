@@ -6,7 +6,7 @@ import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
 
 public class Products {
-    private List<Product> products;
+    private final List<Product> products;
 
     public Products(List<Product> products) {
         this.products = products;
@@ -32,19 +32,46 @@ public class Products {
                 sameNameProduct.add(product);
                 continue;
             }
-            throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
         }
         int stock = 0;
         for (Product product : sameNameProduct) {
             stock += product.getQuantity();
         }
 
-        if (stock == 0 || stock < quantity) {
+        if (resultProduct == null) {
+            throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+        } else if (stock == 0 || stock < quantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
         }
         return resultProduct;
     }
 
+    public Product getGeneralProduct(String name, int quantity) {
+        for (Product product : products) {
+            if (product instanceof PromotionProduct) {
+                continue;
+            }
+            if (product.isSameName(name)) {
+                if (product.isSufficientStock(quantity)) {
+                    return product;
+                }
+                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
+            }
+        }
+        throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+    }
+
+    public Product getGeneralProductByName(String name) {
+        for (Product product : products) {
+            if (product instanceof PromotionProduct) {
+                continue;
+            }
+            if (product.isSameName(name)) {
+                return product;
+            }
+        }
+        throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+    }
 
     @Override
     public String toString() {
