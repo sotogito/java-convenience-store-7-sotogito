@@ -32,6 +32,7 @@ public class Promotion {
         return bundle * (buy + get);
     }
 
+
     public boolean isSameName(String name) {
         return this.name.equals(name);
     }
@@ -40,6 +41,7 @@ public class Promotion {
         return noAppliedQuantity >= buy;
     }
 
+    
     public int getGetQuantity() {
         return get;
     }

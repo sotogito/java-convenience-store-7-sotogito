@@ -13,10 +13,6 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public int calculateQuantityDeduction(int promotionCorrectQuantity) {
         if (promotionCorrectQuantity >= quantity) {
             return promotionCorrectQuantity - quantity;
@@ -28,8 +24,23 @@ public class Product {
         return promotionPurchaseQuantity - quantity;
     }
 
-    public boolean isInStock(int purchaseQuantity) {
-        return purchaseQuantity <= quantity;
+
+    public void decreaseQuantity(int purchaseQuantity) {
+        this.quantity -= purchaseQuantity;
+    }
+
+
+    public boolean isOutOfStock() {
+        return quantity <= 0;
+    }
+
+    public boolean isSameName(String name) {
+        return this.name.equals(name);
+    }
+
+
+    public String getName() {
+        return name;
     }
 
     public int getPrice() {
@@ -40,17 +51,6 @@ public class Product {
         return quantity;
     }
 
-    public boolean isSameName(String name) {
-        return this.name.equals(name);
-    }
-
-    public void decreaseQuantity(int purchaseQuantity) {
-        this.quantity -= purchaseQuantity;
-    }
-
-    public boolean isOutOfStock() {
-        return quantity <= 0;
-    }
 
     @Override
     public String toString() {

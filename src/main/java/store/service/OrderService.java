@@ -33,16 +33,6 @@ public class OrderService {
         return isPurchase;
     }
 
-    public void handlePurchaseProgress(String inputAnswer) {
-        this.isPurchase = AnswerWhether.findMeaningByAnswer(inputAnswer);
-    }
-
-    public void handleMembership(String inputAnswer) {
-        boolean answer = AnswerWhether.findMeaningByAnswer(inputAnswer);
-        //멤버십 계산 및 적용
-        // 아니면 바로 출력
-    }
-
     public boolean isContainPromotionProduct() {
         return cart.hasPromotionProduct();
     }
@@ -60,26 +50,14 @@ public class OrderService {
 
     public void processShortagePromotionalStock(String answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
-            //note 수량만큼을 일반 상품으로 할 필요가 없은? 어차피 [promotion은 다 재고없음으로 되어야됨
-            //note 아무것도 안함
             return;
         }
-        //note 수량만큼 삭제함
         promotionOrder.deleteQuantity(shortageQuantity);
     }
 
 
     //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
     public List<Order> getLackQuantityPromotionOrders() {
-        /**
-         * 일단 프로모션 구ㅐㅁ 개수가 ㅡ로모션 재고보다 작아야ㅗ딤
-         *
-         */
-
-        /**
-         * 잔여가 Y애 미치는 경우 : +1 물어봄 -> 프로모션으로 계산
-         * 잔여가 미치지 않는 경우 -> 일반으로 옮기는게 아니라 그냥 증정품 안받는 프로모션일 뿐
-         */
         return cart.getLackQuantityPromotionOrders();
     }
 
@@ -87,7 +65,17 @@ public class OrderService {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             promotionOrder.updatePromotionProductQuantity(needAddQuantity);
         }
-        //cart에서 찾아서 일반 상푸으로 이동
+    }
+
+
+    public void handlePurchaseProgress(String inputAnswer) {
+        this.isPurchase = AnswerWhether.findMeaningByAnswer(inputAnswer);
+    }
+
+    public void handleMembership(String inputAnswer) {
+        boolean answer = AnswerWhether.findMeaningByAnswer(inputAnswer);
+        //멤버십 계산 및 적용
+        // 아니면 바로 출력
     }
 
 

@@ -5,15 +5,15 @@ public enum ResourcePath {
     PRODUCT("src/main/resources/products", ".md");
 
     private final String filePath;
-    private final String extenstion;
+    private final String extension;
 
-    ResourcePath(String filePath, String extenstion) {
-        this.extenstion = extenstion;
+    ResourcePath(String filePath, String extension) {
+        this.extension = extension;
         this.filePath = filePath;
     }
 
     public String getPath() {
-        return filePath + extenstion;
+        return filePath + extension;
     }
 
 }

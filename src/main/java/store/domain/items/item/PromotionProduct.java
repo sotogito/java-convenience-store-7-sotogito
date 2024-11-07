@@ -11,17 +11,19 @@ public class PromotionProduct extends Product {
         this.promotion = promotion;
     }
 
-    public boolean isValidDate(LocalDateTime nowTime) {
-        return promotion.isValidDate(nowTime);
-    }
-
     public int getCorrectQuantity(int totalPurchaseQuantity) {
         return promotion.calculateCorrectQuantity(totalPurchaseQuantity);
     }
 
+
     public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
         return promotion.isOverMin(noAppliedQuantity);
     }
+
+    public boolean isValidDate(LocalDateTime nowTime) {
+        return promotion.isValidDate(nowTime);
+    }
+    
 
     public int getGetQuantity() {
         return promotion.getGetQuantity();

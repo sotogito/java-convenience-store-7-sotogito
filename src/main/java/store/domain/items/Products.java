@@ -12,14 +12,6 @@ public class Products {
         this.products = products;
     }
 
-    /**
-     * 프로모션 재고가 있는데, 부족할 경우 -> 그냥 프로모션으로 넘김 프로모션 재고가 있는데, 일반상품까지 부족할 경우 -> 재고 없음 프로모션 재고가 없는데, 일반 재고도 없는 경우 -> 재고 없음
-     * 프로모션 재고가 없는데, 일반 상푸은 있는경우 -> 일반 상품으로 취금
-     * <p>
-     * 1. 프로모션 재고가 있나ㅏ? 2. 일반 상품 재고가 있나? 3. -> 재고가 없음
-     * <p>
-     * 프로모션 상품이 재고가 있으면 프로모션 상품으로 하고 프로모션이 잭과 없으면 일반 상푸믕로
-     */
     public Product getProductByName(String name, int quantity) {
         List<Product> sameNameProduct = new ArrayList<>();
         Product resultProduct = null;
