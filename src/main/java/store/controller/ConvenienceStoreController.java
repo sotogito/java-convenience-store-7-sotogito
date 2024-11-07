@@ -130,7 +130,7 @@ public class ConvenienceStoreController {
                 orderService.buy(inputToOrderForm());
                 return;
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
