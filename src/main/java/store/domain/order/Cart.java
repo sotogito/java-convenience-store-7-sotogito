@@ -13,6 +13,7 @@ public class Cart {
         this.promotionProducts = new ArrayList<>();
     }
 
+
     public List<Order> getLackQuantityPromotionOrders() {
         List<Order> result = new ArrayList<>();
 
@@ -24,12 +25,25 @@ public class Cart {
         return result;
     }
 
+
     public List<Order> getShortageStockPromotionOrders() {
         List<Order> result = new ArrayList<>();
 
         for (Order orderProduct : promotionProducts) {
-            if (orderProduct.getNoPromotionQuantity() > 0) { //note 값이 더 크면 구매 수량이 더 큰것이다.
+            if (orderProduct.getShortageQuantity() > 0) { //note 값이 더 크면 구매 수량이 더 큰것이다.
                 result.add(orderProduct);
+            }
+        }
+        return result;
+    }
+
+    public void changePromotionToGeneral(Order promotionOrder, int shortageQuantity) {
+        for (Order orderProduct : promotionProducts) {
+            if (orderProduct.equals(promotionOrder)) {
+                //note 상품 옮기기
+                //수량만큼 삭제
+                //수량만큼 옮기기
+
             }
         }
     }

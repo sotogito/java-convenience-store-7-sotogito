@@ -15,9 +15,10 @@ public class PromotionProduct extends Product {
         return promotion.isValidDate(nowTime);
     }
 
-    public int getInsufficientQuantity(int totalPurchaseQuantity) {
-        return promotion.calculateInsufficientQuantity(totalPurchaseQuantity);
+    public int getCorrectQuantity(int totalPurchaseQuantity) {
+        return promotion.calculateCorrectQuantity(totalPurchaseQuantity);
     }
+
 
     @Override
     public String toString() {

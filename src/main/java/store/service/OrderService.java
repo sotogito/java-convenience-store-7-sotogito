@@ -1,12 +1,14 @@
 package store.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import store.domain.items.ConvenienceStoreroom;
-import store.domain.items.Product;
+import store.domain.ConvenienceStoreroom;
+import store.domain.items.item.Product;
+import store.domain.order.Cart;
 import store.domain.order.Order;
-import store.domain.order.OrderForm;
 import store.domain.order.Receipt;
+import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
 
 public class OrderService {
@@ -16,72 +18,97 @@ public class OrderService {
 
     private final ConvenienceStoreroom convenienceStoreroom; //재고확인
     private final Receipt receipt; //추가 저장
+    private final Cart cart;
     private boolean isPurchase;
-    private boolean isContainPromotionProduct;
 
 
-    public OrderService(ConvenienceStoreroom convenienceStoreroom, Receipt receipt) {
+    public OrderService(ConvenienceStoreroom convenienceStoreroom, Receipt receipt, Cart cart) {
         this.convenienceStoreroom = convenienceStoreroom;
         this.receipt = receipt;
+        this.cart = cart;
         isPurchase = true;
-        isContainPromotionProduct = false;
     }
 
-    public void updatePurchaseProgress(String inputAnswer) {
+    public boolean isPurchase() {
+        return isPurchase;
+    }
+
+    public void handlePurchaseProgress(String inputAnswer) {
         this.isPurchase = AnswerWhether.findMeaningByAnswer(inputAnswer);
     }
 
-    public void membershipApplication(String inputAnswer) {
+    public void handleMembership(String inputAnswer) {
         boolean answer = AnswerWhether.findMeaningByAnswer(inputAnswer);
         //멤버십 계산 및 적용
         // 아니면 바로 출력
     }
 
+    public boolean isContainPromotionProduct() {
+        return cart.hasPromotionProduct();
+    }
 
-    /**
-     * 물건 파싱 order만들기 가격 계산하기 1. 창고에서 물건 확인 + 메시지
-     * <p>
-     * 2. 프로모션인지 확인함 3. 재고를 확인함 + 메시지
-     * <p>
-     * <p>
-     * 4. List<Orderㅡ>를 만듦 5. 영수증에 저장 + 가격 설정함
-     * <p>
-     * 6. 멤버십 여부 물어봄 + 메시지 7. 멤버십 계산해서 레시피 가격에 적용함
-     * <p>
-     * - 던져질 수 있는 예외 1. 물건이 존재하지 않음 2. 수량이 부족함 3. 프로모션인데 수량을 부족하게 가져옴 4.
-     */
+    public boolean isPromotionDate(LocalDateTime nowTime) {
+        return cart.canDatePromotion(nowTime);
+    }
+
+
+    //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
+    public List<Order> getShortagePromotionalStock() {
+        return cart.getShortageStockPromotionOrders();
+    }
+
+
+    public void processShortagePromotionalStock(String answer, Order promotionOrder, int shortageQuantity) {
+        if (AnswerWhether.findMeaningByAnswer(answer)) {
+            //note 수량만큼을 일반 상품으로 할 필요가 없은? 어차피 [promotion은 다 재고없음으로 되어야됨
+            //note 아무것도 안함
+            return;
+        }
+        //note 수량만큼 삭제함
+        promotionOrder.deleteQuantity(shortageQuantity);
+    }
+
+
+    //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
+    public List<Order> getLackQuantityPromotionOrders() {
+        /**
+         * 일단 프로모션 구ㅐㅁ 개수가 ㅡ로모션 재고보다 작아야ㅗ딤
+         *
+         */
+
+        /**
+         * 잔여가 Y애 미치는 경우 : +1 물어봄 -> 프로모션으로 계산
+         * 잔여가 미치지 않는 경우 -> 일반으로 옮기는게 아니라 그냥 증정품 안받는 프로모션일 뿐
+         */
+        return cart.getLackQuantityPromotionOrders();
+    }
+
+    public void processUpdatePromotionOrderStock(String answer, Order order, int quantity) {
+        if (AnswerWhether.findMeaningByAnswer(answer)) {
+            order.updatePromotionProductQuantity(quantity);
+        }
+        //cart에서 찾아서 일반 상푸으로 이동
+    }
+
 
     public void buy(List<OrderForm> orders) { //todo try-catch 다시 입력받기. 여기서 예외처리 다해야됨
         List<Order> orderResult = changeToOrders(orders);
         for (Order order : orderResult) {
-            receipt.addOrder(order);
+            cart.addProduct(order);
         }
-    }
-
-    public boolean isContainPromotionProduct() {
-        return receipt.hasPromotionProduct();
-        //프로모션 아닐경우 바로 영수증 출력
     }
 
 
     private List<Order> changeToOrders(List<OrderForm> orders) {
-        List<Order> orderList = new ArrayList<Order>();
+        List<Order> orderList = new ArrayList<>();
 
         for (OrderForm order : orders) {
-            Product product = convenienceStoreroom.findProductByName(order.name());
             int quantity = order.quantity();
+            Product product = convenienceStoreroom.findProductByName(order.name(), quantity);
 
-            validateStock(product, quantity);
             orderList.add(new Order(product, quantity));
         }
         return orderList;
     }
-
-    private void validateStock(Product product, int quantity) {
-        if (!product.isInStock(quantity)) {
-            throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
-        }
-    }
-
 
 }

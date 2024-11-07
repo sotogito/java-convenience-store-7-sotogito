@@ -2,7 +2,7 @@ package store.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import store.domain.order.OrderForm;
+import store.domain.record.OrderForm;
 
 //올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.
 

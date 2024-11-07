@@ -24,6 +24,10 @@ public class Product {
         return 0;
     }
 
+    public int calculateShortageQuantity(int promotionPurchaseQuantity) {
+        return promotionPurchaseQuantity - quantity;
+    }
+
     public boolean isInStock(int purchaseQuantity) {
         return purchaseQuantity <= quantity;
     }

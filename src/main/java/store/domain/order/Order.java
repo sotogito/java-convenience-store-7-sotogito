@@ -18,13 +18,32 @@ public class Order {
     }
 
     //note 현재 콜라 4개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
-    public int getNoPromotionQuantity() {
-        if (product instanceof PromotionProduct) {
+    public int getShortageQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
             //int correctQuantity = ((PromotionProduct) product).getCorrectQuantity(purchaseQuantity);
-            return product.calculateQuantityDeduction(purchaseQuantity);
+            return promotionProduct.calculateQuantityDeduction(purchaseQuantity);
+            //note 그냥 재고가 전체 구매 수보다 부족한지만 판단
         }
         return 0;
     }
+
+    public int getNoPromotionQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            int correctQuantity = promotionProduct.getCorrectQuantity(purchaseQuantity);
+            int alreadyNotPromotion = purchaseQuantity - correctQuantity;
+            int shortageQuantity = promotionProduct.calculateShortageQuantity(purchaseQuantity);
+
+            return (alreadyNotPromotion + shortageQuantity);
+        }
+        return 0;
+    }
+
+    public void deleteQuantity(int quantity) {
+        if (product instanceof PromotionProduct) {
+            purchaseQuantity -= quantity;
+        }
+    }
+
 
     public boolean isValidDate(LocalDateTime nowTime) {
         if (product instanceof PromotionProduct) {

@@ -5,10 +5,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import store.domain.items.Product;
 import store.domain.items.Promotion;
-import store.domain.items.PromotionProduct;
 import store.domain.items.Promotions;
+import store.domain.items.item.Product;
+import store.domain.items.item.PromotionProduct;
 
 public class ProductReader {
 
