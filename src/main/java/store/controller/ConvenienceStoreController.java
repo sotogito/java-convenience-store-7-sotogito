@@ -12,6 +12,7 @@ import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
+import store.service.CartService;
 import store.service.OrderService;
 import store.service.PromotionService;
 import store.view.InputView;
@@ -21,6 +22,7 @@ import store.view.messages.ServiceMessage;
 public class ConvenienceStoreController {
 
     private PromotionService promotionService;
+    private CartService cartService;
 
     private OrderService orderService;
     private final InputView inputView = new InputView();
@@ -32,6 +34,7 @@ public class ConvenienceStoreController {
         Receipt receipt = new Receipt(cart);
         orderService = new OrderService(storeroom, receipt, cart);
         promotionService = new PromotionService(cart);
+        cartService = new CartService(storeroom, cart);
 
         processBuy(storeroom, receipt);
     }
@@ -54,7 +57,7 @@ public class ConvenienceStoreController {
     }
 
     private void printReceipt(Receipt receipt) {
-        orderService.handlePurchaseProgress(inputWhetherMembershipDiscount());
+        orderService.updateReceipt(inputWhetherMembershipDiscount());
         System.out.println(receipt);
     }
 
@@ -126,7 +129,7 @@ public class ConvenienceStoreController {
         while (true) {
             try {
                 String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.getMessage());
-                orderService.processPurchase(AnswerWhether.findByInputAnswer(answer));
+                orderService.processKeepPurchase(AnswerWhether.findByInputAnswer(answer));
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
@@ -138,7 +141,7 @@ public class ConvenienceStoreController {
     private void tryBuy() {
         while (true) {
             try {
-                orderService.buy(inputToOrderForm(), DateTimes.now());
+                cartService.buy(inputToOrderForm(), DateTimes.now());
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());

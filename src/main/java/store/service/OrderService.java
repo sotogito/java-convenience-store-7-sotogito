@@ -1,15 +1,8 @@
 package store.service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import store.domain.ConvenienceStoreroom;
-import store.domain.items.item.Product;
-import store.domain.items.item.PromotionProduct;
 import store.domain.order.Cart;
-import store.domain.order.Order;
 import store.domain.order.Receipt;
-import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
 
 public class OrderService {
@@ -34,16 +27,14 @@ public class OrderService {
         return isPurchase;
     }
 
-
-    public void processPurchase(AnswerWhether answer) {
+    public void processKeepPurchase(AnswerWhether answer) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             return;
         }
         isPurchase = false;
     }
 
-
-    public void handlePurchaseProgress(AnswerWhether answer) {
+    public void updateReceipt(AnswerWhether answer) {
         receipt.process(answer);
     }
 
@@ -53,6 +44,7 @@ public class OrderService {
     }
 
 
+    /*
     public void buy(List<OrderForm> orders, LocalDateTime nowDate) {
         List<Order> orderResult = changeToOrders(orders, nowDate);
         for (Order order : orderResult) {
@@ -91,6 +83,8 @@ public class OrderService {
         }
         return false;
     }
+
+     */
 
     public void clearPurchaseHistory() {
         cart.clearCart();
