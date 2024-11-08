@@ -13,11 +13,15 @@ import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
 import store.service.OrderService;
+import store.service.PromotionService;
 import store.view.InputView;
 import store.view.OutputView;
 import store.view.messages.ServiceMessage;
 
 public class ConvenienceStoreController {
+
+    private PromotionService promotionService;
+
     private OrderService orderService;
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
@@ -27,6 +31,7 @@ public class ConvenienceStoreController {
         Cart cart = new Cart();
         Receipt receipt = new Receipt(cart);
         orderService = new OrderService(storeroom, receipt, cart);
+        promotionService = new PromotionService(cart);
 
         processBuy(storeroom, receipt);
     }
@@ -60,12 +65,12 @@ public class ConvenienceStoreController {
 
 
     private void processShortageStockPromotionOrder() {
-        for (Order order : orderService.getShortagePromotionalStock()) {
+        for (Order order : promotionService.getShortagePromotionalStock()) {
             String name = order.getProductName();
             int shortageQuantity = order.getNoPromotionQuantity();
             AnswerWhether answer = inputWhetherBuyNoPromotion(name, shortageQuantity);
 
-            orderService.processShortagePromotionalStock(answer, order, shortageQuantity);
+            promotionService.processShortagePromotionalStock(answer, order, shortageQuantity);
         }
     }
 
@@ -83,12 +88,12 @@ public class ConvenienceStoreController {
 
 
     private void processLackQuantityPromotionOrder() {
-        for (Order order : orderService.getLackQuantityPromotionOrders()) {
+        for (Order order : promotionService.getLackQuantityPromotionOrders()) {
             String name = order.getProductName();
             int needAddQuantity = order.getNeedAddQuantity();
             AnswerWhether answer = inputWhetherAddPromotionProduct(name, needAddQuantity);
 
-            orderService.processLackQuantityPromotionOrders(answer, order, needAddQuantity);
+            promotionService.processLackQuantityPromotionOrders(answer, order, needAddQuantity);
         }
     }
 
