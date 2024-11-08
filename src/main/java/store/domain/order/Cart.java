@@ -16,6 +16,14 @@ public class Cart {
         this.promotionProducts = new ArrayList<>();
     }
 
+    public int getGeneralProductPurchaseTotalAmount() {
+        int totalAmount = 0;
+        for (Order order : generalProducts) {
+            totalAmount += order.calculateTotalAmount();
+        }
+        return totalAmount;
+    }
+
     public Map<Product, Integer> getPromotionProducts() {
         Map<Product, Integer> result = new HashMap<>();
         for (Order order : promotionProducts) {

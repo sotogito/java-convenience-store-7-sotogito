@@ -14,7 +14,7 @@ public class Receipt {
 
     private int totalAmountBeforeDiscount; //note 증정품도 다 더함
     private int promotionDiscount; //note 증정품 가격
-    private int membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
+    private double membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
     private int finalAmount; //note 최종 금액
 
     /**
@@ -32,13 +32,23 @@ public class Receipt {
         setFinalAmount();
         updatePromotionProduct();
         calculatePromotionDiscountAmount();
+        calculateMembershipDiscountAmount(answer);
 
-        System.out.println(promotionDiscount);
+        System.out.println(membershipDiscount);
 
         //promotionProduct, promotionDiscount : 증정 상품 업데이트 및 증정 가겨ㅛㄱ 계산 - 그냥 map 업데이트해서 가격만 더하면 됨
         //membershipDiscount : 일반 상품 총 가격 갖오서 30프로 계싼
         //최종금액
 
+    }
+
+    private void calculateMembershipDiscountAmount(AnswerWhether answer) {
+        if (AnswerWhether.findMeaningByAnswer(answer)) {
+            int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
+            membershipDiscount = generalPurchaseAmount * 0.3;
+            return;
+        }
+        membershipDiscount = 0;
     }
 
     private void calculatePromotionDiscountAmount() {
@@ -67,8 +77,6 @@ public class Receipt {
         promotionDiscount = 0;
         membershipDiscount = 0;
         finalAmount = 0;
-
-
     }
 
 }
