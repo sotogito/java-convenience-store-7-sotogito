@@ -12,73 +12,99 @@ public class Products {
         this.products = products;
     }
 
-    public Product getProductByName(String name, int quantity) {
-        List<Product> sameNameProduct = new ArrayList<>();
-        Product resultProduct = null;
-        boolean isOutOfStock = false;
+    public Product getProductByNameAndQuantity(String name, int quantity) {
+        List<Product> sameNameProduct = getSameNameProducts(name);
+        boolean isAllOutOfStock = isAllOutOfStock(sameNameProduct);
+        int stock = calculateAllSameNameProductStock(sameNameProduct);
+        Product resultProduct = getResultProduct(sameNameProduct);
+        validateProductState(quantity, sameNameProduct, isAllOutOfStock, stock);
 
+        return resultProduct;
+    }
+
+    private List<Product> getSameNameProducts(String name) {
+        List<Product> result = new ArrayList<>();
         for (Product product : products) {
             if (product.isSameName(name)) {
-                if (product.isOutOfStock()) {
-                    isOutOfStock = true;
-                    continue;
-                }
-                sameNameProduct.add(product);
+                result.add(product);
             }
         }
+        return result;
+    }
 
+    private boolean isAllOutOfStock(List<Product> sameNameProduct) { //note 상품은 있는데 재고 없음의 경우
+        boolean isAllOutOfStock = false;
+        for (Product product : sameNameProduct) {
+            if (product.isOutOfStock()) {
+                sameNameProduct.remove(product);
+                isAllOutOfStock = true;
+            }
+        }
+        return isAllOutOfStock;
+    }
+
+
+    private int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
         int stock = 0;
         for (Product product : sameNameProduct) {
             stock += product.getQuantity();
         }
+        return stock;
+    }
 
+    private Product getResultProduct(List<Product> sameNameProduct) {
         for (Product product : sameNameProduct) {
             if (product instanceof PromotionProduct promotionProduct) {
-                resultProduct = promotionProduct;
-                break;
+                return promotionProduct;
             }
-            resultProduct = product;
+            return product;
         }
+        return null;
+    }
 
-        if (resultProduct == null) {
-            if (isOutOfStock) {
-                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-1");
+    private void validateProductState(int quantity, List<Product> sameNameProduct, boolean isAllOutOfStock, int stock) {
+        if (sameNameProduct.isEmpty()) {
+            if (isAllOutOfStock) {
+                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-2");
             }
             throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
         } else if (stock == 0 || stock < quantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-1");
         }
-
-        return resultProduct;
     }
 
-    public Product getGeneralProduct(String name, int quantity) {
+
+    public Product getGeneralProductByNameAndQuantity(String name, int quantity) {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
                 continue;
-            }
-            if (product.isSameName(name)) {
-                if (product.isSufficientStock(quantity)) {
-                    return product;
-                }
-                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-2");
+            } else if (product.isSameName(name)) {
+                return getSufficientStockGeneralProduct(quantity, product);
             }
         }
         throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
     }
 
+    private Product getSufficientStockGeneralProduct(int quantity, Product product) {
+        if (product.isSufficientStock(quantity)) {
+            return product;
+        }
+        throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-2");
+    }
+
+
     public Product getGeneralProductByName(String name) {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
                 continue;
-            }
-            if (product.isSameName(name)) {
+            } else if (product.isSameName(name)) {
                 return product;
             }
         }
         throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.-3");
     }
 
+    
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -88,6 +114,5 @@ public class Products {
         }
         return stringBuilder.toString();
     }
-
 
 }
