@@ -34,7 +34,11 @@ public class OrderService {
         return isPurchase;
     }
 
-    public void stopPurchase() {
+
+    public void processPurchase(AnswerWhether answer) {
+        if (AnswerWhether.findMeaningByAnswer(answer)) {
+            return;
+        }
         isPurchase = false;
     }
 
@@ -49,12 +53,6 @@ public class OrderService {
 
     public void handlePurchaseProgress(AnswerWhether answer) {
         receipt.process(answer);
-    }
-
-    public void handleMembership(String inputAnswer) {
-        //boolean answer = AnswerWhether.findMeaningByAnswer();
-        //멤버십 계산 및 적용
-        // 아니면 바로 출력
     }
 
 

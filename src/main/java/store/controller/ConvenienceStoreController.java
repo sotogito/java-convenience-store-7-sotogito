@@ -32,11 +32,11 @@ public class ConvenienceStoreController {
         Receipt receipt = new Receipt(cart);
         orderService = new OrderService(storeroom, receipt, cart);
 
-        processBuy();
+        processBuy(receipt);
 
     }
 
-    private void processBuy() {
+    private void processBuy(Receipt receipt) {
         while (orderService.isPurchase()) {
             System.out.println(storeroom);
             tryBuy(); //시간 여기로 넘기기
@@ -44,20 +44,46 @@ public class ConvenienceStoreController {
             processShortageStockPromotionOrder();
             processLackQuantityPromotionOrder();
 
-            /**
-             * 멤버십 할인 여부
-             * 재고 업데이트
-             * 영수증 출력
-             */
-            orderService.printCart(); //note 확인차
+            processReceipt();
+
+            //orderService.printCart(); //note 확인차
             orderService.decreaseStockInConvenienceStore();
+            System.out.println(receipt);
             orderService.clearOrderList();
+            orderService.clearReceipt();
             //멤버심
             //계속할거냐 물어보기
+            //todo 여부 확인으로 변경
+            inputWhetherPurchase();
         }
-        //수량 업데이트
-        //영수증 출력
-        orderService.stopPurchase();
+    }
+
+    private void inputWhetherPurchase() {
+        while (true) {
+            try {
+                String answer = inputView.inputWhether("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
+                orderService.processPurchase(AnswerWhether.findByInputAnswer(answer));
+                return;
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
+
+    }
+
+    private void processReceipt() {
+        orderService.handlePurchaseProgress(inputWhetherMembershipDiscount());
+    }
+
+    private AnswerWhether inputWhetherMembershipDiscount() {
+        while (true) {
+            try {
+                String answer = inputView.inputWhether("멤버십 할인을 받으시겠습니까? (Y/N)");
+                return AnswerWhether.findByInputAnswer(answer);
+            } catch (IllegalArgumentException e) {
+                outputView.printError(e.getMessage());
+            }
+        }
     }
 
 
