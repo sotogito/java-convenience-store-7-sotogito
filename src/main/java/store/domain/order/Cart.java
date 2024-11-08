@@ -1,6 +1,5 @@
 package store.domain.order;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,15 +22,8 @@ public class Cart {
      * 일반ㅅㅇ품은 그냥 차감
      */
     public void decreaseProductQuantity(ConvenienceStoreroom storeroom) {
-        List<Order> orders = new ArrayList<>();
-        orders.addAll(generalProducts);
-        orders.addAll(promotionProducts);
-
-        Map<Product, Integer> productQuantity = new HashMap<>();
-        for (Order order : orders) {
-            productQuantity = order.updateProductQuantityMap(productQuantity);
-        }
-        storeroom.decreaseStock(productQuantity);
+        //fixme [감자칩-1],[초코바-6]
+        storeroom.decreaseStock(getProductQuantityMap());
     }
 
 
@@ -49,13 +41,6 @@ public class Cart {
     public List<Order> getLackQuantityPromotionOrders() {
         List<Order> result = new ArrayList<>();
 
-        /**
-         * 만약3_1 인데 4개일겨우...
-         * [콜라-4]
-         * 프로모션 상품
-         * Order [product=콜라, purchaseQuantity=4]
-         *
-         */
         for (Order orderProduct : promotionProducts) {
             int noAppliedQuantity = orderProduct.getQuantityNoPromotionApplied();
             if (noAppliedQuantity > 0 && orderProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity)) {
@@ -67,27 +52,11 @@ public class Cart {
 
 
     public void changePromotionToGeneral(Order promotionOrder, int shortageQuantity) {
-        //해당 프로모션 상품을 수량만ㅋ틈 삭제하고 수량만큼 일반으로 추가
-
         promotionOrder.deleteQuantity(shortageQuantity);
         generalProducts.add(new Order(promotionOrder.getProduct(), shortageQuantity));
 
     }
 
-
-    //fixme 프로모션 데이 안들어가는거 따로 관리해애됨
-    public boolean canDatePromotion(LocalDateTime nowTime) {
-        for (Order order : promotionProducts) {
-            if (!order.isValidDate(nowTime)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean hasPromotionProduct() {
-        return !promotionProducts.isEmpty();
-    }
 
     public void addProduct(Order order) {
         if (order.isPromotionProduct()) {
@@ -96,6 +65,7 @@ public class Cart {
         }
         generalProducts.add(order);
     }
+
 
     public int getTotalPrice() {
         int totalPrice = 0;
@@ -112,6 +82,23 @@ public class Cart {
         generalProducts.clear();
         promotionProducts.clear();
     }
+
+    public Map<Product, Integer> getProductQuantityMap() {
+        Map<Product, Integer> result = new HashMap<>();
+
+        for (Order order : getAllOrders()) {
+            order.updateProductQuantityMap(result);
+        }
+        return result;
+    }
+
+    private List<Order> getAllOrders() {
+        List<Order> result = new ArrayList<>();
+        result.addAll(generalProducts);
+        result.addAll(promotionProducts);
+        return result;
+    }
+
 
     @Override
     public String toString() {

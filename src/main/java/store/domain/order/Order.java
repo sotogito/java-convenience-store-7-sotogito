@@ -67,6 +67,13 @@ public class Order {
         }
     }
 
+    //todo 이미 있는 상품은 수량만 업데이트
+    public void updateQuantity(Order anotherOrder) {
+        if (this.isSameProduct(anotherOrder.getProduct())) {
+            this.purchaseQuantity += anotherOrder.purchaseQuantity;
+        }
+    }
+
 
     public boolean isValidDate(LocalDateTime nowTime) {
         if (product instanceof PromotionProduct) {
@@ -87,12 +94,6 @@ public class Order {
         return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
     }
 
-    //todo 구매하면 그냥 수량만큼 -해주면 되네 자체적으로
-    public void decreasePurchasedProductQuantity() {
-        if (product.isSufficientStock(purchaseQuantity)) {
-            product.decreaseQuantity(purchaseQuantity);
-        }
-    }
 
     public String getProductName() {
         return product.getName();
@@ -100,6 +101,10 @@ public class Order {
 
     public Product getProduct() {
         return product;
+    }
+
+    public int getPurchaseQuantity() {
+        return purchaseQuantity;
     }
 
     public Map<Product, Integer> updateProductQuantityMap(Map<Product, Integer> productQuantityMap) {

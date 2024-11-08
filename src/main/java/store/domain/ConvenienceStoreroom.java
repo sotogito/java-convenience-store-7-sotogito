@@ -48,6 +48,10 @@ public class ConvenienceStoreroom {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
 
+            System.out.println("저장창고");
+            System.out.println(product.getName());
+            System.out.println(quantity);
+
             if (product instanceof PromotionProduct promotionProduct) {
 
                 for (int i = 0; i < quantity; i++) {
@@ -57,14 +61,10 @@ public class ConvenienceStoreroom {
                     }
                     promotionProduct.decreaseQuantitySingly();
                 }
-                return;
+                continue;
             }
             product.decreaseQuantity(quantity);
         }
-        /**
-         * 만약 20개 사고 둘다 재고 없음이면 존재하지 앟는 상품이라고뜸
-         * 만약 19개사고 콜라 1개 더 사면 재고 안줄어듦
-         */
     }
 
 
