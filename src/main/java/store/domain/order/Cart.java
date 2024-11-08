@@ -17,9 +17,6 @@ public class Cart {
     }
 
     public Map<Product, Integer> getPromotionProducts() {
-        /**
-         * 프로모션 상품만 돌려 그래서 get 가져와 그 수량하고 상품만 받아와
-         */
         Map<Product, Integer> result = new HashMap<>();
         for (Order order : promotionProducts) {
             int promotionCount = order.getPromotionProductQuantity();

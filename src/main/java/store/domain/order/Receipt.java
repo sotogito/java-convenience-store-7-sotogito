@@ -29,20 +29,31 @@ public class Receipt {
     }
 
     public void process(AnswerWhether answer) {
-        calculateFinalAmount();
-        promotionProduct.putAll(cart.getPromotionProducts());
+        setFinalAmount();
+        updatePromotionProduct();
+        calculatePromotionDiscountAmount();
 
-        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
-            System.out.println(entry.getKey().getName() + ": " + entry.getValue());
-        }
+        System.out.println(promotionDiscount);
+
         //promotionProduct, promotionDiscount : 증정 상품 업데이트 및 증정 가겨ㅛㄱ 계산 - 그냥 map 업데이트해서 가격만 더하면 됨
         //membershipDiscount : 일반 상품 총 가격 갖오서 30프로 계싼
         //최종금액
 
     }
 
+    private void calculatePromotionDiscountAmount() {
+        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
+            int productPrice = entry.getKey().getPrice();
+            int count = entry.getValue();
+            promotionDiscount += (productPrice * count);
+        }
+    }
 
-    private void calculateFinalAmount() {
+    private void updatePromotionProduct() {
+        promotionProduct.putAll(cart.getPromotionProducts());
+    }
+
+    private void setFinalAmount() {
         totalAmountBeforeDiscount = cart.getTotalPrice();
     }
 
