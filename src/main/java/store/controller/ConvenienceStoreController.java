@@ -1,6 +1,5 @@
 package store.controller;
 
-import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
@@ -40,20 +39,29 @@ public class ConvenienceStoreController {
             System.out.println(storeroom);
             tryBuy(); //시간 여기로 넘기기
 
-            if (orderService.isContainPromotionProduct()) { //todo 최소수량도 넘는지 봐야됨
+            processShortageStockPromotionOrder();
+            processLackQuantityPromotionOrder();
+
+            /*
+            if (orderService.isContainPromotionProduct()) {
                 //로직
                 if (orderService.isPromotionDate(DateTimes.now())) { //이거 없어도 됨
 
                     if (processShortageStockPromotionOrder()) {
                     } else if (processLackQuantityPromotionOrder()) {
                     }
-
                     //processShortageStockPromotionOrder();
                     //processLackQuantityPromotionOrder();
-
                 }
                 //일반으로 꼐산
             }
+
+             */
+            /**
+             * 멤버십 할인 여부
+             * 재고 업데이트
+             * 영수증 출력
+             */
             orderService.printCart();
             orderService.decreaseStockInConvenienceStore();
             orderService.clearOrderList();
@@ -66,7 +74,7 @@ public class ConvenienceStoreController {
     }
 
     //note 먼저
-    private boolean processShortageStockPromotionOrder() {
+    private void processShortageStockPromotionOrder() {
         for (Order order : orderService.getShortagePromotionalStock()) {
             String name = order.getProductName();
             int shortageQuantity = order.getNoPromotionQuantity();
@@ -74,7 +82,6 @@ public class ConvenienceStoreController {
 
             orderService.processShortagePromotionalStock(answer, order, shortageQuantity);
         }
-        return true;
     }
 
     private AnswerWhether inputWhetherBuyNoPromotion(String productName, int shortageQuantity) {
@@ -92,7 +99,7 @@ public class ConvenienceStoreController {
     }
 
     //note 나중에
-    private boolean processLackQuantityPromotionOrder() {
+    private void processLackQuantityPromotionOrder() {
         for (Order order : orderService.getLackQuantityPromotionOrders()) {
             String name = order.getProductName();
             int needAddQuantity = order.getNeedAddQuantity();
@@ -100,7 +107,6 @@ public class ConvenienceStoreController {
 
             orderService.processLackQuantityPromotionOrders(answer, order, needAddQuantity);
         }
-        return true;
     }
 
     private AnswerWhether inputWhetherAddPromotionProduct(String productName, int needAddQuantity) {
