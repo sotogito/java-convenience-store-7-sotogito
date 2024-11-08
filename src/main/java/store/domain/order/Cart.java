@@ -16,11 +16,21 @@ public class Cart {
         this.promotionProducts = new ArrayList<>();
     }
 
-    /**
-     * 이름이 같은 애를 찾아서 총 구매 수량을 ... 그아므에 sotreromm에서 차감
-     * <p>
-     * 일반ㅅㅇ품은 그냥 차감
-     */
+    public Map<Product, Integer> getPromotionProducts() {
+        /**
+         * 프로모션 상품만 돌려 그래서 get 가져와 그 수량하고 상품만 받아와
+         */
+        Map<Product, Integer> result = new HashMap<>();
+        for (Order order : promotionProducts) {
+            int promotionCount = order.getPromotionProductQuantity();
+            if (promotionCount > 0) {
+                result.put(order.getProduct(), promotionCount);
+            }
+        }
+        return result;
+
+    }
+
     public void decreaseProductQuantity(ConvenienceStoreroom storeroom) {
         storeroom.decreaseStock(getProductQuantityMap());
     }

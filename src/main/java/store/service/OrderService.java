@@ -42,6 +42,10 @@ public class OrderService {
         cart.clearCart();
     }
 
+    public void clearReceipt() {
+        receipt.clearReceipt();
+    }
+
 
     public void handlePurchaseProgress(AnswerWhether answer) {
         receipt.process(answer);

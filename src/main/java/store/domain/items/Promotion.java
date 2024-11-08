@@ -28,8 +28,11 @@ public class Promotion {
     }
 
     public int calculateCorrectQuantity(int totalPurchaseQuantity) {
-        int bundle = totalPurchaseQuantity / (buy + get);
-        return bundle * (buy + get);
+        return calculatePromotionQuantity(totalPurchaseQuantity) * (buy + get);
+    }
+
+    public int calculatePromotionQuantity(int totalPurchaseQuantity) {
+        return totalPurchaseQuantity / (buy + get);
     }
 
 
@@ -41,7 +44,7 @@ public class Promotion {
         return noAppliedQuantity >= buy;
     }
 
-    
+
     public int getGetQuantity() {
         return get;
     }

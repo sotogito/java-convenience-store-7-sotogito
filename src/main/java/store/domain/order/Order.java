@@ -67,6 +67,13 @@ public class Order {
         }
     }
 
+    public int getPromotionProductQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.getPromotionProductQuantity(purchaseQuantity);
+        }
+        return 0;
+    }
+
     //todo 이미 있는 상품은 수량만 업데이트
     public void updateQuantity(Order anotherOrder) {
         if (this.isSameProduct(anotherOrder.getProduct())) {

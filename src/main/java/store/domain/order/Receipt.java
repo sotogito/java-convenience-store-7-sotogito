@@ -30,7 +30,15 @@ public class Receipt {
 
     public void process(AnswerWhether answer) {
         calculateFinalAmount();
-        System.out.println(totalAmountBeforeDiscount);
+        promotionProduct.putAll(cart.getPromotionProducts());
+
+        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
+            System.out.println(entry.getKey().getName() + ": " + entry.getValue());
+        }
+        //promotionProduct, promotionDiscount : 증정 상품 업데이트 및 증정 가겨ㅛㄱ 계산 - 그냥 map 업데이트해서 가격만 더하면 됨
+        //membershipDiscount : 일반 상품 총 가격 갖오서 30프로 계싼
+        //최종금액
+
     }
 
 
@@ -40,6 +48,16 @@ public class Receipt {
 
     public Map<Product, Integer> getAllOrder() {
         return cart.getProductQuantityMap();
+    }
+
+    public void clearReceipt() {
+        promotionProduct.clear();
+        totalAmountBeforeDiscount = 0;
+        promotionDiscount = 0;
+        membershipDiscount = 0;
+        finalAmount = 0;
+
+
     }
 
 }
