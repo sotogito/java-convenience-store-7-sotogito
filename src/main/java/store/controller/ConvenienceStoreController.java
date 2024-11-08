@@ -38,37 +38,30 @@ public class ConvenienceStoreController {
     private void processBuy() {
         while (orderService.isPurchase()) {
             System.out.println(storeroom);
-            tryBuy();
+            tryBuy(); //시간 여기로 넘기기
 
             if (orderService.isContainPromotionProduct()) { //todo 최소수량도 넘는지 봐야됨
                 //로직
-                if (orderService.isPromotionDate(DateTimes.now())) {
+                if (orderService.isPromotionDate(DateTimes.now())) { //이거 없어도 됨
 
-                    /*
                     if (processShortageStockPromotionOrder()) {
-                        orderService.printCart();
                     } else if (processLackQuantityPromotionOrder()) {
-                        orderService.printCart();
                     }
 
-
-                     */
-                    processShortageStockPromotionOrder();
-                    processLackQuantityPromotionOrder();
-                    orderService.printCart();
-                    orderService.decreaseStockInConvenienceStore();
-                    System.out.println(storeroom);
+                    //processShortageStockPromotionOrder();
+                    //processLackQuantityPromotionOrder();
 
                 }
                 //일반으로 꼐산
             }
+            orderService.printCart();
+            orderService.decreaseStockInConvenienceStore();
             orderService.clearOrderList();
             //멤버심
             //계속할거냐 물어보기
         }
         //수량 업데이트
         //영수증 출력
-        //cart 클리어
         orderService.stopPurchase();
     }
 
