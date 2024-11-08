@@ -30,13 +30,12 @@ public class ConvenienceStoreroom {
         this.products = new Products(products1);
     }
 
-    public Product findProductByName(String name, int quantity) {
+    public Product findProductByNameAndQuantity(String name, int quantity) {
         return products.getProductByName(name, quantity);
     }
 
-    public Product getGeneralProduct(String name, int quantity) {
+    public Product findGeneralProductByNameAndQuantity(String name, int quantity) {
         return products.getGeneralProduct(name, quantity);
-
     }
 
     public Product findGeneralProductByName(String name) {
@@ -48,22 +47,25 @@ public class ConvenienceStoreroom {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
 
-            System.out.println("저장창고");
-            System.out.println(product.getName());
-            System.out.println(quantity);
+            precessDecrease(product, quantity);
+        }
+    }
 
-            if (product instanceof PromotionProduct promotionProduct) {
-
-                for (int i = 0; i < quantity; i++) {
-                    if (promotionProduct.isOutOfStock()) {
-                        Product generalProduct = findGeneralProductByName(product.getName());
-                        generalProduct.decreaseQuantitySingly();
-                    }
-                    promotionProduct.decreaseQuantitySingly();
-                }
-                continue;
+    private void precessDecrease(Product product, Integer quantity) {
+        if (product instanceof PromotionProduct promotionProduct) {
+            for (int i = 0; i < quantity; i++) {
+                changeOutOfStockProductToGeneral(product, promotionProduct);
+                promotionProduct.decreaseQuantitySingly();
             }
-            product.decreaseQuantity(quantity);
+            return;
+        }
+        product.decreaseQuantity(quantity);
+    }
+
+    private void changeOutOfStockProductToGeneral(Product product, PromotionProduct promotionProduct) {
+        if (promotionProduct.isOutOfStock()) {
+            Product generalProduct = findGeneralProductByName(product.getName());
+            generalProduct.decreaseQuantitySingly();
         }
     }
 
