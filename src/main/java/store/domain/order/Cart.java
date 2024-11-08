@@ -22,7 +22,6 @@ public class Cart {
      * 일반ㅅㅇ품은 그냥 차감
      */
     public void decreaseProductQuantity(ConvenienceStoreroom storeroom) {
-        //fixme [감자칩-1],[초코바-6]
         storeroom.decreaseStock(getProductQuantityMap());
     }
 
@@ -69,10 +68,7 @@ public class Cart {
 
     public int getTotalPrice() {
         int totalPrice = 0;
-        for (Order order : generalProducts) { //todo 프로모션 가격 조정해야됨
-            totalPrice += order.calculateTotalAmount();
-        }
-        for (Order order : promotionProducts) {
+        for (Order order : getAllOrders()) {
             totalPrice += order.calculateTotalAmount();
         }
         return totalPrice;

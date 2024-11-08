@@ -43,6 +43,17 @@ public class OrderService {
     }
 
 
+    public void handlePurchaseProgress(AnswerWhether answer) {
+        receipt.process(answer);
+    }
+
+    public void handleMembership(String inputAnswer) {
+        //boolean answer = AnswerWhether.findMeaningByAnswer();
+        //멤버십 계산 및 적용
+        // 아니면 바로 출력
+    }
+
+
     //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
     public List<Order> getShortagePromotionalStock() {
         return cart.getShortageStockPromotionOrders();
@@ -70,16 +81,6 @@ public class OrderService {
         }
     }
 
-
-    public void handlePurchaseProgress(String inputAnswer) {
-        //this.isPurchase = AnswerWhether.findMeaningByAnswer();
-    }
-
-    public void handleMembership(String inputAnswer) {
-        //boolean answer = AnswerWhether.findMeaningByAnswer();
-        //멤버십 계산 및 적용
-        // 아니면 바로 출력
-    }
 
     public void decreaseStockInConvenienceStore() {
         cart.decreaseProductQuantity(convenienceStoreroom);
