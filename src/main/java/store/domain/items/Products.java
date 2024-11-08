@@ -33,14 +33,14 @@ public class Products {
     }
 
     private boolean isAllOutOfStock(List<Product> sameNameProduct) { //note 상품은 있는데 재고 없음의 경우
-        boolean isAllOutOfStock = false;
+        List<Product> outOfStockProducts = new ArrayList<>();
         for (Product product : sameNameProduct) {
             if (product.isOutOfStock()) {
-                sameNameProduct.remove(product);
-                isAllOutOfStock = true;
+                outOfStockProducts.add(product);
             }
         }
-        return isAllOutOfStock;
+        sameNameProduct.removeAll(outOfStockProducts);
+        return !outOfStockProducts.isEmpty();
     }
 
 
@@ -104,7 +104,7 @@ public class Products {
         throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.-3");
     }
 
-    
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
