@@ -18,12 +18,6 @@ public class Receipt {
     private int membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
     private int finalAmount; //note 최종 금액
 
-    /**
-     * 1. 프로모션 할인 여부 확인 2. 일반 상품의 할인 적용 - membershipDiscount
-     * <p>
-     * 2. 증정품 상품과 수량 가져오기, 증정품 가격 저장 - promotionProduct,promotionDiscount 3. 전체 가격 구하기 - totalAmountBeforeDiscount 4. 최종
-     * 금액 구하기 - finalAmount
-     */
     public Receipt(Cart cart) {
         this.cart = cart;
         this.promotionProduct = new HashMap<>();
@@ -48,7 +42,7 @@ public class Receipt {
 
 
     private void calculateFinalAmount() {
-        finalAmount = totalAmountBeforeDiscount - (membershipDiscount - promotionDiscount);
+        finalAmount = totalAmountBeforeDiscount - (membershipDiscount + promotionDiscount);
     }
 
     private void calculateMembershipDiscountAmount(AnswerWhether answer) {
