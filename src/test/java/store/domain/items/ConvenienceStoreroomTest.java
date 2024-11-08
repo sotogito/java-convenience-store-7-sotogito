@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import store.domain.ConvenienceStoreroom;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 

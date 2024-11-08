@@ -17,6 +17,10 @@ public class PromotionProduct extends Product {
         return promotion.calculateCorrectQuantity(totalPurchaseQuantity);
     }
 
+    public int getPromotionProductQuantity(int totalPurchaseQuantity) {
+        return promotion.calculatePromotionQuantity(totalPurchaseQuantity);
+    }
+
 
     public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
         return promotion.isOverMin(noAppliedQuantity);
@@ -30,10 +34,6 @@ public class PromotionProduct extends Product {
 
     public int getGetQuantity() {
         return promotion.getGetQuantity();
-    }
-
-    public boolean getIsValidDate() {
-        return isValidDate;
     }
 
 

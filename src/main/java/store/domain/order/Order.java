@@ -1,6 +1,5 @@
 package store.domain.order;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
@@ -81,13 +80,6 @@ public class Order {
         }
     }
 
-
-    public boolean isValidDate(LocalDateTime nowTime) {
-        if (product instanceof PromotionProduct) {
-            return ((PromotionProduct) product).isValidDate(nowTime);
-        }
-        return false;
-    }
 
     public boolean isPromotionProduct() {
         return product instanceof PromotionProduct;

@@ -42,11 +42,8 @@ public class OrderService {
         isPurchase = false;
     }
 
-    public void clearOrderList() {
+    public void clearPurchaseHistory() {
         cart.clearCart();
-    }
-
-    public void clearReceipt() {
         receipt.clearReceipt();
     }
 
@@ -126,10 +123,6 @@ public class OrderService {
             }
         }
         return false;
-    }
-
-    public void printCart() {
-        System.out.println(cart);
     }
 
 }

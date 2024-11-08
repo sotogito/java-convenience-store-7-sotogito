@@ -4,7 +4,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import store.domain.order.OrderForm;
+import store.domain.record.OrderForm;
 
 class OrderParserTest {
 
