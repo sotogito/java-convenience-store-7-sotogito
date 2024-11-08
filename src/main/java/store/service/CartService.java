@@ -26,10 +26,9 @@ public class CartService {
         }
     }
 
-    
+
     private List<Order> changeToOrders(List<OrderForm> orders, LocalDateTime nowDate) {
         List<Order> orderList = new ArrayList<>();
-
         for (OrderForm order : orders) {
             int quantity = order.quantity();
             Product product = getProduct(nowDate, order, quantity);
