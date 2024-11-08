@@ -1,6 +1,5 @@
 package store.service;
 
-import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +42,6 @@ public class OrderService {
         cart.clearCart();
     }
 
-    public boolean isContainPromotionProduct() {
-        return cart.hasPromotionProduct();
-    }
-
-    public boolean isPromotionDate(LocalDateTime nowTime) {
-        return cart.canDatePromotion(nowTime);
-    }
-
 
     //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
     public List<Order> getShortagePromotionalStock() {
@@ -91,21 +82,18 @@ public class OrderService {
     }
 
     public void decreaseStockInConvenienceStore() {
-        //프로모션 기간일 경우
-        //프로모션 상품 재고 먼저 삭제
         cart.decreaseProductQuantity(convenienceStoreroom);
     }
 
 
-    public void buy(List<OrderForm> orders) { //todo try-catch 다시 입력받기. 여기서 예외처리 다해야됨
-        List<Order> orderResult = changeToOrders(orders);
+    public void buy(List<OrderForm> orders, LocalDateTime nowDate) {
+        List<Order> orderResult = changeToOrders(orders, nowDate);
         for (Order order : orderResult) {
             cart.addProduct(order);
         }
     }
 
-
-    private List<Order> changeToOrders(List<OrderForm> orders) {
+    private List<Order> changeToOrders(List<OrderForm> orders, LocalDateTime nowDate) {
         List<Order> orderList = new ArrayList<>();
 
         //fixme 프로모션 기간이 유효한지를 먼저 판단하고, 일반상품or 프로모션 상품
@@ -114,11 +102,10 @@ public class OrderService {
             Product product = convenienceStoreroom.findProductByName(order.name(), quantity);
 
             if (product instanceof PromotionProduct promotionProduct) {
-                if (!promotionProduct.isValidDate(DateTimes.now())) {
+                if (!promotionProduct.isValidDate(nowDate)) {
                     product = convenienceStoreroom.getGeneralProduct(order.name(), quantity);
                 }
             }
-
             if (alreadyAddProduct(orderList, product, quantity)) {
                 continue;
             }
@@ -137,7 +124,6 @@ public class OrderService {
         }
         return false;
     }
-
 
     public void printCart() {
         System.out.println(cart);

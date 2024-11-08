@@ -1,6 +1,8 @@
 package store.controller;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
 import store.domain.OrderParser;
@@ -42,27 +44,12 @@ public class ConvenienceStoreController {
             processShortageStockPromotionOrder();
             processLackQuantityPromotionOrder();
 
-            /*
-            if (orderService.isContainPromotionProduct()) {
-                //로직
-                if (orderService.isPromotionDate(DateTimes.now())) { //이거 없어도 됨
-
-                    if (processShortageStockPromotionOrder()) {
-                    } else if (processLackQuantityPromotionOrder()) {
-                    }
-                    //processShortageStockPromotionOrder();
-                    //processLackQuantityPromotionOrder();
-                }
-                //일반으로 꼐산
-            }
-
-             */
             /**
              * 멤버십 할인 여부
              * 재고 업데이트
              * 영수증 출력
              */
-            orderService.printCart();
+            orderService.printCart(); //note 확인차
             orderService.decreaseStockInConvenienceStore();
             orderService.clearOrderList();
             //멤버심
@@ -72,6 +59,7 @@ public class ConvenienceStoreController {
         //영수증 출력
         orderService.stopPurchase();
     }
+
 
     //note 먼저
     private void processShortageStockPromotionOrder() {
@@ -126,7 +114,8 @@ public class ConvenienceStoreController {
     private void tryBuy() {
         while (true) {
             try {
-                orderService.buy(inputToOrderForm());
+                LocalDateTime nowDateTime = DateTimes.now();
+                orderService.buy(inputToOrderForm(), nowDateTime);
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
