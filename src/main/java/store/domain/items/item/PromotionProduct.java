@@ -41,6 +41,5 @@ public class PromotionProduct extends Product {
     public String toString() {
         return super.toString() + " " + promotion;
     }
-
-
+    
 }

@@ -53,4 +53,5 @@ public class Promotion {
     public String toString() {
         return name;
     }
+    
 }

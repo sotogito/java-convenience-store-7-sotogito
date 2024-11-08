@@ -1,6 +1,6 @@
 package store.domain.items.item;
 
-import store.enums.ItemPrintout;
+import store.enums.ProductStockPrintout;
 
 public class Product {
     private final String name;
@@ -58,11 +58,10 @@ public class Product {
         return quantity;
     }
 
-
+    
     @Override
     public String toString() {
-        return ItemPrintout.getGeneralProductPrintout(name, price, quantity);
+        return ProductStockPrintout.getGeneralProductPrintout(name, price, quantity);
     }
-
 
 }
