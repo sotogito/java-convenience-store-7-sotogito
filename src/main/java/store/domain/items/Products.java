@@ -104,6 +104,14 @@ public class Products {
         throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.-3");
     }
 
+    public boolean isSufficientStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
+        int productStock = 0;
+        for (Product product : getSameNameProducts(name)) {
+            productStock += product.getQuantity();
+        }
+        return productStock >= afterGetPromotionQuantity;
+    }
+
 
     @Override
     public String toString() {

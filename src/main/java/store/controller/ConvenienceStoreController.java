@@ -33,7 +33,7 @@ public class ConvenienceStoreController {
         Cart cart = new Cart();
         Receipt receipt = new Receipt(cart);
         orderService = new OrderService(storeroom, receipt, cart);
-        promotionService = new PromotionService(cart);
+        promotionService = new PromotionService(storeroom, cart);
         cartService = new CartService(storeroom, cart);
 
         processBuy(storeroom, receipt);

@@ -60,16 +60,26 @@ public class Cart {
         return result;
     }
 
-    public List<Order> getLackQuantityPromotionOrders() {
+    public List<Order> getLackQuantityPromotionOrders(ConvenienceStoreroom storeroom) {
         List<Order> result = new ArrayList<>();
-
         for (Order orderProduct : promotionProducts) {
             int noAppliedQuantity = orderProduct.getQuantityNoPromotionApplied();
-            if (noAppliedQuantity > 0 && orderProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity)) {
+            if (canAddPromotionProduct(storeroom, orderProduct, noAppliedQuantity)) {
                 result.add(orderProduct);
             }
         }
         return result;
+    }
+
+    private boolean canAddPromotionProduct(ConvenienceStoreroom storeroom, Order orderProduct, int noAppliedQuantity) {
+        return noAppliedQuantity > 0 && orderProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity)
+                && isSufficientStockAfterGetPromotionProduct(storeroom, orderProduct);
+    }
+
+    private boolean isSufficientStockAfterGetPromotionProduct(ConvenienceStoreroom storeroom, Order orderProduct) {
+        int afterQuantityGetPromotionProduct = orderProduct.getSufficientStockAfterGetPromotionProduct();
+        String productName = orderProduct.getProductName();
+        return storeroom.isSufficientStockAfterGetPromotionProduct(productName, afterQuantityGetPromotionProduct);
     }
 
 

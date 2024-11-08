@@ -1,14 +1,17 @@
 package store.service;
 
 import java.util.List;
+import store.domain.ConvenienceStoreroom;
 import store.domain.order.Cart;
 import store.domain.order.Order;
 import store.enums.AnswerWhether;
 
 public class PromotionService {
+    private final ConvenienceStoreroom convenienceStoreroom;
     private final Cart cart;
 
-    public PromotionService(Cart cart) {
+    public PromotionService(ConvenienceStoreroom convenienceStoreroom, Cart cart) {
+        this.convenienceStoreroom = convenienceStoreroom;
         this.cart = cart;
     }
 
@@ -29,7 +32,7 @@ public class PromotionService {
 
     //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
     public List<Order> getLackQuantityPromotionOrders() {
-        return cart.getLackQuantityPromotionOrders();
+        return cart.getLackQuantityPromotionOrders(convenienceStoreroom);
     }
 
     public void processLackQuantityPromotionOrders(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {

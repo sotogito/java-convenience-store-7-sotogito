@@ -29,6 +29,10 @@ public class Order {
         return false;
     }
 
+    public int getSufficientStockAfterGetPromotionProduct() {
+        return purchaseQuantity + getNeedAddQuantity();
+    }
+
     public int getNeedAddQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.getGetQuantity();
