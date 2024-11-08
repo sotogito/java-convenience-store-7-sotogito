@@ -29,9 +29,8 @@ public class Product {
     }
 
     public void decreaseQuantitySingly() {
-        quantity -= 1;
+        quantity--;
     }
-
 
     public boolean isOutOfStock() {
         return quantity <= 0;
@@ -58,7 +57,7 @@ public class Product {
         return quantity;
     }
 
-    
+
     @Override
     public String toString() {
         return ProductStockPrintout.getGeneralProductPrintout(name, price, quantity);

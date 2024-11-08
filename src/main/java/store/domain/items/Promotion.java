@@ -44,7 +44,6 @@ public class Promotion {
         return noAppliedQuantity >= buy;
     }
 
-
     public int getGetQuantity() {
         return get;
     }
@@ -53,5 +52,5 @@ public class Promotion {
     public String toString() {
         return name;
     }
-    
+
 }

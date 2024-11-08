@@ -56,12 +56,12 @@ public class ConvenienceStoreController {
         processShortageStockPromotionOrder();
         processLackQuantityPromotionOrder();
 
-        printReceipt(receipt);
+        makeReceipt(receipt);
     }
 
-    private void printReceipt(Receipt receipt) {
+    private void makeReceipt(Receipt receipt) {
         orderService.updateReceipt(inputWhetherMembershipDiscount());
-        System.out.println(receipt);
+        System.out.println(receipt); //todo printer로 구현
     }
 
     private void updateConvenienceState() {
@@ -156,7 +156,7 @@ public class ConvenienceStoreController {
         return OrderParser.parse(inputView.inputOrderProducts());
     }
 
-    
+
     private ConvenienceStoreroom loadProductStock() throws IOException {
         return new ConvenienceStoreroom(new PromotionReader(), new ProductReader());
     }

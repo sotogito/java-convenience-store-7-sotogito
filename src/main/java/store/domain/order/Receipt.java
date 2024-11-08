@@ -12,7 +12,6 @@ import store.enums.MembershipDiscount;
 public class Receipt {
     private final Cart cart;
     private final Map<Product, Integer> promotionProduct; //note 프로모션에서 증정품-수량만 가져와서 저장
-
     private int totalPurchaseCount;
     private int totalAmountBeforeDiscount; //note 증정품도 다 더함
     private int promotionDiscount; //note 증정품 가격
