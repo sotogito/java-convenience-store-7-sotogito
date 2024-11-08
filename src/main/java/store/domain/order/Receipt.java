@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import store.domain.items.item.Product;
 import store.enums.AnswerWhether;
+import store.enums.MembershipDiscount;
 
 /**
  * 구매한 상품과 할인 금액으로 최종 금액을 정한다. discount는 인터페이스로 선언한다.
@@ -44,13 +45,18 @@ public class Receipt {
     private void calculateMembershipDiscountAmount(AnswerWhether answer) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
-            membershipDiscount = (int) (generalPurchaseAmount * 0.3);
-            if (membershipDiscount > 8000) {
-                membershipDiscount = 8000;
-            }
+            membershipDiscount = (int) (generalPurchaseAmount * MembershipDiscount.DISCOUNT_PERCENT.getDiscountValue());
+            checkMaxDiscountAmount();
             return;
         }
         membershipDiscount = 0;
+    }
+
+    private void checkMaxDiscountAmount() {
+        int max = MembershipDiscount.MAX_DISCOUNT_AMOUNT.getValue();
+        if (membershipDiscount > max) {
+            membershipDiscount = max;
+        }
     }
 
     private void calculatePromotionDiscountAmount() {
