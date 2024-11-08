@@ -1,6 +1,6 @@
 package store.enums;
 
-public enum ItemPrintout {
+public enum ProductStockPrintout {
     HEAD("- "),
 
     GENERAL_PRODUCTS_IN_STOCK("%s %,d원 %,d개"),
@@ -11,12 +11,8 @@ public enum ItemPrintout {
 
     private final String printout;
 
-    ItemPrintout(String printout) {
+    ProductStockPrintout(String printout) {
         this.printout = printout;
-    }
-
-    public String getPrintout() {
-        return printout;
     }
 
 
@@ -26,6 +22,5 @@ public enum ItemPrintout {
         }
         return String.format(HEAD.printout + GENERAL_PRODUCTS_IN_STOCK.printout, name, price, quantity);
     }
-
-
+    
 }
