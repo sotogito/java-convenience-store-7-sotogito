@@ -41,7 +41,7 @@ public class ConvenienceStoreController {
 
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
-            System.out.println(storeroom);
+            outputView.printOwnedProducts(storeroom);
             buy(receipt);
             updateConvenienceState();
             inputWhetherPurchase();
