@@ -20,16 +20,19 @@ import store.view.OutputView;
 import store.view.messages.ServiceMessage;
 
 public class ConvenienceStoreController {
-
+    private final InputView inputView;
+    private final OutputView outputView;
     private PromotionService promotionService;
     private CartService cartService;
-
     private OrderService orderService;
-    private final InputView inputView = new InputView();
-    private final OutputView outputView = new OutputView();
+
+    public ConvenienceStoreController() {
+        inputView = new InputView();
+        outputView = new OutputView();
+    }
 
     public void run() throws IOException {
-        ConvenienceStoreroom storeroom = new ConvenienceStoreroom(new PromotionReader(), new ProductReader());
+        ConvenienceStoreroom storeroom = loadProductStock();
         Cart cart = new Cart();
         Receipt receipt = new Receipt(cart);
         orderService = new OrderService(storeroom, receipt, cart);
@@ -151,6 +154,11 @@ public class ConvenienceStoreController {
 
     private List<OrderForm> inputToOrderForm() {
         return OrderParser.parse(inputView.inputOrderProducts());
+    }
+
+    
+    private ConvenienceStoreroom loadProductStock() throws IOException {
+        return new ConvenienceStoreroom(new PromotionReader(), new ProductReader());
     }
 
 }
