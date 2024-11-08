@@ -33,11 +33,7 @@ public class Receipt {
     }
 
     private void calculateTotalPurchaseCount() {
-        int promotionProductCount = 0;
-        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
-            promotionProductCount += entry.getValue();
-        }
-        totalPurchaseCount = (cart.getTotalPurchaseCount() - promotionProductCount);
+        totalPurchaseCount = cart.getTotalPurchaseCount();
     }
 
 
