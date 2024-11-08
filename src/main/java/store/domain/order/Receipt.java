@@ -46,6 +46,9 @@ public class Receipt {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
             membershipDiscount = (int) (generalPurchaseAmount * 0.3);
+            if (membershipDiscount > 8000) {
+                membershipDiscount = 8000;
+            }
             return;
         }
         membershipDiscount = 0;
