@@ -49,7 +49,7 @@ public class Receipt {
             checkMaxDiscountAmount();
             return;
         }
-        membershipDiscount = 0;
+        membershipDiscount = MembershipDiscount.NONE.getValue();
     }
 
     private void checkMaxDiscountAmount() {

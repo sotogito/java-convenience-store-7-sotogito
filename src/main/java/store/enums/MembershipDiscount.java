@@ -2,7 +2,8 @@ package store.enums;
 
 public enum MembershipDiscount {
     DISCOUNT_PERCENT(30),
-    MAX_DISCOUNT_AMOUNT(8000);
+    MAX_DISCOUNT_AMOUNT(8000),
+    NONE(0);
 
     private final int value;
 
