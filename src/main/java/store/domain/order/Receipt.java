@@ -33,13 +33,11 @@ public class Receipt {
         updatePromotionProduct();
         calculatePromotionDiscountAmount();
         calculateMembershipDiscountAmount(answer);
+        calculateFinalAmount();
+    }
 
-        System.out.println(membershipDiscount);
-
-        //promotionProduct, promotionDiscount : 증정 상품 업데이트 및 증정 가겨ㅛㄱ 계산 - 그냥 map 업데이트해서 가격만 더하면 됨
-        //membershipDiscount : 일반 상품 총 가격 갖오서 30프로 계싼
-        //최종금액
-
+    private void calculateFinalAmount() {
+        finalAmount = totalAmountBeforeDiscount - (membershipDiscount - promotionDiscount);
     }
 
     private void calculateMembershipDiscountAmount(AnswerWhether answer) {
