@@ -13,7 +13,7 @@ import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
 import store.service.OrderService;
-import store.view.InputView;ㄴ
+import store.view.InputView;
 import store.view.OutputView;
 import store.view.messages.ServiceMessage;
 
