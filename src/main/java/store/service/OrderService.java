@@ -108,6 +108,7 @@ public class OrderService {
     private List<Order> changeToOrders(List<OrderForm> orders) {
         List<Order> orderList = new ArrayList<>();
 
+        //fixme 프로모션 기간이 유효한지를 먼저 판단하고, 일반상품or 프로모션 상품
         for (OrderForm order : orders) {
             int quantity = order.quantity();
             Product product = convenienceStoreroom.findProductByName(order.name(), quantity);
@@ -117,10 +118,26 @@ public class OrderService {
                     product = convenienceStoreroom.getGeneralProduct(order.name(), quantity);
                 }
             }
+
+            if (alreadyAddProduct(orderList, product, quantity)) {
+                continue;
+            }
             orderList.add(new Order(product, quantity));
+
         }
         return orderList;
     }
+
+    private boolean alreadyAddProduct(List<Order> orderList, Product product, int quantity) {
+        for (Order ordered : orderList) {
+            if (ordered.isSameProduct(product)) {
+                ordered.updateQuantity(new Order(product, quantity));
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void printCart() {
         System.out.println(cart);
