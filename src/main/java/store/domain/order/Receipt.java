@@ -93,7 +93,7 @@ public class Receipt {
         for (Map.Entry<Product, Integer> entry : getAllOrder().entrySet()) {
             String productName = entry.getKey().getName();
             int purchaseQuantity = entry.getValue();
-            int price = entry.getKey().getPrice();
+            int price = entry.getKey().getPrice() * purchaseQuantity;
             builder.append(String.format("%s\t\t%,d\t%,d\n", productName, purchaseQuantity, price));
         }
         builder.append("===========증\t정=============\n");
