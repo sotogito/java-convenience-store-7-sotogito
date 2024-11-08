@@ -12,6 +12,7 @@ public class Receipt {
     private final Cart cart;
     private final Map<Product, Integer> promotionProduct; //note 프로모션에서 증정품-수량만 가져와서 저장
 
+    private int totalPurchaseCount;
     private int totalAmountBeforeDiscount; //note 증정품도 다 더함
     private int promotionDiscount; //note 증정품 가격
     private int membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
@@ -33,8 +34,18 @@ public class Receipt {
         updatePromotionProduct();
         calculatePromotionDiscountAmount();
         calculateMembershipDiscountAmount(answer);
+        calculateTotalPurchaseCount();
         calculateFinalAmount();
     }
+
+    private void calculateTotalPurchaseCount() {
+        int promotionProductCount = 0;
+        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
+            promotionProductCount += entry.getValue();
+        }
+        totalPurchaseCount = (cart.getTotalPurchaseCount() - promotionProductCount);
+    }
+
 
     private void calculateFinalAmount() {
         finalAmount = totalAmountBeforeDiscount - (membershipDiscount - promotionDiscount);
@@ -78,6 +89,28 @@ public class Receipt {
         promotionDiscount = 0;
         membershipDiscount = 0;
         finalAmount = 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("===========W 편의점=============");
+        builder.append("상품명\t\t수량\t금액");
+        for (Map.Entry<Product, Integer> entry : getAllOrder().entrySet()) {
+            String productName = entry.getKey().getName();
+            int purchaseQuantity = entry.getValue();
+            int price = entry.getKey().getPrice();
+            builder.append(String.format("%s\t\t%,d\t%,d", productName, purchaseQuantity, price));
+        }
+        builder.append("===========증\t정=============");
+        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
+            String productName = entry.getKey().getName();
+            int promotionQuantity = entry.getValue();
+            builder.append(String.format("%s\t\t%,d", productName, purchaseQuantity, promotionQuantity));
+        }
+        builder.append("==============================");
+        builder.append("총구매액\t\t%,d\t%,d");
+
     }
 
 }

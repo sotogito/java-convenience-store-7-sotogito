@@ -16,6 +16,14 @@ public class Cart {
         this.promotionProducts = new ArrayList<>();
     }
 
+    public int getTotalPurchaseCount() {
+        int totalCount = 0;
+        for (Order order : getAllOrders()) {
+            totalCount += order.getPurchaseQuantity();
+        }
+        return totalCount;
+    }
+
     public int getGeneralProductPurchaseTotalAmount() {
         int totalAmount = 0;
         for (Order order : generalProducts) {
