@@ -14,7 +14,7 @@ public class Receipt {
 
     private int totalAmountBeforeDiscount; //note 증정품도 다 더함
     private int promotionDiscount; //note 증정품 가격
-    private double membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
+    private int membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
     private int finalAmount; //note 최종 금액
 
     /**
@@ -45,7 +45,7 @@ public class Receipt {
     private void calculateMembershipDiscountAmount(AnswerWhether answer) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
-            membershipDiscount = generalPurchaseAmount * 0.3;
+            membershipDiscount = (int) (generalPurchaseAmount * 0.3);
             return;
         }
         membershipDiscount = 0;
