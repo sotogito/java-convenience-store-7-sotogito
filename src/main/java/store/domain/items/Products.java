@@ -19,8 +19,10 @@ public class Products {
         for (Product product : products) {
             if (product.isSameName(name)) {
                 if (product.isOutOfStock()) {
+                    resultProduct = product;
                     continue;
                 }
+
                 if (product instanceof PromotionProduct promotionProduct) { //note 프로모션 재고가 있음
                     resultProduct = promotionProduct;
                     sameNameProduct.add(product);
@@ -30,7 +32,6 @@ public class Products {
                     resultProduct = product;
                 }
                 sameNameProduct.add(product);
-                continue;
             }
         }
         int stock = 0;
@@ -43,6 +44,7 @@ public class Products {
         } else if (stock == 0 || stock < quantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
         }
+
         return resultProduct;
     }
 
