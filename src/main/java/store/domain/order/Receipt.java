@@ -78,37 +78,36 @@ public class Receipt {
         return cart.getProductQuantityMap();
     }
 
+    public Map<Product, Integer> getPromotionProduct() {
+        return promotionProduct;
+    }
+
+    public int getTotalPurchaseCount() {
+        return totalPurchaseCount;
+    }
+
+    public int getTotalAmountBeforeDiscount() {
+        return totalAmountBeforeDiscount;
+    }
+
+    public int getPromotionDiscount() {
+        return promotionDiscount;
+    }
+
+    public int getMembershipDiscount() {
+        return membershipDiscount;
+    }
+
+    public int getFinalAmount() {
+        return finalAmount;
+    }
+
     public void clearReceipt() {
         promotionProduct.clear();
         totalAmountBeforeDiscount = 0;
         promotionDiscount = 0;
         membershipDiscount = 0;
         finalAmount = 0;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("===========W 편의점=============\n");
-        builder.append("상품명\t\t수량\t금액\n");
-        for (Map.Entry<Product, Integer> entry : getAllOrder().entrySet()) {
-            String productName = entry.getKey().getName();
-            int purchaseQuantity = entry.getValue();
-            int price = entry.getKey().getPrice() * purchaseQuantity;
-            builder.append(String.format("%s\t\t%,d\t%,d\n", productName, purchaseQuantity, price));
-        }
-        builder.append("===========증\t정=============\n");
-        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
-            String productName = entry.getKey().getName();
-            int promotionQuantity = entry.getValue();
-            builder.append(String.format("%s\t\t%d\n", productName, promotionQuantity));
-        }
-        builder.append("==============================\n");
-        builder.append(String.format("총구매액\t\t%,d\t%,d\n", totalPurchaseCount, totalAmountBeforeDiscount));
-        builder.append(String.format("행사할인\t\t\t-%,d\n", promotionDiscount));
-        builder.append(String.format("멤버십할인\t\t\t-%,d\n", membershipDiscount));
-        builder.append(String.format("내실돈\t\t\t%,d\n", finalAmount));
-        return builder.toString();
     }
 
 }

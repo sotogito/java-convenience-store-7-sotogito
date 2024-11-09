@@ -61,7 +61,7 @@ public class ConvenienceStoreController {
 
     private void makeReceipt(Receipt receipt) {
         orderService.updateReceipt(inputWhetherMembershipDiscount());
-        System.out.println(receipt); //todo printer로 구현
+        outputView.printReceipt(receipt);
     }
 
     private void updateConvenienceState() {

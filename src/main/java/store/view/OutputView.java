@@ -1,6 +1,7 @@
 package store.view;
 
 import store.domain.ConvenienceStoreroom;
+import store.domain.order.Receipt;
 
 public class OutputView {
     public void printError(String error) {
@@ -13,5 +14,9 @@ public class OutputView {
         System.out.println();
         System.out.println(convenienceStoreroom);
     }
-    
+
+    public void printReceipt(Receipt receipt) {
+        System.out.println(ReceiptPrinter.getPrintout(receipt));
+    }
+
 }
