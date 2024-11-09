@@ -107,7 +107,9 @@ public class Products {
     public boolean isSufficientStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
         int productStock = 0;
         for (Product product : getSameNameProducts(name)) {
-            productStock += product.getQuantity();
+            if (product instanceof PromotionProduct promotionProduct) {
+                productStock += promotionProduct.getQuantity();
+            }
         }
         return productStock >= afterGetPromotionQuantity;
     }
