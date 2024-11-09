@@ -1,8 +1,8 @@
 package store.service;
 
 import store.domain.ConvenienceStoreroom;
+import store.domain.Receipt;
 import store.domain.order.Cart;
-import store.domain.order.Receipt;
 import store.enums.AnswerWhether;
 
 public class OrderService {
@@ -22,22 +22,20 @@ public class OrderService {
         return isPurchase;
     }
 
-
-    public void updateReceipt(AnswerWhether answer) {
-        receipt.process(answer);
-    }
-
-    public void decreaseStockInConvenienceStore() {
-        cart.decreasePurchasedProductQuantity(convenienceStoreroom);
-    }
-
-    public void processKeepPurchase(AnswerWhether answer) {
-        if (AnswerWhether.findMeaningByAnswer(answer)) {
+    public void handleKeepPurchase(AnswerWhether answer) {
+        if (AnswerWhether.isYes(answer)) {
             return;
         }
         isPurchase = false;
     }
 
+    public void updateReceipt(AnswerWhether answer) {
+        receipt.process(AnswerWhether.isYes(answer));
+    }
+
+    public void decreaseStockInConvenienceStore() {
+        cart.decreasePurchasedProductQuantity(convenienceStoreroom);
+    }
 
     public void clearPurchaseHistory() {
         cart.clearCart();

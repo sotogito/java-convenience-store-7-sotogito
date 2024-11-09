@@ -1,14 +1,12 @@
-package store.domain.order;
+package store.domain;
 
 import java.util.HashMap;
 import java.util.Map;
 import store.domain.items.item.Product;
-import store.enums.AnswerWhether;
+import store.domain.order.Cart;
 import store.enums.MembershipDiscount;
 
-/**
- * 구매한 상품과 할인 금액으로 최종 금액을 정한다. discount는 인터페이스로 선언한다.
- */
+
 public class Receipt {
     private final Cart cart;
     private final Map<Product, Integer> promotionProduct; //note 프로모션에서 증정품-수량만 가져와서 저장
@@ -23,11 +21,11 @@ public class Receipt {
         this.promotionProduct = new HashMap<>();
     }
 
-    public void process(AnswerWhether answer) {
+    public void process(Boolean applyMembershipDiscount) {
         setFinalAmount();
         updatePromotionProduct();
         calculatePromotionDiscountAmount();
-        calculateMembershipDiscountAmount(answer);
+        calculateMembershipDiscountAmount(applyMembershipDiscount);
         calculateTotalPurchaseCount();
         calculateFinalAmount();
     }
@@ -41,8 +39,8 @@ public class Receipt {
         finalAmount = totalAmountBeforeDiscount - (membershipDiscount + promotionDiscount);
     }
 
-    private void calculateMembershipDiscountAmount(AnswerWhether answer) {
-        if (AnswerWhether.findMeaningByAnswer(answer)) {
+    private void calculateMembershipDiscountAmount(Boolean applyMembershipDiscount) {
+        if (applyMembershipDiscount) {
             int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
             membershipDiscount = (int) (generalPurchaseAmount * MembershipDiscount.DISCOUNT_PERCENT.getDiscountValue());
             checkMaxDiscountAmount();
