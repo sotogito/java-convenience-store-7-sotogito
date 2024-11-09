@@ -32,7 +32,7 @@ public class Products {
         return result;
     }
 
-    private boolean isAllOutOfStock(List<Product> sameNameProduct) { //note 상품은 있는데 재고 없음의 경우
+    private boolean isAllOutOfStock(List<Product> sameNameProduct) {
         List<Product> outOfStockProducts = new ArrayList<>();
         for (Product product : sameNameProduct) {
             if (product.isOutOfStock()) {

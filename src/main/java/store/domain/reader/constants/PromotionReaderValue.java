@@ -1,4 +1,4 @@
-package store.enums;
+package store.domain.reader.constants;
 
 public enum PromotionReaderValue {
     NAME(0),
@@ -17,5 +17,5 @@ public enum PromotionReaderValue {
     public int getValue() {
         return value;
     }
-    
+
 }

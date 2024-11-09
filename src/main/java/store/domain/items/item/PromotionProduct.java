@@ -13,12 +13,12 @@ public class PromotionProduct extends Product {
         this.isValidDate = false;
     }
 
-    public int getCorrectQuantity(int totalPurchaseQuantity) {
-        return promotion.calculateCorrectQuantity(totalPurchaseQuantity);
+    public int getTotalPromotionProductQuantity(int totalPurchaseQuantity) {
+        return promotion.calculateTotalPromotionProductQuantity(totalPurchaseQuantity);
     }
 
     public int getPromotionProductQuantity(int totalPurchaseQuantity) {
-        return promotion.calculatePromotionQuantity(totalPurchaseQuantity);
+        return promotion.calculatePromotionProductQuantity(totalPurchaseQuantity);
     }
 
 
@@ -41,5 +41,5 @@ public class PromotionProduct extends Product {
     public String toString() {
         return super.toString() + " " + promotion;
     }
-    
+
 }

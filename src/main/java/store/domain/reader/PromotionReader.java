@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import store.domain.items.Promotion;
-import store.enums.PromotionReaderValue;
+import store.domain.reader.constants.PromotionReaderValue;
 
 public class PromotionReader {
     private final static String VALUE_DELIMITER = ",";

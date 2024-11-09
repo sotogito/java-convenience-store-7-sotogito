@@ -53,8 +53,8 @@ public class ConvenienceStoreController {
 
     private void buy(Receipt receipt) {
         tryBuy();
-        processShortageStockPromotionOrder();
-        processLackQuantityPromotionOrder();
+        processNonApplicablePromotionOrder();
+        processCanAddPromotionProductOrder();
 
         makeReceipt(receipt);
     }
@@ -70,13 +70,13 @@ public class ConvenienceStoreController {
     }
 
 
-    private void processShortageStockPromotionOrder() {
-        for (Order order : promotionService.getShortagePromotionalStock()) {
+    private void processNonApplicablePromotionOrder() {
+        for (Order order : promotionService.getNonApplicablePromotionOrders()) {
             String name = order.getProductName();
-            int shortageQuantity = order.getNoPromotionQuantity();
+            int shortageQuantity = order.getNonApplicablePromotionProductQuantity();
             AnswerWhether answer = inputWhetherBuyNoPromotion(name, shortageQuantity);
 
-            promotionService.processShortagePromotionalStock(answer, order, shortageQuantity);
+            promotionService.handleNonApplicablePromotionOrder(answer, order, shortageQuantity);
         }
     }
 
@@ -93,13 +93,13 @@ public class ConvenienceStoreController {
     }
 
 
-    private void processLackQuantityPromotionOrder() {
-        for (Order order : promotionService.getLackQuantityPromotionOrders()) {
+    private void processCanAddPromotionProductOrder() {
+        for (Order order : promotionService.getCanAddPromotionProductOrders()) {
             String name = order.getProductName();
             int needAddQuantity = order.getNeedAddQuantity();
             AnswerWhether answer = inputWhetherAddPromotionProduct(name, needAddQuantity);
 
-            promotionService.processLackQuantityPromotionOrders(answer, order, needAddQuantity);
+            promotionService.handleCanAddPromotionProductOrder(answer, order, needAddQuantity);
         }
     }
 

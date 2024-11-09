@@ -22,13 +22,13 @@ public class OrderService {
         return isPurchase;
     }
 
-    
+
     public void updateReceipt(AnswerWhether answer) {
         receipt.process(answer);
     }
 
     public void decreaseStockInConvenienceStore() {
-        cart.decreaseProductQuantity(convenienceStoreroom);
+        cart.decreasePurchasedProductQuantity(convenienceStoreroom);
     }
 
     public void processKeepPurchase(AnswerWhether answer) {

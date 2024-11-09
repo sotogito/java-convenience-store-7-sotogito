@@ -32,6 +32,7 @@ public class Product {
         quantity--;
     }
 
+
     public boolean isOutOfStock() {
         return quantity <= 0;
     }

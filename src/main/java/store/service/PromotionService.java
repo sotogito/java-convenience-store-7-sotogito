@@ -16,12 +16,11 @@ public class PromotionService {
     }
 
     //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
-    public List<Order> getShortagePromotionalStock() {
-        return cart.getShortageStockPromotionOrders();
+    public List<Order> getNonApplicablePromotionOrders() {
+        return cart.getNonApplicablePromotionOrders();
     }
 
-
-    public void processShortagePromotionalStock(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
+    public void handleNonApplicablePromotionOrder(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             cart.changePromotionToGeneral(promotionOrder, shortageQuantity);
             return;
@@ -31,11 +30,11 @@ public class PromotionService {
 
 
     //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
-    public List<Order> getLackQuantityPromotionOrders() {
-        return cart.getLackQuantityPromotionOrders(convenienceStoreroom);
+    public List<Order> getCanAddPromotionProductOrders() {
+        return cart.getCanAddPromotionProductOrders(convenienceStoreroom);
     }
 
-    public void processLackQuantityPromotionOrders(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
+    public void handleCanAddPromotionProductOrder(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.findMeaningByAnswer(answer)) {
             promotionOrder.updatePromotionProductQuantity(needAddQuantity);
         }

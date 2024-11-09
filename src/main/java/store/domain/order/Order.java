@@ -13,10 +13,9 @@ public class Order {
         this.purchaseQuantity = purchaseQuantity;
     }
 
-
-    public int getQuantityNoPromotionApplied() {
+    public int getNonAppliedPromotionQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            int correctQuantity = promotionProduct.getCorrectQuantity(purchaseQuantity);
+            int correctQuantity = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
             return purchaseQuantity - correctQuantity;
         }
         return 0;
@@ -29,10 +28,6 @@ public class Order {
         return false;
     }
 
-    public int getSufficientStockAfterGetPromotionProduct() {
-        return purchaseQuantity + getNeedAddQuantity();
-    }
-
     public int getNeedAddQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.getGetQuantity();
@@ -40,19 +35,17 @@ public class Order {
         return purchaseQuantity;
     }
 
-
-    public int getShortageQuantity() {
+    public int getNonApplicablePromotionProductQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.calculateQuantityDeduction(purchaseQuantity);
-            //note 그냥 재고가 전체 구매 수보다 부족한지만 판단
+            int canPromotionInStock = promotionProduct.getTotalPromotionProductQuantity(product.getQuantity());
+            return (purchaseQuantity - canPromotionInStock);
         }
         return 0;
     }
 
-    public int getNoPromotionQuantity() {
+    public int getNonApplicablePromotionQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            int canPromotionInStock = promotionProduct.getCorrectQuantity(product.getQuantity());
-            return (purchaseQuantity - canPromotionInStock);
+            return promotionProduct.calculateQuantityDeduction(purchaseQuantity);
         }
         return 0;
     }
@@ -79,9 +72,14 @@ public class Order {
 
     //todo 이미 있는 상품은 수량만 업데이트
     public void updateQuantity(Order anotherOrder) {
-        if (this.isSameProduct(anotherOrder.getProduct())) {
+        if (this.isSameProduct(anotherOrder.product)) {
             this.purchaseQuantity += anotherOrder.purchaseQuantity;
         }
+    }
+
+
+    public int getSufficientStockAfterGetPromotionProduct() {
+        return purchaseQuantity + getNeedAddQuantity();
     }
 
 
@@ -98,21 +96,24 @@ public class Order {
     }
 
 
-    public String getProductName() {
-        return product.getName();
+    public Order createOrder(int shortageQuantity) {
+        return new Order(product, shortageQuantity);
     }
 
-    public Product getProduct() {
-        return product;
+    public String getProductName() {
+        return product.getName();
     }
 
     public int getPurchaseQuantity() {
         return purchaseQuantity;
     }
 
-    public Map<Product, Integer> updateProductQuantityMap(Map<Product, Integer> productQuantityMap) {
+    public void updateAllProductQuantity(Map<Product, Integer> productQuantityMap) {
         productQuantityMap.merge(product, purchaseQuantity, Integer::sum);
-        return productQuantityMap;
+    }
+
+    public void updateOnlyPromotionProductAndQuantity(Map<Product, Integer> productQuantityMap) {
+        productQuantityMap.merge(product, getPromotionProductQuantity(), Integer::sum);
     }
 
 

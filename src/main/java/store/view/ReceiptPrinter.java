@@ -10,6 +10,7 @@ public class ReceiptPrinter {
     private final static StringBuilder result = new StringBuilder();
 
     public static String getPrintout(Receipt receipt) {
+        result.delete(0, result.length());
         addHead();
         addPurchaseProductQuantityAndAmount(receipt.getAllOrder());
         getPromotionProductQuantity(receipt.getPromotionProduct());

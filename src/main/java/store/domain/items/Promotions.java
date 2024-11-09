@@ -3,7 +3,7 @@ package store.domain.items;
 import java.util.List;
 
 public class Promotions {
-    private List<Promotion> promotions;
+    private final List<Promotion> promotions;
 
     public Promotions(List<Promotion> promotions) {
         this.promotions = promotions;

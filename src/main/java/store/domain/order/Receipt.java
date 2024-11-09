@@ -32,10 +32,10 @@ public class Receipt {
         calculateFinalAmount();
     }
 
+
     private void calculateTotalPurchaseCount() {
         totalPurchaseCount = cart.getTotalPurchaseCount();
     }
-
 
     private void calculateFinalAmount() {
         finalAmount = totalAmountBeforeDiscount - (membershipDiscount + promotionDiscount);
@@ -67,15 +67,16 @@ public class Receipt {
     }
 
     private void updatePromotionProduct() {
-        promotionProduct.putAll(cart.getPromotionProducts());
+        promotionProduct.putAll(cart.getOrderPromotionProducts());
     }
 
     private void setFinalAmount() {
         totalAmountBeforeDiscount = cart.getTotalPrice();
     }
 
+
     public Map<Product, Integer> getAllOrder() {
-        return cart.getProductQuantityMap();
+        return cart.getAllOrderProductQuantity();
     }
 
     public Map<Product, Integer> getPromotionProduct() {
