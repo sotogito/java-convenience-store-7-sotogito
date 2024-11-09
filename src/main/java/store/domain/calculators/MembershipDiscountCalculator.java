@@ -13,7 +13,7 @@ public class MembershipDiscountCalculator implements DiscountCalculator {
     }
 
     private int checkMaxDiscountAmount(int membershipDiscount) {
-        int max = MembershipDiscount.MAX_DISCOUNT_AMOUNT.getValue();
+        int max = MembershipDiscount.MAX_DISCOUNT_AMOUNT.get();
         if (membershipDiscount > max) {
             return max;
         }

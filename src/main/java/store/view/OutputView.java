@@ -4,6 +4,7 @@ import store.domain.ConvenienceStoreroom;
 import store.domain.Receipt;
 
 public class OutputView {
+    
     public void printError(String error) {
         System.out.print("[ERROR] " + error);
     }

@@ -16,14 +16,13 @@ public enum ReceiptPrintout {
     CATEGORY_DIVIDER("==============================\n"),
     CATEGORY_DIVIDER_FORMAT("===========%s=============\n");
 
-
     private final String printout;
 
     ReceiptPrintout(String printout) {
         this.printout = printout;
     }
 
-    public String getPrintout() {
+    public String get() {
         return printout;
     }
 

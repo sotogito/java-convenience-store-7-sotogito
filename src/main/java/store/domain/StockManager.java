@@ -23,6 +23,10 @@ public class StockManager {
         generalProductDecrease(product, quantity);
     }
 
+    private void generalProductDecrease(Product product, Integer quantity) {
+        product.decreaseQuantity(quantity);
+    }
+
     private void promotionProductDecrease(Products products, Product product, Integer quantity,
                                           PromotionProduct promotionProduct) {
         for (int i = 0; i < quantity; i++) {
@@ -41,10 +45,6 @@ public class StockManager {
             return true;
         }
         return false;
-    }
-
-    private void generalProductDecrease(Product product, Integer quantity) {
-        product.decreaseQuantity(quantity);
     }
 
     private Product findGeneralProductByName(Products products, String name) {

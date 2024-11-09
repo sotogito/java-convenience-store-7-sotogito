@@ -37,6 +37,7 @@ public class Order {
         return 0;
     }
 
+
     public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.calculateQuantityDeduction(purchaseQuantity) > 0;
@@ -50,6 +51,7 @@ public class Order {
         }
         return false;
     }
+
 
     private int getPromotionProductQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
@@ -70,7 +72,7 @@ public class Order {
         }
     }
 
-    //todo 이미 있는 상품은 수량만 업데이트
+
     public void updateQuantity(Order anotherOrder) {
         if (this.isSameProduct(anotherOrder.product)) {
             this.purchaseQuantity += anotherOrder.purchaseQuantity;
@@ -85,6 +87,7 @@ public class Order {
         return purchaseQuantity * product.getPrice();
     }
 
+
     public boolean isPromotionProduct() {
         return product instanceof PromotionProduct;
     }
@@ -92,6 +95,7 @@ public class Order {
     public boolean isSameProduct(Product product) {
         return this.product.equals(product);
     }
+
 
     public Order createOrder(int shortageQuantity) {
         return new Order(product, shortageQuantity);
@@ -104,6 +108,7 @@ public class Order {
     public int getPurchaseQuantity() {
         return purchaseQuantity;
     }
+
 
     public void updateAllProductQuantity(Map<Product, Integer> productQuantityMap) {
         productQuantityMap.merge(product, purchaseQuantity, Integer::sum);
@@ -125,7 +130,6 @@ public class Order {
         builder.append("\n");
         return builder.toString();
     }
-
-
+    
 }
 

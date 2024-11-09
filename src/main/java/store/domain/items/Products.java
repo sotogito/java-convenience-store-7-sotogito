@@ -43,7 +43,6 @@ public class Products {
         return !outOfStockProducts.isEmpty();
     }
 
-
     private int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
         int stock = 0;
         for (Product product : sameNameProduct) {

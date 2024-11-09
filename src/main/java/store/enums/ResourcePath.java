@@ -12,7 +12,7 @@ public enum ResourcePath {
         this.filePath = filePath;
     }
 
-    public String getPath() {
+    public String get() {
         return filePath + extension;
     }
 

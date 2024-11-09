@@ -83,9 +83,8 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherBuyNoPromotion(String productName, int shortageQuantity) {
         while (true) {
             try {
-                return AnswerWhether.findByInputAnswer(inputView.inputWhether(
-                        String.format(ServiceMessage.NO_PROMOTION_DISCOUNT.getMessage(),
-                                productName, shortageQuantity)));
+                return AnswerWhether.find(inputView.inputWhether(
+                        String.format(ServiceMessage.NO_PROMOTION_DISCOUNT.get(), productName, shortageQuantity)));
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
@@ -106,9 +105,8 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherAddPromotionProduct(String productName, int needAddQuantity) {
         while (true) {
             try {
-                return AnswerWhether.findByInputAnswer(inputView.inputWhether(
-                        String.format(ServiceMessage.ADD_PROMOTION_PRODUCT.getMessage(),
-                                productName, needAddQuantity)));
+                return AnswerWhether.find(inputView.inputWhether(
+                        String.format(ServiceMessage.ADD_PROMOTION_PRODUCT.get(), productName, needAddQuantity)));
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
@@ -119,8 +117,8 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherMembershipDiscount() {
         while (true) {
             try {
-                String answer = inputView.inputWhether(ServiceMessage.APPLY_MEMBERSHIP_DISCOUNT.getMessage());
-                return AnswerWhether.findByInputAnswer(answer);
+                String answer = inputView.inputWhether(ServiceMessage.APPLY_MEMBERSHIP_DISCOUNT.get());
+                return AnswerWhether.find(answer);
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
@@ -128,11 +126,12 @@ public class ConvenienceStoreController {
     }
 
 
+    //fixme 줄수
     private void inputWhetherPurchase() {
         while (true) {
             try {
-                String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.getMessage());
-                orderService.handleKeepPurchase(AnswerWhether.findByInputAnswer(answer));
+                String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.get());
+                orderService.handleKeepPurchase(AnswerWhether.find(answer));
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());

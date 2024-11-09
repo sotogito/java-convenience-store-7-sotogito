@@ -39,7 +39,6 @@ public class Cart {
         generalOrders.add(promotionOrder.createOrder(shortageQuantity));
     }
 
-
     public void decreasePurchasedProductQuantity(ConvenienceStoreroom storeroom) {
         storeroom.decreaseStock(getAllOrderProductQuantity());
     }
@@ -93,6 +92,7 @@ public class Cart {
         result.addAll(promotionOrders);
         return result;
     }
+
 
     public void clearCart() {
         generalOrders.clear();

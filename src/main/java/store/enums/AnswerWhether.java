@@ -22,7 +22,7 @@ public enum AnswerWhether {
     }
 
 
-    public static AnswerWhether findByInputAnswer(String inputAnswer) {
+    public static AnswerWhether find(String inputAnswer) {
         for (AnswerWhether answerWhether : AnswerWhether.values()) {
             if (answerWhether.answer.equals(inputAnswer)) {
                 return answerWhether;

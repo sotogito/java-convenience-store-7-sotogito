@@ -11,7 +11,7 @@ public enum MembershipDiscount {
         this.value = value;
     }
 
-    public int getValue() {
+    public int get() {
         return value;
     }
 

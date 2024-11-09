@@ -39,13 +39,16 @@ public class Receipt {
         calculateFinalAmount();
     }
 
-
-    private void calculateTotalPurchaseCount() {
-        totalPurchaseCount = cart.getTotalPurchaseCount();
+    private void setFinalAmount() {
+        totalAmountBeforeDiscount = cart.getTotalPrice();
     }
 
-    private void calculateFinalAmount() {
-        finalAmount = totalAmountBeforeDiscount - (membershipDiscount + promotionDiscount);
+    private void updatePromotionProduct() {
+        promotionProduct.putAll(cart.getOrderPromotionProducts());
+    }
+
+    private void calculatePromotionDiscountAmount() {
+        promotionDiscount = promotionCalculator.calculate(cart);
     }
 
     private void calculateMembershipDiscountAmount(Boolean applyMembershipDiscount) {
@@ -53,20 +56,15 @@ public class Receipt {
             membershipDiscount = membershipCalculator.calculate(cart);
             return;
         }
-        membershipDiscount = MembershipDiscount.NONE.getValue();
+        membershipDiscount = MembershipDiscount.NONE.get();
     }
 
-    private void calculatePromotionDiscountAmount() {
-        promotionDiscount = promotionCalculator.calculate(cart);
+    private void calculateTotalPurchaseCount() {
+        totalPurchaseCount = cart.getTotalPurchaseCount();
     }
 
-
-    private void updatePromotionProduct() {
-        promotionProduct.putAll(cart.getOrderPromotionProducts());
-    }
-
-    private void setFinalAmount() {
-        totalAmountBeforeDiscount = cart.getTotalPrice();
+    private void calculateFinalAmount() {
+        finalAmount = totalAmountBeforeDiscount - (membershipDiscount + promotionDiscount);
     }
 
 
@@ -77,6 +75,7 @@ public class Receipt {
     public Map<Product, Integer> getPromotionProduct() {
         return promotionProduct;
     }
+
 
     public int getTotalPurchaseCount() {
         return totalPurchaseCount;
@@ -97,6 +96,7 @@ public class Receipt {
     public int getFinalAmount() {
         return finalAmount;
     }
+
 
     public void clearReceipt() {
         promotionProduct.clear();

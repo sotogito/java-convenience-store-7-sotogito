@@ -17,8 +17,8 @@ public class ConvenienceStoreroom implements OrderProductFinder {
     private final Promotions promotions;
 
     public ConvenienceStoreroom(PromotionReader promotionReader, ProductReader productReader) throws IOException {
-        this.promotions = new Promotions(promotionReader.read(ResourcePath.PROMOTION.getPath()));
-        this.products = new Products(productReader.read(ResourcePath.PRODUCT.getPath(), promotions));
+        this.promotions = new Promotions(promotionReader.read(ResourcePath.PROMOTION.get()));
+        this.products = new Products(productReader.read(ResourcePath.PRODUCT.get(), promotions));
         this.stockManager = new StockManager();
     }
 
@@ -31,7 +31,7 @@ public class ConvenienceStoreroom implements OrderProductFinder {
     public Product findGeneralProductByNameAndQuantity(String name, int quantity) {
         return products.getGeneralProductByNameAndQuantity(name, quantity);
     }
-    
+
     public void decreaseStock(Map<Product, Integer> productQuantity) {
         stockManager.decreaseStock(products, productQuantity);
     }

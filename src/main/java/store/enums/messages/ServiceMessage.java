@@ -6,14 +6,14 @@ public enum ServiceMessage {
     APPLY_MEMBERSHIP_DISCOUNT("멤버십 할인을 받으시겠습니까? (Y/N)"),
     KEEP_PURCHASE("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
 
-
     private final String message;
 
     ServiceMessage(String message) {
         this.message = message;
     }
 
-    public String getMessage() {
+    public String get() {
         return message;
     }
+
 }
