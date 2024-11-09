@@ -2,6 +2,9 @@ package store.domain;
 
 import java.util.HashMap;
 import java.util.Map;
+import store.domain.calculators.DiscountCalculator;
+import store.domain.calculators.MembershipDiscountCalculator;
+import store.domain.calculators.PromotionDiscountCalculator;
 import store.domain.items.item.Product;
 import store.domain.order.Cart;
 import store.enums.MembershipDiscount;
@@ -9,16 +12,22 @@ import store.enums.MembershipDiscount;
 
 public class Receipt {
     private final Cart cart;
-    private final Map<Product, Integer> promotionProduct; //note 프로모션에서 증정품-수량만 가져와서 저장
+    private final Map<Product, Integer> promotionProduct;
     private int totalPurchaseCount;
-    private int totalAmountBeforeDiscount; //note 증정품도 다 더함
-    private int promotionDiscount; //note 증정품 가격
-    private int membershipDiscount; //note 일반 상품 총가격에 30% - 최대 8000원
-    private int finalAmount; //note 최종 금액
+    private int totalAmountBeforeDiscount;
+    private int promotionDiscount;
+    private int membershipDiscount;
+    private int finalAmount;
+
+    private final DiscountCalculator membershipCalculator;
+    private final DiscountCalculator promotionCalculator;
 
     public Receipt(Cart cart) {
         this.cart = cart;
         this.promotionProduct = new HashMap<>();
+        resetAmount();
+        membershipCalculator = new MembershipDiscountCalculator();
+        promotionCalculator = new PromotionDiscountCalculator();
     }
 
     public void process(Boolean applyMembershipDiscount) {
@@ -41,28 +50,16 @@ public class Receipt {
 
     private void calculateMembershipDiscountAmount(Boolean applyMembershipDiscount) {
         if (applyMembershipDiscount) {
-            int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
-            membershipDiscount = (int) (generalPurchaseAmount * MembershipDiscount.DISCOUNT_PERCENT.getDiscountValue());
-            checkMaxDiscountAmount();
+            membershipDiscount = membershipCalculator.calculate(cart);
             return;
         }
         membershipDiscount = MembershipDiscount.NONE.getValue();
     }
 
-    private void checkMaxDiscountAmount() {
-        int max = MembershipDiscount.MAX_DISCOUNT_AMOUNT.getValue();
-        if (membershipDiscount > max) {
-            membershipDiscount = max;
-        }
+    private void calculatePromotionDiscountAmount() {
+        promotionDiscount = promotionCalculator.calculate(cart);
     }
 
-    private void calculatePromotionDiscountAmount() {
-        for (Map.Entry<Product, Integer> entry : promotionProduct.entrySet()) {
-            int productPrice = entry.getKey().getPrice();
-            int count = entry.getValue();
-            promotionDiscount += (productPrice * count);
-        }
-    }
 
     private void updatePromotionProduct() {
         promotionProduct.putAll(cart.getOrderPromotionProducts());
@@ -103,6 +100,11 @@ public class Receipt {
 
     public void clearReceipt() {
         promotionProduct.clear();
+        resetAmount();
+    }
+
+    private void resetAmount() {
+        totalPurchaseCount = 0;
         totalAmountBeforeDiscount = 0;
         promotionDiscount = 0;
         membershipDiscount = 0;
