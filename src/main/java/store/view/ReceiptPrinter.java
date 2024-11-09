@@ -20,6 +20,7 @@ public class ReceiptPrinter {
     }
 
     private static void addHead() {
+        result.append("\n");
         result.append(String.format(
                 ReceiptPrintout.CATEGORY_DIVIDER_FORMAT.get(),
                 ReceiptPrintout.STORE_NAME.get()));

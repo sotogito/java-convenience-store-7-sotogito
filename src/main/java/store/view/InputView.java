@@ -15,6 +15,7 @@ public class InputView {
     }
 
     public String inputWhether(String message) {
+        System.out.println();
         System.out.println(message);
         try {
             return Console.readLine();
