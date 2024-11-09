@@ -11,7 +11,6 @@ import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
 
 public class ProductReader {
-
     private final static String VALUE_DELIMITER = ",";
     private final static String NON_PROMOTION = "null";
 
