@@ -1,4 +1,4 @@
-package store.view.messages;
+package store.enums.messages;
 
 public enum ServiceMessage {
     NO_PROMOTION_DISCOUNT("현재 %s %,d개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)"),

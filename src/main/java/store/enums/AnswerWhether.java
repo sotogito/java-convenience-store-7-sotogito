@@ -12,7 +12,7 @@ public enum AnswerWhether {
         this.meaning = meaning1;
     }
 
-    public static boolean findMeaningByAnswer(AnswerWhether userAnswer) {
+    public static boolean isYes(AnswerWhether userAnswer) {
         for (AnswerWhether answerWhether : AnswerWhether.values()) {
             if (answerWhether.equals(userAnswer)) {
                 return answerWhether.meaning;

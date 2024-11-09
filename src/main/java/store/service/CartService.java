@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
-import store.domain.OrderProductFinder;
+import store.domain.finders.OrderProductFinder;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
 import store.domain.order.Cart;
@@ -32,7 +32,6 @@ public class CartService {
         for (OrderForm order : orders) {
             int quantity = order.quantity();
             Product product = getProduct(nowDate, order, quantity);
-
             addOrderList(orderList, product, quantity);
         }
         return orderList;
@@ -40,7 +39,6 @@ public class CartService {
 
     private Product getProduct(LocalDateTime nowDate, OrderForm order, int quantity) {
         Product product = convenienceStoreroom.findProductByNameAndQuantity(order.name(), quantity);
-
         if (product instanceof PromotionProduct promotionProduct) {
             if (!promotionProduct.isValidDate(nowDate)) {
                 product = convenienceStoreroom.findGeneralProductByNameAndQuantity(order.name(), quantity);

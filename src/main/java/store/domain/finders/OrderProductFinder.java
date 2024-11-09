@@ -1,4 +1,4 @@
-package store.domain;
+package store.domain.finders;
 
 import store.domain.items.item.Product;
 

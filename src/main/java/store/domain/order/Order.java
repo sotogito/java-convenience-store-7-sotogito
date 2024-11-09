@@ -13,26 +13,20 @@ public class Order {
         this.purchaseQuantity = purchaseQuantity;
     }
 
-    public int getNonAppliedPromotionQuantity() {
-        if (product instanceof PromotionProduct promotionProduct) {
-            int correctQuantity = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
-            return purchaseQuantity - correctQuantity;
-        }
-        return 0;
-    }
-
-    public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
-        if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity);
-        }
-        return false;
-    }
 
     public int getNeedAddQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.getGetQuantity();
         }
         return purchaseQuantity;
+    }
+
+    public int getNonAppliedPromotionQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            int correctQuantity = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
+            return purchaseQuantity - correctQuantity;
+        }
+        return 0;
     }
 
     public int getNonApplicablePromotionProductQuantity() {
@@ -43,18 +37,25 @@ public class Order {
         return 0;
     }
 
-    public int getNonApplicablePromotionQuantity() {
+    public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.calculateQuantityDeduction(purchaseQuantity);
+            return promotionProduct.calculateQuantityDeduction(purchaseQuantity) > 0;
         }
-        return 0;
+        return false;
     }
 
-
-    public void deleteQuantity(int quantity) {
-        if (product instanceof PromotionProduct) {
-            purchaseQuantity -= quantity;
+    public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity);
         }
+        return false;
+    }
+
+    private int getPromotionProductQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.getPromotionProductQuantity(purchaseQuantity);
+        }
+        return 0;
     }
 
     public void updatePromotionProductQuantity(int quantity) {
@@ -63,11 +64,10 @@ public class Order {
         }
     }
 
-    public int getPromotionProductQuantity() {
-        if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.getPromotionProductQuantity(purchaseQuantity);
+    public void deleteQuantity(int quantity) {
+        if (product instanceof PromotionProduct) {
+            purchaseQuantity -= quantity;
         }
-        return 0;
     }
 
     //todo 이미 있는 상품은 수량만 업데이트
@@ -77,11 +77,13 @@ public class Order {
         }
     }
 
-
     public int getSufficientStockAfterGetPromotionProduct() {
         return purchaseQuantity + getNeedAddQuantity();
     }
 
+    public int calculateTotalAmount() {
+        return purchaseQuantity * product.getPrice();
+    }
 
     public boolean isPromotionProduct() {
         return product instanceof PromotionProduct;
@@ -90,11 +92,6 @@ public class Order {
     public boolean isSameProduct(Product product) {
         return this.product.equals(product);
     }
-
-    public int calculateTotalAmount() {
-        return purchaseQuantity * product.getPrice(); //fixme 상품 내부로 넘겨?
-    }
-
 
     public Order createOrder(int shortageQuantity) {
         return new Order(product, shortageQuantity);

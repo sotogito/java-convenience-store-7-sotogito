@@ -2,6 +2,8 @@ package store.service;
 
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
+import store.domain.finders.AddablePromotionOrdersFinder;
+import store.domain.finders.PromotionExclusionOrdersFinder;
 import store.domain.order.Cart;
 import store.domain.order.Order;
 import store.enums.AnswerWhether;
@@ -9,7 +11,6 @@ import store.enums.AnswerWhether;
 public class PromotionService {
     private final PromotionExclusionOrdersFinder promotionExclusionOrdersFinder;
     private final AddablePromotionOrdersFinder addablePromotionOrdersFinder;
-
     private final ConvenienceStoreroom convenienceStoreroom;
     private final Cart cart;
 

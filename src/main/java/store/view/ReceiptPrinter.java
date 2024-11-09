@@ -1,8 +1,8 @@
 package store.view;
 
 import java.util.Map;
+import store.domain.Receipt;
 import store.domain.items.item.Product;
-import store.domain.order.Receipt;
 import store.enums.ReceiptPrintout;
 
 public class ReceiptPrinter {

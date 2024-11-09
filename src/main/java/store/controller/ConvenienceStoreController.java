@@ -5,19 +5,19 @@ import java.io.IOException;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
 import store.domain.OrderParser;
+import store.domain.Receipt;
 import store.domain.order.Cart;
 import store.domain.order.Order;
-import store.domain.order.Receipt;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
 import store.enums.AnswerWhether;
+import store.enums.messages.ServiceMessage;
 import store.service.CartService;
 import store.service.OrderService;
 import store.service.PromotionService;
 import store.view.InputView;
 import store.view.OutputView;
-import store.view.messages.ServiceMessage;
 
 public class ConvenienceStoreController {
     private final InputView inputView;
@@ -54,7 +54,7 @@ public class ConvenienceStoreController {
     private void buy(Receipt receipt) {
         tryBuy();
         processNonApplicablePromotionOrder();
-        processCanAddPromotionProductOrder();
+        processAddablePromotionProductOrder();
 
         makeReceipt(receipt);
     }
@@ -93,8 +93,8 @@ public class ConvenienceStoreController {
     }
 
 
-    private void processCanAddPromotionProductOrder() {
-        for (Order order : promotionService.getCanAddPromotionProductOrders()) {
+    private void processAddablePromotionProductOrder() {
+        for (Order order : promotionService.getAddablePromotionProductOrders()) {
             String name = order.getProductName();
             int needAddQuantity = order.getNeedAddQuantity();
             AnswerWhether answer = inputWhetherAddPromotionProduct(name, needAddQuantity);
@@ -132,7 +132,7 @@ public class ConvenienceStoreController {
         while (true) {
             try {
                 String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.getMessage());
-                orderService.processKeepPurchase(AnswerWhether.findByInputAnswer(answer));
+                orderService.handleKeepPurchase(AnswerWhether.findByInputAnswer(answer));
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());

@@ -1,7 +1,7 @@
 package store.view;
 
 import store.domain.ConvenienceStoreroom;
-import store.domain.order.Receipt;
+import store.domain.Receipt;
 
 public class OutputView {
     public void printError(String error) {
