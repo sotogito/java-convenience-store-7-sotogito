@@ -27,12 +27,12 @@ public class Promotion {
         return false;
     }
 
-    public int calculateCorrectQuantity(int totalPurchaseQuantity) {
-        return calculatePromotionQuantity(totalPurchaseQuantity) * (buy + get);
+    public int calculateTotalPromotionProductQuantity(int totalPurchaseQuantity) {
+        return calculatePromotionProductQuantity(totalPurchaseQuantity) * getPromotionOneBundle();
     }
 
-    public int calculatePromotionQuantity(int totalPurchaseQuantity) {
-        return totalPurchaseQuantity / (buy + get);
+    public int calculatePromotionProductQuantity(int totalPurchaseQuantity) {
+        return totalPurchaseQuantity / getPromotionOneBundle();
     }
 
 
@@ -44,9 +44,15 @@ public class Promotion {
         return noAppliedQuantity >= buy;
     }
 
+    private int getPromotionOneBundle() {
+        return buy + get;
+    }
+
+
     public int getGetQuantity() {
         return get;
     }
+
 
     @Override
     public String toString() {
