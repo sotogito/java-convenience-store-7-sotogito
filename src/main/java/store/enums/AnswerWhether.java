@@ -1,5 +1,7 @@
 package store.enums;
 
+import store.enums.messages.ErrorMessage;
+
 public enum AnswerWhether {
     YES("Y", true),
     NO("N", false);
@@ -18,7 +20,7 @@ public enum AnswerWhether {
                 return answerWhether.meaning;
             }
         }
-        throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해 주세요.");
+        throw new IllegalArgumentException(ErrorMessage.INCORRECT_INPUT.get());
     }
 
 
@@ -28,7 +30,7 @@ public enum AnswerWhether {
                 return answerWhether;
             }
         }
-        throw new IllegalArgumentException("잘못된 입력입니다. 다시 입력해 주세요.");
+        throw new IllegalArgumentException(ErrorMessage.INCORRECT_INPUT.get());
     }
 
 }

@@ -1,6 +1,7 @@
 package store.domain.items;
 
 import java.util.List;
+import store.enums.messages.ErrorMessage;
 
 public class Promotions {
     private final List<Promotion> promotions;
@@ -15,7 +16,7 @@ public class Promotions {
                 return promotion;
             }
         }
-        throw new IllegalStateException("존재하지 않는 프로모션");
+        throw new IllegalStateException(ErrorMessage.NOT_EXIST_PROMOTION.get());
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import store.domain.record.OrderForm;
 import store.enums.OrderInputForm;
+import store.enums.messages.ErrorMessage;
 
 
 public class OrderParser {
@@ -32,7 +33,7 @@ public class OrderParser {
             int quantity = Integer.parseInt(splitNameAneQuantity[1].trim());
             return new OrderForm(name, quantity);
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INCORRECT_ORDER_FORM.get());
         }
     }
 
@@ -53,18 +54,18 @@ public class OrderParser {
         int closeCount = countContains(splitCommaValue, OrderInputForm.CLOSER.get());
 
         if (openCount != INCLUSION_CRITERIA || closeCount != INCLUSION_CRITERIA) {
-            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INCORRECT_ORDER_FORM.get());
         }
     }
 
     private static void validateNoHyphen(String splitCommaValue) {
         int containCount = countContains(splitCommaValue, OrderInputForm.NAME_QUANTITY_DELIMITER.get());
         if (containCount != INCLUSION_CRITERIA) {
-            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INCORRECT_ORDER_FORM.get());
         }
     }
 
-    
+
     private static int countContains(String orderForm, String delimiter) {
         char delimiterChar = delimiter.charAt(0);
         return (int) orderForm.chars()

@@ -1,6 +1,7 @@
 package store.domain.items.item;
 
 import store.enums.ProductStockPrintout;
+import store.enums.messages.ErrorMessage;
 
 public class Product {
     private final String name;
@@ -25,7 +26,7 @@ public class Product {
             quantity -= purchasedQuantity;
             return;
         }
-        throw new IllegalStateException("재고 오류");
+        throw new IllegalStateException(ErrorMessage.OUT_OF_STOCK.get());
     }
 
     public void decreaseQuantitySingly() {

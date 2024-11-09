@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
+import store.enums.messages.ErrorMessage;
 
 public class Products {
     private final List<Product> products;
@@ -64,11 +65,11 @@ public class Products {
     private void validateProductState(int quantity, List<Product> sameNameProduct, boolean isAllOutOfStock, int stock) {
         if (sameNameProduct.isEmpty()) {
             if (isAllOutOfStock) {
-                throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-2");
+                throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
             }
-            throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
         } else if (stock == 0 || stock < quantity) {
-            throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-1");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
     }
 
@@ -81,14 +82,14 @@ public class Products {
                 return getSufficientStockGeneralProduct(quantity, product);
             }
         }
-        throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.");
+        throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
     }
 
     private Product getSufficientStockGeneralProduct(int quantity, Product product) {
         if (product.isSufficientStock(quantity)) {
             return product;
         }
-        throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.-2");
+        throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
     }
 
 
@@ -100,7 +101,7 @@ public class Products {
                 return product;
             }
         }
-        throw new IllegalArgumentException("존재하지 않는 상품입니다. 다시 입력해 주세요.-3");
+        throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
     }
 
     public boolean isSufficientStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
