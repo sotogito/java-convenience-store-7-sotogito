@@ -5,11 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import store.domain.ConvenienceStoreroom;
+import store.domain.finders.AddablePromotionOrdersFinder;
+import store.domain.finders.PromotionExclusionOrdersFinder;
 import store.domain.items.item.Product;
-import store.service.AddablePromotionOrdersFinder;
-import store.service.PromotionExclusionOrdersFinder;
 
-//todo OrderProducts, OrderPromotionProducts, - Order 인터페이스로 묶기
 public class Cart {
     private final List<Order> generalOrders;
     private final List<Order> promotionOrders;
