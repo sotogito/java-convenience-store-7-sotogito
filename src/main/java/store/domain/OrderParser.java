@@ -3,44 +3,73 @@ package store.domain;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.record.OrderForm;
+import store.enums.OrderInputForm;
 
-//올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.
 
 public class OrderParser {
+    private final static int INCLUSION_CRITERIA = 1;
 
     public static List<OrderForm> parse(String inputOrder) {
+        String[] nameAndQuantity = inputOrder.split(OrderInputForm.ORDER_DELIMITER.get());
+
+        return loopAsOrderQuantity(nameAndQuantity);
+    }
+
+    private static List<OrderForm> loopAsOrderQuantity(String[] nameAndQuantity) {
         List<OrderForm> result = new ArrayList<>();
-
-        String[] nameAndQuantity = inputOrder.split(",");
-
-        for (int i = 0; i < nameAndQuantity.length; i++) {
-            String removeParentheses = nameAndQuantity[i].trim();
-
-            validateNoParentheses(removeParentheses);
-            validateNoHyphen(removeParentheses);
-
-            removeParentheses = removeParentheses.replace("[", "").replace("]", "");
-            String[] split = removeParentheses.split("-");
-
-            String name = split[0].trim();
-            int quantity = Integer.parseInt(split[1].trim());
-
-            result.add(new OrderForm(name, quantity));
+        for (String string : nameAndQuantity) {
+            String removeParentheses = string.trim();
+            validateOneOrderForm(removeParentheses);
+            String[] splitNameAneQuantity = getSplitNameAneQuantityValue(removeParentheses);
+            result.add(createOrderForm(splitNameAneQuantity));
         }
         return result;
     }
 
+    private static OrderForm createOrderForm(String[] splitNameAneQuantity) {
+        try {
+            String name = splitNameAneQuantity[0].trim();
+            int quantity = Integer.parseInt(splitNameAneQuantity[1].trim());
+            return new OrderForm(name, quantity);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
+        }
+    }
+
+    private static String[] getSplitNameAneQuantityValue(String removeParentheses) {
+        removeParentheses = removeParentheses.replace(
+                OrderInputForm.OPENER.get(), "").replace(OrderInputForm.CLOSER.get(), "");
+        return removeParentheses.split(OrderInputForm.NAME_QUANTITY_DELIMITER.get());
+    }
+
+
+    private static void validateOneOrderForm(String removeParentheses) {
+        validateNoParentheses(removeParentheses);
+        validateNoHyphen(removeParentheses);
+    }
+
     private static void validateNoParentheses(String splitCommaValue) {
-        if (!splitCommaValue.contains("[") || !splitCommaValue.contains("]")) {
+        int openCount = countContains(splitCommaValue, OrderInputForm.OPENER.get());
+        int closeCount = countContains(splitCommaValue, OrderInputForm.CLOSER.get());
+
+        if (openCount != INCLUSION_CRITERIA || closeCount != INCLUSION_CRITERIA) {
             throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
 
     private static void validateNoHyphen(String splitCommaValue) {
-        if (!splitCommaValue.contains("-")) {
+        int containCount = countContains(splitCommaValue, OrderInputForm.NAME_QUANTITY_DELIMITER.get());
+        if (containCount != INCLUSION_CRITERIA) {
             throw new IllegalArgumentException("올바르지 않은 형식으로 입력했습니다. 다시 입력해 주세요.");
         }
     }
 
+    
+    private static int countContains(String orderForm, String delimiter) {
+        char delimiterChar = delimiter.charAt(0);
+        return (int) orderForm.chars()
+                .filter(c -> c == delimiterChar)
+                .count();
+    }
 
 }
