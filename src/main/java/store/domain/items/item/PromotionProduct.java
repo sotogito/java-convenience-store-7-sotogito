@@ -27,7 +27,6 @@ public class PromotionProduct extends Product {
 
     public boolean isValidDate() {
         isValidDate = promotion.isValidDate();
-        
         return isValidDate;
     }
 

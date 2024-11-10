@@ -142,7 +142,6 @@ public class ConvenienceStoreController {
     private void tryBuy() {
         while (true) {
             try {
-                //fixme 무한루프
                 cartService.buy(inputToOrderForm());
                 return;
             } catch (IllegalArgumentException e) {

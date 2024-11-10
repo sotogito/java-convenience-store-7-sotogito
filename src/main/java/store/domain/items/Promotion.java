@@ -20,9 +20,10 @@ public class Promotion {
     }
 
     public boolean isValidDate() {
-        if (endDate.isAfter(DateTimes.now()) && startDate.isBefore(DateTimes.now())) {
+        LocalDateTime now = DateTimes.now();
+        if (endDate.isAfter(now) && startDate.isBefore(now)) {
             return true;
-        } else if (startDate.equals(DateTimes.now()) || endDate.equals(DateTimes.now())) {
+        } else if (startDate.equals(now) || endDate.equals(now)) {
             return true;
         }
         return false;
