@@ -83,7 +83,6 @@ public class ConvenienceStoreController {
      * @param receipt
      */
     private void makeReceipt(Receipt receipt) {
-        orderService.checkOriginalOrderProductQuantity();
         orderService.updateReceipt(inputWhetherMembershipDiscount());
         outputView.printReceipt(receipt);
     }

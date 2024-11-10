@@ -21,10 +21,10 @@ public class StockManager {
     private void validateStock(Products products, Product orderProduct, int orderQuantity) {
         List<Product> sameNameProducts = products.getSameNameProducts(orderProduct.getName());
         boolean isAllOutOfStock = products.isAllOutOfStock(sameNameProducts);
-        int tatalStock = products.calculateAllSameNameProductStock(sameNameProducts);
+        int totalStock = products.calculateAllSameNameProductStock(sameNameProducts);
 
-        System.out.println(tatalStock + "전체 재고");
-        if (isAllOutOfStock || tatalStock < orderQuantity) {
+        System.out.println(totalStock + "전체 재고");
+        if (isAllOutOfStock || totalStock < orderQuantity) {
             throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
         }
 
