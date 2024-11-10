@@ -30,15 +30,8 @@ public class PromotionService {
 
     public void handleNonApplicablePromotionOrder(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.isYes(answer)) {
-            int variableQuantity = promotionOrder.getVariableQuantity();
-            //promotionOrder.deleteQuantity(shortageQuantity);
-            //cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
-            //System.out.println(cart);
-
-            System.out.println(variableQuantity);
-            promotionOrder.deleteQuantity(variableQuantity);
-            cart.changePromotionToGeneralAsShortage(promotionOrder, variableQuantity);
-            System.out.println(cart);
+            promotionOrder.deleteQuantity(shortageQuantity);
+            cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
 
             /**
              * Y를하면 프로모션 상품에 일단 넣기 ㄴ넣는다.

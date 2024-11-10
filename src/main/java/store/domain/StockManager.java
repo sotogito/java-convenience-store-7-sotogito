@@ -10,7 +10,6 @@ import store.enums.messages.ErrorMessage;
 public class StockManager {
 
     public void decreaseStock(Products products, Map<Product, Integer> productQuantity) {
-        System.out.println("dlrj dksgo?");
         for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();

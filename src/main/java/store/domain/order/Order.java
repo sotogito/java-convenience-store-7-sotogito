@@ -88,15 +88,6 @@ public class Order {
         }
     }
 
-    public int getVariableQuantity() {
-        if (product instanceof PromotionProduct promotionProduct) {
-            System.out.println("구매 수량" + purchaseQuantity);
-            System.out.println("프로모션 수량" + promotionProduct.getGetQuantity());
-            return purchaseQuantity - promotionProduct.getQuantity();
-        }
-        return 0;
-    }
-
     public int getSufficientStockAfterGetPromotionProduct() {
         return purchaseQuantity + getNeedAddQuantity();
     }
