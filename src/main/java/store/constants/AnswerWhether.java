@@ -1,6 +1,6 @@
-package store.enums;
+package store.constants;
 
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
 
 public enum AnswerWhether {
     YES("Y", true),

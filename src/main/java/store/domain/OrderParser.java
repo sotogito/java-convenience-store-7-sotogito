@@ -2,9 +2,9 @@ package store.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import store.constants.OrderInputForm;
 import store.domain.record.OrderForm;
-import store.enums.OrderInputForm;
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
 
 
 public class OrderParser {

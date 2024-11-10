@@ -6,7 +6,7 @@ import store.domain.finders.AddablePromotionOrdersFinder;
 import store.domain.finders.PromotionExclusionOrdersFinder;
 import store.domain.order.Cart;
 import store.domain.order.Order;
-import store.enums.AnswerWhether;
+import store.constants.AnswerWhether;
 
 public class PromotionService {
     private final PromotionExclusionOrdersFinder promotionExclusionOrdersFinder;

@@ -1,4 +1,4 @@
-package store.enums;
+package store.domain.reader.constants;
 
 public enum ResourcePath {
     PROMOTION("src/main/resources/promotions", ".md"),

@@ -3,7 +3,7 @@ package store.service;
 import store.domain.ConvenienceStoreroom;
 import store.domain.Receipt;
 import store.domain.order.Cart;
-import store.enums.AnswerWhether;
+import store.constants.AnswerWhether;
 
 public class OrderService {
     private final ConvenienceStoreroom convenienceStoreroom;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
 
 public class Products {
     private final List<Product> products;

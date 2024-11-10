@@ -1,4 +1,4 @@
-package store.enums;
+package store.constants.printouts;
 
 public enum ReceiptPrintout {
     STORE_NAME("W 편의점"),

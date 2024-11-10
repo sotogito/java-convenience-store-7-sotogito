@@ -1,7 +1,7 @@
 package store.domain.items.item;
 
-import store.enums.ProductStockPrintout;
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
+import store.constants.printouts.ProductStockPrintout;
 
 public class Product {
     private final String name;

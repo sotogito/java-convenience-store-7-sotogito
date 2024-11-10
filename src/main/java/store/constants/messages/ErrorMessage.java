@@ -1,4 +1,4 @@
-package store.enums.messages;
+package store.constants.messages;
 
 public enum ErrorMessage {
     OUT_OF_STOCK("재고 부족 오류"),

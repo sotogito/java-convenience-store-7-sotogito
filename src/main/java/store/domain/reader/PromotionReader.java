@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import store.domain.items.Promotion;
+import store.domain.policies.Promotion;
 import store.domain.reader.constants.PromotionReaderValue;
 
 public class PromotionReader {
@@ -36,7 +36,7 @@ public class PromotionReader {
         int get = Integer.parseInt(splitLine[PromotionReaderValue.GET.getValue()]);
         LocalDateTime startDate = getLocalDateTime(splitLine[PromotionReaderValue.START_DATE.getValue()]);
         LocalDateTime endDate = getLocalDateTime(splitLine[PromotionReaderValue.END_DATE.getValue()]);
-        
+
         return new Promotion(name, buy, get, startDate, endDate);
     }
 

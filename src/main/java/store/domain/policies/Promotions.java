@@ -1,7 +1,7 @@
-package store.domain.items;
+package store.domain.policies;
 
 import java.util.List;
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
 
 public class Promotions {
     private final List<Promotion> promotions;

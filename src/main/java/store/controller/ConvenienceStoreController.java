@@ -12,8 +12,8 @@ import store.domain.order.Order;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
-import store.enums.AnswerWhether;
-import store.enums.messages.ServiceMessage;
+import store.constants.AnswerWhether;
+import store.constants.messages.ServiceMessage;
 import store.service.CartService;
 import store.service.OrderService;
 import store.service.PromotionService;
@@ -154,7 +154,7 @@ public class ConvenienceStoreController {
 
 
     private List<OrderForm> inputToOrderForm() {
-        return OrderParser.parse(InputView.inputOrderProducts());
+        return OrderParser.parse(inputView.inputOrderProducts());
     }
 
 

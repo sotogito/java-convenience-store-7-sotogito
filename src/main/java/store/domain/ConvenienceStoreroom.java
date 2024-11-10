@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.Map;
 import store.domain.finders.OrderProductFinder;
 import store.domain.items.Products;
-import store.domain.items.Promotions;
+import store.domain.policies.Promotions;
 import store.domain.items.item.Product;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
-import store.enums.ResourcePath;
+import store.domain.reader.constants.ResourcePath;
 
 
 public class ConvenienceStoreroom implements OrderProductFinder {

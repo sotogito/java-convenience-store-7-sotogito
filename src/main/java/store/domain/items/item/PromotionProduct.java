@@ -1,7 +1,7 @@
 package store.domain.items.item;
 
 import java.time.LocalDateTime;
-import store.domain.items.Promotion;
+import store.domain.policies.Promotion;
 
 public class PromotionProduct extends Product {
     private final Promotion promotion;

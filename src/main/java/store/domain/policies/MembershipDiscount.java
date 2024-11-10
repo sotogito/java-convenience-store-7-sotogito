@@ -1,4 +1,4 @@
-package store.enums;
+package store.domain.policies;
 
 public enum MembershipDiscount {
     DISCOUNT_PERCENT(30),

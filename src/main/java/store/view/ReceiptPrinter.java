@@ -3,7 +3,7 @@ package store.view;
 import java.util.Map;
 import store.domain.Receipt;
 import store.domain.items.item.Product;
-import store.enums.ReceiptPrintout;
+import store.constants.printouts.ReceiptPrintout;
 
 public class ReceiptPrinter {
 

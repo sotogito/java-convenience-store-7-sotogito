@@ -1,7 +1,7 @@
 package store.domain.calculators;
 
 import store.domain.order.Cart;
-import store.enums.MembershipDiscount;
+import store.domain.policies.MembershipDiscount;
 
 public class MembershipDiscountCalculator implements DiscountCalculator {
 

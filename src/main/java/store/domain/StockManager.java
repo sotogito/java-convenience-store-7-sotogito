@@ -5,7 +5,7 @@ import java.util.Map;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
-import store.enums.messages.ErrorMessage;
+import store.constants.messages.ErrorMessage;
 
 public class StockManager {
 

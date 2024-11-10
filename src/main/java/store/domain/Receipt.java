@@ -7,7 +7,7 @@ import store.domain.calculators.MembershipDiscountCalculator;
 import store.domain.calculators.PromotionDiscountCalculator;
 import store.domain.items.item.Product;
 import store.domain.order.Cart;
-import store.enums.MembershipDiscount;
+import store.domain.policies.MembershipDiscount;
 
 
 public class Receipt {

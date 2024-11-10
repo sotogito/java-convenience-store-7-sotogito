@@ -1,4 +1,4 @@
-package store.domain.items;
+package store.domain.policies;
 
 import java.time.LocalDateTime;
 
