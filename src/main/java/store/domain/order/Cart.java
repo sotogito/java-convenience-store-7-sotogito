@@ -99,7 +99,7 @@ public class Cart {
         promotionOrders.clear();
     }
 
-    public int getPromotionAmount() {
+    public int getPromotionOrderAmount() {
         int totalAmount = 0;
         for (Order order : promotionOrders) {
             totalAmount += order.getPromotionOrderAmount();

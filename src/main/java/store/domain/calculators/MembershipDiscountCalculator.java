@@ -7,8 +7,10 @@ public class MembershipDiscountCalculator implements DiscountCalculator {
 
     @Override
     public int calculate(Cart cart) {
-        int generalPurchaseAmount = cart.getGeneralProductPurchaseTotalAmount();
-        int membershipDiscount = (int) (generalPurchaseAmount * MembershipDiscount.DISCOUNT_PERCENT.getDiscountValue());
+        int totalAmount = cart.getTotalPrice();
+        int promotionProductAmount = cart.getPromotionOrderAmount();
+        int membershipDiscount = (int)
+                ((totalAmount - promotionProductAmount) * MembershipDiscount.DISCOUNT_PERCENT.getDiscountValue());
         return checkMaxDiscountAmount(membershipDiscount);
     }
 
