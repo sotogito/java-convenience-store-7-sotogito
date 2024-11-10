@@ -14,6 +14,13 @@ public class CartService {
     private final OrderProductFinder convenienceStoreroom;
     private final Cart cart;
 
+    /**
+     * 수량 예외는 마지막에 진행하는데, List<OrderForm> orders을 어딘가에 ㅈ장해두고, 구매한 수량도 같이 예외를 처리해야됨
+     *
+     * @param convenienceStoreroom
+     * @param cart
+     */
+
     public CartService(ConvenienceStoreroom convenienceStoreroom, Cart cart) {
         this.convenienceStoreroom = convenienceStoreroom;
         this.cart = cart;

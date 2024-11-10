@@ -73,10 +73,17 @@ public class ConvenienceStoreController {
         processNonApplicablePromotionOrder();
         processAddablePromotionProductOrder();
 
+        //todo 여기서 재고 확인해야됨
         makeReceipt(receipt);
     }
 
+    /**
+     * 재고를 줄이기 전에 원래의 재고를 가지고 그것이 전체 재고와 부족한지를 판단해야됨
+     *
+     * @param receipt
+     */
     private void makeReceipt(Receipt receipt) {
+        orderService.checkOriginalOrderProductQuantity();
         orderService.updateReceipt(inputWhetherMembershipDiscount());
         outputView.printReceipt(receipt);
     }
@@ -160,7 +167,9 @@ public class ConvenienceStoreController {
     private void tryBuy() {
         while (true) {
             try {
-                cartService.buy(inputToOrderForm());
+                List<OrderForm> orderForms = inputToOrderForm();
+                orderService.saveOrderForm(orderForms);
+                cartService.buy(orderForms);
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
