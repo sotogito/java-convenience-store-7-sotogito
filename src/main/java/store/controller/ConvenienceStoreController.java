@@ -1,6 +1,8 @@
 package store.controller;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
 import store.domain.OrderParser;
@@ -25,11 +27,6 @@ public class ConvenienceStoreController {
     private CartService cartService;
     private OrderService orderService;
 
-    /**
-     * 프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.
-     * <p>
-     * 나는 만약에 컵라면을 12개 사면 12개 프로모션 적용이 안된다고 뜨고 12개가 일반 상품으로 들어간다. 그게 아니라 프로모션 1로 두고 나머지 11을 일반상품으로,
-     */
     public ConvenienceStoreController() {
         inputView = new InputView();
         outputView = new OutputView();
@@ -43,54 +40,27 @@ public class ConvenienceStoreController {
         promotionService = new PromotionService(storeroom, cart);
         cartService = new CartService(storeroom, cart);
 
-        while (true) {
-            try {
-                processBuy(storeroom, receipt);
-                break;
-            } catch (IllegalArgumentException e) {
-                orderService.clearCart();
-                outputView.printError(e.getMessage());
-            }
-        }
-
+        processBuy(storeroom, receipt);
     }
 
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
             outputView.printOwnedProducts(storeroom);
             buy();
-
-            makeReceipt(receipt); //todo 만약 재고 부족시 cart 초기화
+            makeReceipt(receipt);
             updateConvenienceState();
             inputWhetherPurchase();
         }
     }
 
     private void buy() {
-        tryBuy();
+        tryBuy(DateTimes.now());
         processNonApplicablePromotionOrder();
         processAddablePromotionProductOrder();
-
-//        tryBuy();
-//        processNonApplicablePromotionOrder();
-//        processAddablePromotionProductOrder();
-//        //todo 재고 수량 확인은 위에가 다 끝나고 해야됨
-//        /**
-//         * orderFrom저장해두고 마지막에 수량 체크하기
-//         */
-//        makeReceipt(receipt);
     }
 
-    /**
-     * 재고를 줄이기 전에 원래의 재고를 가지고 그것이 전체 재고와 부족한지를 판단해야됨
-     *
-     * @param receipt
-     */
     private void makeReceipt(Receipt receipt) {
         orderService.updateReceipt(inputWhetherMembershipDiscount());
-
-        orderService.checkOriginalOrderProductQuantity();
-
         outputView.printReceipt(receipt);
     }
 
@@ -170,12 +140,10 @@ public class ConvenienceStoreController {
     }
 
 
-    private void tryBuy() {
+    private void tryBuy(LocalDateTime nowDate) {
         while (true) {
             try {
-                List<OrderForm> orderForms = inputToOrderForm();
-                orderService.saveOrderForm(orderForms);
-                cartService.buy(orderForms);
+                cartService.buy(inputToOrderForm(), nowDate);
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
@@ -185,7 +153,7 @@ public class ConvenienceStoreController {
 
 
     private List<OrderForm> inputToOrderForm() {
-        return OrderParser.parse(inputView.inputOrderProducts());
+        return OrderParser.parse(InputView.inputOrderProducts());
     }
 
 

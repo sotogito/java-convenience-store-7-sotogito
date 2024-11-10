@@ -1,15 +1,16 @@
 package store.domain.items.item;
 
+import java.time.LocalDateTime;
 import store.domain.items.Promotion;
 
 public class PromotionProduct extends Product {
     private final Promotion promotion;
-    private boolean isValidDate;
+    //private boolean isValidDate;
 
     public PromotionProduct(String name, int price, int quantity, Promotion promotion) {
         super(name, price, quantity);
         this.promotion = promotion;
-        this.isValidDate = false;
+        //this.isValidDate = false;
     }
 
     public int getTotalPromotionProductQuantity(int totalPurchaseQuantity) {
@@ -25,9 +26,8 @@ public class PromotionProduct extends Product {
         return promotion.isOverMin(noAppliedQuantity);
     }
 
-    public boolean isValidDate() {
-        isValidDate = promotion.isValidDate();
-        return isValidDate;
+    public boolean isValidDate(LocalDateTime nowDate) {
+        return promotion.isValidDate(nowDate);
     }
 
 

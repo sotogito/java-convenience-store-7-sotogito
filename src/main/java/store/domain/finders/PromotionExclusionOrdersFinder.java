@@ -13,7 +13,6 @@ public class PromotionExclusionOrdersFinder {
                 continue;
             }
             if (orderProduct.isShortageStockPromotionProductThanPurchaseQuantity()) {
-                //더 피요한거같은데.. 위에는 그냥 구매 프로모션 > 재고 ㅡㅍㄹ로모션일때고
                 result.add(orderProduct);
             }
         }
