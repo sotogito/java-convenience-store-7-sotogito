@@ -5,12 +5,10 @@ import store.domain.items.Promotion;
 
 public class PromotionProduct extends Product {
     private final Promotion promotion;
-    //private boolean isValidDate;
 
     public PromotionProduct(String name, int price, int quantity, Promotion promotion) {
         super(name, price, quantity);
         this.promotion = promotion;
-        //this.isValidDate = false;
     }
 
     public int getTotalPromotionProductQuantity(int totalPurchaseQuantity) {

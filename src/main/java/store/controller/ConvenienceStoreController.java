@@ -55,6 +55,7 @@ public class ConvenienceStoreController {
 
     private void buy() {
         tryBuy(DateTimes.now());
+
         processNonApplicablePromotionOrder();
         processAddablePromotionProductOrder();
     }

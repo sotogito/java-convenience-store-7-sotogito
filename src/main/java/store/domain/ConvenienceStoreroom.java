@@ -40,10 +40,6 @@ public class ConvenienceStoreroom implements OrderProductFinder {
         return products.isSufficientPromotionStockByNameAndQuantity(name, afterGetPromotionQuantity);
     }
 
-    public boolean isSufficientStockProductByNameAndQuantity(String name, int productQuantity) {
-        return products.isSufficientStockByNameAndQuantity(name, productQuantity);
-    }
-
 
     @Override
     public String toString() {

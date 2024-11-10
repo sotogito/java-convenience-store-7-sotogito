@@ -96,6 +96,13 @@ public class Order {
         return purchaseQuantity * product.getPrice();
     }
 
+    public int getPromotionOrderAmount() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.getPrice() * purchaseQuantity;
+        }
+        return 0;
+    }
+
 
     public boolean isPromotionProduct() {
         return product instanceof PromotionProduct;
@@ -127,13 +134,6 @@ public class Order {
         productQuantityMap.merge(product, getPromotionProductQuantity(), Integer::sum);
     }
 
-
-    public int getPromotionOrderAmount() {
-        if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.getPrice() * purchaseQuantity;
-        }
-        return 0;
-    }
 
     @Override
     public String toString() {

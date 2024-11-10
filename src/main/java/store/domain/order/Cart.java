@@ -60,10 +60,10 @@ public class Cart {
         return totalPrice;
     }
 
-    public int getGeneralProductPurchaseTotalAmount() {
+    public int getPromotionOrderAmount() {
         int totalAmount = 0;
-        for (Order order : generalOrders) {
-            totalAmount += order.calculateTotalAmount();
+        for (Order order : promotionOrders) {
+            totalAmount += order.getPromotionOrderAmount();
         }
         return totalAmount;
     }
@@ -97,14 +97,6 @@ public class Cart {
     public void clearCart() {
         generalOrders.clear();
         promotionOrders.clear();
-    }
-
-    public int getPromotionOrderAmount() {
-        int totalAmount = 0;
-        for (Order order : promotionOrders) {
-            totalAmount += order.getPromotionOrderAmount();
-        }
-        return totalAmount;
     }
 
 
