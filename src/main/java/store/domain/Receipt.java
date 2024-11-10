@@ -52,11 +52,15 @@ public class Receipt {
 
     private void calculateMembershipDiscountAmount(Boolean applyMembershipDiscount) {
         //프로모션 적용 후 남은 금액에 대해 멤버십 할인을 적용한다.
-        System.out.println(cart.getPromotionAmount());
-        membershipDiscount = (int) ((totalAmountBeforeDiscount - cart.getPromotionAmount()) * 0.3);
-        if (membershipDiscount > 8000) {
-            membershipDiscount = 8000;
+
+        if (applyMembershipDiscount) {
+            membershipDiscount = (int) ((totalAmountBeforeDiscount - cart.getPromotionAmount()) * 0.3);
+            if (membershipDiscount > 8000) {
+                membershipDiscount = 8000;
+            }
+            return;
         }
+        membershipDiscount = 0;
         /*
         if (applyMembershipDiscount) {
             membershipDiscount = membershipCalculator.calculate(cart);
