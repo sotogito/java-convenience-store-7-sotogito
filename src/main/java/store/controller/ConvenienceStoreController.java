@@ -25,6 +25,11 @@ public class ConvenienceStoreController {
     private CartService cartService;
     private OrderService orderService;
 
+    /**
+     * 프로모션 기간 중이라면 프로모션 재고를 우선적으로 차감하며, 프로모션 재고가 부족할 경우에는 일반 재고를 사용한다.
+     * <p>
+     * 나는 만약에 컵라면을 12개 사면 12개 프로모션 적용이 안된다고 뜨고 12개가 일반 상품으로 들어간다. 그게 아니라 프로모션 1로 두고 나머지 11을 일반상품으로,
+     */
     public ConvenienceStoreController() {
         inputView = new InputView();
         outputView = new OutputView();
@@ -38,25 +43,42 @@ public class ConvenienceStoreController {
         promotionService = new PromotionService(storeroom, cart);
         cartService = new CartService(storeroom, cart);
 
-        processBuy(storeroom, receipt);
+        while (true) {
+            try {
+                processBuy(storeroom, receipt);
+                break;
+            } catch (IllegalArgumentException e) {
+                orderService.clearCart();
+                outputView.printError(e.getMessage());
+            }
+        }
+
     }
 
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
             outputView.printOwnedProducts(storeroom);
-            buy(receipt);
+            buy();
+
+            makeReceipt(receipt); //todo 만약 재고 부족시 cart 초기화
             updateConvenienceState();
             inputWhetherPurchase();
         }
     }
 
-    private void buy(Receipt receipt) {
+    private void buy() {
         tryBuy();
         processNonApplicablePromotionOrder();
         processAddablePromotionProductOrder();
 
-        //todo 여기서 재고 확인해야됨
-        makeReceipt(receipt);
+//        tryBuy();
+//        processNonApplicablePromotionOrder();
+//        processAddablePromotionProductOrder();
+//        //todo 재고 수량 확인은 위에가 다 끝나고 해야됨
+//        /**
+//         * orderFrom저장해두고 마지막에 수량 체크하기
+//         */
+//        makeReceipt(receipt);
     }
 
     /**
@@ -66,6 +88,9 @@ public class ConvenienceStoreController {
      */
     private void makeReceipt(Receipt receipt) {
         orderService.updateReceipt(inputWhetherMembershipDiscount());
+
+        orderService.checkOriginalOrderProductQuantity();
+
         outputView.printReceipt(receipt);
     }
 

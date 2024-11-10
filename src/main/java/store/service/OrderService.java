@@ -48,14 +48,24 @@ public class OrderService {
         receipt.clearReceipt();
     }
 
+    public void clearCart() {
+        cart.clearCart();
+        orderForms.clear();
+    }
+
     public void checkOriginalOrderProductQuantity() {
         for (OrderForm orderForm : orderForms) {
             String name = orderForm.name();
             int quantity = orderForm.quantity();
-            if (!convenienceStoreroom.isSufficientStockAfterGetPromotionProduct(name, quantity)) {
-                throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
+
+            System.out.println(name);
+            System.out.println(quantity);
+
+            if (!convenienceStoreroom.isSufficientStockProductByNameAndQuantity(name, quantity)) {
+                throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get() + "original");
             }
         }
+        orderForms.clear();
     }
 
     public void saveOrderForm(List<OrderForm> orderForms) {

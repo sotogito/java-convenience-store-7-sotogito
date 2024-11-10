@@ -1,6 +1,5 @@
 package store;
 
-import java.io.IOException;
 import store.controller.ConvenienceStoreController;
 
 public class Application {
@@ -9,7 +8,7 @@ public class Application {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
         try {
             convenienceStoreController.run();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

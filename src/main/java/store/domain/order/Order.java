@@ -52,6 +52,15 @@ public class Order {
         return false;
     }
 
+    public boolean isOrderPromotionOutIfStock() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            if (promotionProduct.isOutOfStock()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private int getPromotionProductQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
@@ -130,6 +139,6 @@ public class Order {
         builder.append("\n");
         return builder.toString();
     }
-    
+
 }
 

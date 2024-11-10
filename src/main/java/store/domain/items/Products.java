@@ -18,7 +18,7 @@ public class Products {
         boolean isAllOutOfStock = isAllOutOfStock(sameNameProduct);
         int stock = calculateAllSameNameProductStock(sameNameProduct);
         Product resultProduct = getResultProduct(sameNameProduct);
-        validateProductState(quantity, sameNameProduct, isAllOutOfStock, stock);
+        validateProductState(quantity, sameNameProduct, stock);
 
         return resultProduct;
     }
@@ -63,7 +63,11 @@ public class Products {
     }
 
     // fixme 찾는 상품이 없다는것만 여기서 던져야함
-    private void validateProductState(int quantity, List<Product> sameNameProduct, boolean isAllOutOfStock, int stock) {
+    private void validateProductState(int quantity, List<Product> sameNameProduct, int stock) {
+        if (sameNameProduct.isEmpty()) {
+            throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
+        }
+        /*
         if (sameNameProduct.isEmpty()) {
             if (isAllOutOfStock) {
                 throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
@@ -72,6 +76,8 @@ public class Products {
         } else if (stock == 0 || stock < quantity) {
             throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
+
+         */
     }
 
 
@@ -105,7 +111,7 @@ public class Products {
         throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
     }
 
-    public boolean isSufficientStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
+    public boolean isSufficientPromotionStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
         int productStock = 0;
         for (Product product : getSameNameProducts(name)) {
             if (product instanceof PromotionProduct promotionProduct) {
@@ -113,6 +119,16 @@ public class Products {
             }
         }
         return productStock >= afterGetPromotionQuantity;
+    }
+
+    public boolean isSufficientStockByNameAndQuantity(String name, int orderQuantity) {
+        int productStock = 0;
+        for (Product product : getSameNameProducts(name)) {
+            productStock += product.getQuantity();
+        }
+        System.out.println("전체 재고" + productStock);
+        System.out.println("구매 재고" + orderQuantity);
+        return productStock >= orderQuantity;
     }
 
 

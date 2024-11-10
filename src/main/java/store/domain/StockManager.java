@@ -1,9 +1,11 @@
 package store.domain;
 
+import java.util.List;
 import java.util.Map;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
+import store.enums.messages.ErrorMessage;
 
 public class StockManager {
 
@@ -11,13 +13,21 @@ public class StockManager {
         System.out.println("dlrj dksgo?");
         for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
             Product product = entry.getKey();
-            Integer quantity = entry.getValue(); //fixme 여기서 재고 확인을 해야됨
+            Integer quantity = entry.getValue();
             validateStock(products, product, quantity);
             precessDecrease(products, product, quantity);
         }
     }
 
     private void validateStock(Products products, Product orderProduct, int orderQuantity) {
+        int totalStick = 0;
+        List<Product> sameNameProduct = products.getSameNameProducts(orderProduct.getName());
+        for (Product product : sameNameProduct) {
+            totalStick += product.getQuantity();
+        }
+        if (totalStick < orderQuantity) {
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get() + "stockmanager");
+        }
     }
 
     private void precessDecrease(Products products, Product product, Integer quantity) {
