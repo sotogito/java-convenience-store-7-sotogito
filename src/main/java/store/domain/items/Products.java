@@ -18,7 +18,7 @@ public class Products {
         boolean isAllOutOfStock = isAllOutOfStock(sameNameProduct);
         int stock = calculateAllSameNameProductStock(sameNameProduct);
         Product resultProduct = getResultProduct(sameNameProduct);
-        validateProductState(quantity, sameNameProduct, stock);
+        validateProductState(quantity, sameNameProduct, isAllOutOfStock, stock);
 
         return resultProduct;
     }
@@ -63,11 +63,11 @@ public class Products {
     }
 
     // fixme 찾는 상품이 없다는것만 여기서 던져야함
-    private void validateProductState(int quantity, List<Product> sameNameProduct, int stock) {
-        if (sameNameProduct.isEmpty()) {
-            throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
-        }
-        /*
+    private void validateProductState(int quantity, List<Product> sameNameProduct, Boolean isAllOutOfStock, int stock) {
+//        if (sameNameProduct.isEmpty()) {
+//            throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
+//        }
+
         if (sameNameProduct.isEmpty()) {
             if (isAllOutOfStock) {
                 throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
@@ -77,7 +77,7 @@ public class Products {
             throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
 
-         */
+
     }
 
 
