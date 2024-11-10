@@ -141,13 +141,6 @@ public class ConvenienceStoreController {
 
 
     private void tryBuy() {
-        try {
-            cartService.buy(inputToOrderForm(), DateTimes.now());
-            return;
-        } catch (IllegalArgumentException e) {
-            outputView.printError(e.getMessage());
-        }
-        /*
         while (true) {
             try {
                 cartService.buy(inputToOrderForm(), DateTimes.now());
@@ -156,8 +149,6 @@ public class ConvenienceStoreController {
                 outputView.printError(e.getMessage());
             }
         }
-
-         */
     }
 
     private List<OrderForm> inputToOrderForm() {
