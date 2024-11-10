@@ -1,6 +1,5 @@
 package store.service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
@@ -20,33 +19,33 @@ public class CartService {
         this.cart = cart;
     }
 
-    public void buy(List<OrderForm> orders, LocalDateTime nowDate) {
-        List<Order> orderResult = changeToOrders(orders, nowDate);
+    public void buy(List<OrderForm> orders) {
+        List<Order> orderResult = changeToOrders(orders);
         for (Order order : orderResult) {
             cart.addProduct(order);
         }
     }
 
-    private List<Order> changeToOrders(List<OrderForm> orders, LocalDateTime nowDate) {
+    private List<Order> changeToOrders(List<OrderForm> orders) {
         List<Order> orderList = new ArrayList<>();
         for (OrderForm order : orders) {
             int quantity = order.quantity();
-            Product product = getProduct(nowDate, order, quantity);
+            Product product = getProduct(order, quantity);
             addOrderList(orderList, product, quantity);
         }
         return orderList;
     }
 
-    private Product getProduct(LocalDateTime nowDate, OrderForm order, int quantity) {
+    private Product getProduct(OrderForm order, int quantity) {
         Product product = convenienceStoreroom.findProductByNameAndQuantity(order.name(), quantity);
         if (product instanceof PromotionProduct promotionProduct) {
-            if (!promotionProduct.isValidDate(nowDate)) {
+            if (!promotionProduct.isValidDate()) {
                 product = convenienceStoreroom.findGeneralProductByNameAndQuantity(order.name(), quantity);
             }
         }
         return product;
     }
-    
+
     private void addOrderList(List<Order> orderList, Product product, int quantity) {
         if (alreadyAddProduct(orderList, product, quantity)) {
             return;

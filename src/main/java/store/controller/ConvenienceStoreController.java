@@ -1,6 +1,5 @@
 package store.controller;
 
-import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.util.List;
 import store.domain.ConvenienceStoreroom;
@@ -20,16 +19,16 @@ import store.view.InputView;
 import store.view.OutputView;
 
 public class ConvenienceStoreController {
-    //private final InputView inputView;
-    //private final OutputView outputView;
+    private final InputView inputView;
+    private final OutputView outputView;
     private PromotionService promotionService;
     private CartService cartService;
     private OrderService orderService;
-//
-//    public ConvenienceStoreController() {
-//        inputView = new InputView();
-//        outputView = new OutputView();
-//    }
+
+    public ConvenienceStoreController() {
+        inputView = new InputView();
+        outputView = new OutputView();
+    }
 
     public void run() throws IOException {
         ConvenienceStoreroom storeroom = loadProductStock();
@@ -44,7 +43,7 @@ public class ConvenienceStoreController {
 
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
-            OutputView.printOwnedProducts(storeroom);
+            outputView.printOwnedProducts(storeroom);
             buy(receipt);
             updateConvenienceState();
             inputWhetherPurchase();
@@ -61,7 +60,7 @@ public class ConvenienceStoreController {
 
     private void makeReceipt(Receipt receipt) {
         orderService.updateReceipt(inputWhetherMembershipDiscount());
-        OutputView.printReceipt(receipt);
+        outputView.printReceipt(receipt);
     }
 
     private void updateConvenienceState() {
@@ -83,10 +82,10 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherBuyNoPromotion(String productName, int shortageQuantity) {
         while (true) {
             try {
-                return AnswerWhether.find(InputView.inputWhether(
+                return AnswerWhether.find(inputView.inputWhether(
                         String.format(ServiceMessage.NO_PROMOTION_DISCOUNT.get(), productName, shortageQuantity)));
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -105,10 +104,10 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherAddPromotionProduct(String productName, int needAddQuantity) {
         while (true) {
             try {
-                return AnswerWhether.find(InputView.inputWhether(
+                return AnswerWhether.find(inputView.inputWhether(
                         String.format(ServiceMessage.ADD_PROMOTION_PRODUCT.get(), productName, needAddQuantity)));
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -117,10 +116,10 @@ public class ConvenienceStoreController {
     private AnswerWhether inputWhetherMembershipDiscount() {
         while (true) {
             try {
-                String answer = InputView.inputWhether(ServiceMessage.APPLY_MEMBERSHIP_DISCOUNT.get());
+                String answer = inputView.inputWhether(ServiceMessage.APPLY_MEMBERSHIP_DISCOUNT.get());
                 return AnswerWhether.find(answer);
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -130,11 +129,11 @@ public class ConvenienceStoreController {
     private void inputWhetherPurchase() {
         while (true) {
             try {
-                String answer = InputView.inputWhether(ServiceMessage.KEEP_PURCHASE.get());
+                String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.get());
                 orderService.handleKeepPurchase(AnswerWhether.find(answer));
                 return;
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
@@ -143,16 +142,17 @@ public class ConvenienceStoreController {
     private void tryBuy() {
         while (true) {
             try {
-                cartService.buy(inputToOrderForm(), DateTimes.now());
+                //fixme 무한루프
+                cartService.buy(inputToOrderForm());
                 return;
             } catch (IllegalArgumentException e) {
-                OutputView.printError(e.getMessage());
+                outputView.printError(e.getMessage());
             }
         }
     }
 
     private List<OrderForm> inputToOrderForm() {
-        return OrderParser.parse(InputView.inputOrderProducts());
+        return OrderParser.parse(inputView.inputOrderProducts());
     }
 
 

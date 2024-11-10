@@ -1,5 +1,6 @@
 package store.domain.items;
 
+import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.LocalDateTime;
 
 public class Promotion {
@@ -18,10 +19,10 @@ public class Promotion {
         this.endDate = endDate;
     }
 
-    public boolean isValidDate(LocalDateTime nowTime) {
-        if (endDate.isAfter(nowTime) && startDate.isBefore(nowTime)) {
+    public boolean isValidDate() {
+        if (endDate.isAfter(DateTimes.now()) && startDate.isBefore(DateTimes.now())) {
             return true;
-        } else if (startDate.equals(nowTime) || endDate.equals(nowTime)) {
+        } else if (startDate.equals(DateTimes.now()) || endDate.equals(DateTimes.now())) {
             return true;
         }
         return false;
