@@ -24,6 +24,7 @@ public class PromotionService {
 
     //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
     public List<Order> getNonApplicablePromotionOrders() {
+        System.out.println(cart);
         return cart.getNonApplicablePromotionOrders(promotionExclusionOrdersFinder);
     }
 
@@ -31,9 +32,11 @@ public class PromotionService {
         if (AnswerWhether.isYes(answer)) {
             promotionOrder.deleteQuantity(shortageQuantity);
             cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
+            System.out.println(cart);
             return;
         }
         promotionOrder.deleteQuantity(shortageQuantity);
+        System.out.println(cart);
     }
 
 

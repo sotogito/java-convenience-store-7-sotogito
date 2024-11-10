@@ -18,12 +18,12 @@ public class Products {
         boolean isAllOutOfStock = isAllOutOfStock(sameNameProduct);
         int stock = calculateAllSameNameProductStock(sameNameProduct);
         Product resultProduct = getResultProduct(sameNameProduct);
-        validateProductState(quantity, sameNameProduct, isAllOutOfStock, stock);
+        //validateProductState(quantity, sameNameProduct, isAllOutOfStock, stock);
 
         return resultProduct;
     }
 
-    private List<Product> getSameNameProducts(String name) {
+    public List<Product> getSameNameProducts(String name) {
         List<Product> result = new ArrayList<>();
         for (Product product : products) {
             if (product.isSameName(name)) {
@@ -33,7 +33,7 @@ public class Products {
         return result;
     }
 
-    private boolean isAllOutOfStock(List<Product> sameNameProduct) {
+    public boolean isAllOutOfStock(List<Product> sameNameProduct) {
         List<Product> outOfStockProducts = new ArrayList<>();
         for (Product product : sameNameProduct) {
             if (product.isOutOfStock()) {
@@ -44,7 +44,7 @@ public class Products {
         return !outOfStockProducts.isEmpty();
     }
 
-    private int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
+    public int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
         int stock = 0;
         for (Product product : sameNameProduct) {
             stock += product.getQuantity();
@@ -62,6 +62,7 @@ public class Products {
         return null;
     }
 
+    // fixme 찾는 상품이 없다는것만 여기서 던져야함
     private void validateProductState(int quantity, List<Product> sameNameProduct, boolean isAllOutOfStock, int stock) {
         if (sameNameProduct.isEmpty()) {
             if (isAllOutOfStock) {

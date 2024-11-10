@@ -21,6 +21,7 @@ public class CartService {
 
     public void buy(List<OrderForm> orders) {
         List<Order> orderResult = changeToOrders(orders);
+        //이걸 나중에?
         for (Order order : orderResult) {
             cart.addProduct(order);
         }
@@ -30,7 +31,7 @@ public class CartService {
         List<Order> orderList = new ArrayList<>();
         for (OrderForm order : orders) {
             int quantity = order.quantity();
-            Product product = getProduct(order, quantity);
+            Product product = getProduct(order, quantity); //fixme 여기서 재고 오류
             addOrderList(orderList, product, quantity);
         }
         return orderList;
