@@ -6,7 +6,7 @@ import store.domain.Receipt;
 public class OutputView {
 
     public void printError(String error) {
-        System.out.print("[ERROR] " + error);
+        System.out.println("[ERROR] " + error);
     }
 
     public void printOwnedProducts(ConvenienceStoreroom convenienceStoreroom) {
