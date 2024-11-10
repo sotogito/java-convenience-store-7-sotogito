@@ -99,6 +99,14 @@ public class Cart {
         promotionOrders.clear();
     }
 
+    public int getPromotionAmount() {
+        int totalAmount = 0;
+        for (Order order : promotionOrders) {
+            totalAmount += order.getPromotionOrderAmount();
+        }
+        return totalAmount;
+    }
+
 
     @Override
     public String toString() {

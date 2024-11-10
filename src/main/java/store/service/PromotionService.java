@@ -33,13 +33,13 @@ public class PromotionService {
             promotionOrder.deleteQuantity(shortageQuantity);
             cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
 
+            System.out.println(cart);
             /**
              * Y를하면 프로모션 상품에 일단 넣기 ㄴ넣는다.
              */
             return;
         }
         promotionOrder.deleteQuantity(shortageQuantity);
-        System.out.println(cart);
     }
 
 

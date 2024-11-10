@@ -128,6 +128,13 @@ public class Order {
     }
 
 
+    public int getPromotionOrderAmount() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            return promotionProduct.getPrice() * purchaseQuantity;
+        }
+        return 0;
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
