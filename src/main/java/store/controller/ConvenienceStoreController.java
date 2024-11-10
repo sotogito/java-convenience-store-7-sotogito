@@ -30,16 +30,6 @@ public class ConvenienceStoreController {
         outputView = new OutputView();
     }
 
-    /**
-     * 상품이 부족하다는 예외는 나중에 받아야됨
-     *
-     * @throws IOException
-     */
-
-
-    /**
-     * 1. orderForm 리스트를 넘김. 2. 주문 받고 -> 여부 물어보고 -> 멤버십 받고 그거를 로직을 한번에 처리해야됨. 2. 여부 물어봄 - OrderList로 처리해야됨
-     */
     public void run() throws IOException {
         ConvenienceStoreroom storeroom = loadProductStock();
         Cart cart = new Cart();
@@ -48,15 +38,7 @@ public class ConvenienceStoreController {
         promotionService = new PromotionService(storeroom, cart);
         cartService = new CartService(storeroom, cart);
 
-        while (true) {
-            try {
-                processBuy(storeroom, receipt);
-                return;
-            } catch (IllegalArgumentException e) {
-                outputView.printError(e.getMessage());
-            }
-        }
-
+        processBuy(storeroom, receipt);
     }
 
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {

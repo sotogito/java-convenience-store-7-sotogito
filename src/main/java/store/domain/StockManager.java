@@ -1,6 +1,5 @@
 package store.domain;
 
-import java.util.List;
 import java.util.Map;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
@@ -19,15 +18,6 @@ public class StockManager {
     }
 
     private void validateStock(Products products, Product orderProduct, int orderQuantity) {
-        List<Product> sameNameProducts = products.getSameNameProducts(orderProduct.getName());
-        boolean isAllOutOfStock = products.isAllOutOfStock(sameNameProducts);
-        int totalStock = products.calculateAllSameNameProductStock(sameNameProducts);
-
-        System.out.println(totalStock + "전체 재고");
-        if (isAllOutOfStock || totalStock < orderQuantity) {
-            throw new IllegalArgumentException("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요.");
-        }
-
     }
 
     private void precessDecrease(Products products, Product product, Integer quantity) {
