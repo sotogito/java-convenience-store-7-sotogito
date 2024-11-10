@@ -2,9 +2,9 @@ package store.domain.items;
 
 import java.util.ArrayList;
 import java.util.List;
+import store.constants.messages.ErrorMessage;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
-import store.constants.messages.ErrorMessage;
 
 public class Products {
     private final List<Product> products;
@@ -33,7 +33,7 @@ public class Products {
         return result;
     }
 
-    public boolean isAllOutOfStock(List<Product> sameNameProduct) {
+    private boolean isAllOutOfStock(List<Product> sameNameProduct) {
         List<Product> outOfStockProducts = new ArrayList<>();
         for (Product product : sameNameProduct) {
             if (product.isOutOfStock()) {
@@ -44,7 +44,7 @@ public class Products {
         return !outOfStockProducts.isEmpty();
     }
 
-    public int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
+    private int calculateAllSameNameProductStock(List<Product> sameNameProduct) {
         int stock = 0;
         for (Product product : sameNameProduct) {
             stock += product.getQuantity();
@@ -114,15 +114,7 @@ public class Products {
         }
         return productStock >= afterGetPromotionQuantity;
     }
-
-    public boolean isSufficientStockByNameAndQuantity(String name, int orderQuantity) {
-        int productStock = 0;
-        for (Product product : getSameNameProducts(name)) {
-            productStock += product.getQuantity();
-        }
-        return productStock >= orderQuantity;
-    }
-
+    
 
     @Override
     public String toString() {
