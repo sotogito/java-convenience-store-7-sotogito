@@ -66,22 +66,12 @@ public class Products {
     private void validateProductState(int quantity, List<Product> sameNameProduct, boolean isAllOutOfStock, int stock) {
         if (sameNameProduct.isEmpty()) {
             if (isAllOutOfStock) {
-                //throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
-                return;
-            }
-            throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
-        }
-        /*
-        if (sameNameProduct.isEmpty()) {
-            if (isAllOutOfStock) {
                 throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
             }
             throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
         } else if (stock == 0 || stock < quantity) {
             throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
-
-         */
     }
 
 
