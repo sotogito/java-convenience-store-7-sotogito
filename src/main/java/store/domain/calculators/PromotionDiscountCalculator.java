@@ -13,9 +13,12 @@ public class PromotionDiscountCalculator implements DiscountCalculator {
     public int calculate(Cart cart) {
         LocalDateTime nowDate = DateTimes.now();
         int totalPromotions = 0;
+        return getTotalPromotions(cart, nowDate, totalPromotions);
+    }
+
+    private int getTotalPromotions(Cart cart, LocalDateTime nowDate, int totalPromotions) {
         for (Map.Entry<Product, Integer> entry : cart.getOrderPromotionProducts().entrySet()) {
-            PromotionProduct product = (PromotionProduct) entry.getKey();
-            if (product.isValidDate(nowDate)) {
+            if (((PromotionProduct) entry.getKey()).isValidDate(nowDate)) {
                 int productPrice = entry.getKey().getPrice();
                 int count = entry.getValue();
                 totalPromotions += calculateAmountOfOne(productPrice, count);
@@ -23,7 +26,7 @@ public class PromotionDiscountCalculator implements DiscountCalculator {
         }
         return totalPromotions;
     }
-
+    
     private int calculateAmountOfOne(int productPrice, int count) {
         return productPrice * count;
     }

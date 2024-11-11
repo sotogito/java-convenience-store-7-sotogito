@@ -114,7 +114,7 @@ public class Products {
         }
         return productStock >= afterGetPromotionQuantity;
     }
-    
+
 
     @Override
     public String toString() {
