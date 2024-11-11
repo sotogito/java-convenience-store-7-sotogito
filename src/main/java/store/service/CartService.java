@@ -32,7 +32,7 @@ public class CartService {
         List<Order> orderList = new ArrayList<>();
         for (OrderForm order : orders) {
             int quantity = order.quantity();
-            Product product = getProduct(order, quantity, nowDate); //fixme 여기서 재고 오류
+            Product product = getProduct(order, quantity, nowDate);
             addOrderList(orderList, product, quantity);
         }
         return orderList;

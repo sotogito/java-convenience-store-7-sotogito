@@ -46,7 +46,6 @@ public class ConvenienceStoreController {
         processBuy(storeroom, receipt);
     }
 
-    //프로모션만 구매했을경우 맴버십 저굥ㅇ 여부?
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
             outputView.printOwnedProducts(storeroom);

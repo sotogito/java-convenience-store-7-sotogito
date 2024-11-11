@@ -154,6 +154,5 @@ public class Order {
         productQuantityMap.merge(product, getPromotionProductQuantity(), Integer::sum);
     }
 
-
 }
 
