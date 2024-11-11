@@ -39,6 +39,24 @@ public class Cart {
         generalOrders.add(promotionOrder.createOrder(shortageQuantity));
     }
 
+    public void changePromotionToGeneralAsNonAddablePromotion(List<Order> addablePromotionOrders) {
+        for (Order promotionOrder : promotionOrders) {
+            if (!addablePromotionOrders.contains(promotionOrder)) {
+                if (!promotionOrder.isSatisfiedGetPromotion()) {
+                    int nonAppliedQuantity = promotionOrder.getNonAppliedPromotionQuantity();
+                    promotionOrder.deleteQuantity(nonAppliedQuantity);
+                    changePromotionToGeneralAsShortage(promotionOrder, nonAppliedQuantity);
+                }
+            }
+        }
+    }
+
+    public void changePromotionToGeneralNoAddNeedQuantity(Order promotionOrder) {
+        int generalOrderQuantity = promotionOrder.getNonAppliedPromotionQuantity();
+        promotionOrder.deleteQuantity(generalOrderQuantity);
+        changePromotionToGeneralAsShortage(promotionOrder, generalOrderQuantity);
+    }
+
     public void decreasePurchasedProductQuantity(ConvenienceStoreroom storeroom) {
         storeroom.decreaseStock(getAllOrderProductQuantity());
     }

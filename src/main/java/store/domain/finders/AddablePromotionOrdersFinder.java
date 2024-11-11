@@ -17,8 +17,13 @@ public class AddablePromotionOrdersFinder {
                 result.add(orderProduct);
                 continue;
             }
-            //일반 상푸믕로 ㅂ녁
-            changePromotionToGeneral(cart, orderProduct, nonAppliedQuantity);
+            //if (!orderProduct.isSatisfiedGetPromotion()) {
+            //    System.out.println("akswhrgkwl dkdkamd");
+            //     changePromotionToGeneral(cart, orderProduct, nonAppliedQuantity);
+
+            // }
+            //적용이 된경우는 안됨여기 넘어오는건 프로모션 수량을 잘 지켰을대도 해당됨
+            //changePromotionToGeneral(cart, orderProduct, nonAppliedQuantity);
         }
         return result;
     }
@@ -26,7 +31,6 @@ public class AddablePromotionOrdersFinder {
     private void changePromotionToGeneral(Cart cart, Order promotionOrder, int nonAppliedQuantity) {
         promotionOrder.deleteQuantity(nonAppliedQuantity);
         cart.changePromotionToGeneralAsShortage(promotionOrder, nonAppliedQuantity);
-
     }
 
     private boolean canAddPromotionProduct(ConvenienceStoreroom storeroom, Order orderProduct, int nonAppliedQuantity) {

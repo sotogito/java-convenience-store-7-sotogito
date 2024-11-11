@@ -27,6 +27,7 @@ public class PromotionService {
         return cart.getNonApplicablePromotionOrders(promotionExclusionOrdersFinder);
     }
 
+
     public void handleNonApplicablePromotionOrder(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.isYes(answer)) {
             promotionOrder.deleteQuantity(shortageQuantity);
@@ -39,19 +40,26 @@ public class PromotionService {
 
     //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
     public List<Order> getAddablePromotionProductOrders() {
-        return cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder, convenienceStoreroom);
+        List<Order> AddablePromotion = cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder,
+                convenienceStoreroom);
+        changePromotionToGeneral(AddablePromotion);
+        return AddablePromotion;
+        //return cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder, convenienceStoreroom);
     }
-    //total - 적용 가능 = 남는 수량
-    //남는 수량이 최소에 미치면 물어보기, 아니면 일반상품으로
 
-    //
-    //promotionOrder.deleteQuantity(shortageQuantity);
-    //            cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
+    private void changePromotionToGeneral(List<Order> addablePromotionOrders) {
+        cart.changePromotionToGeneralAsNonAddablePromotion(addablePromotionOrders);
+    }
 
     public void handleCanAddPromotionProductOrder(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.isYes(answer)) {
             promotionOrder.updatePromotionProductQuantity(needAddQuantity);
         }
+        //더 안받으면 일반으로??
+        cart.changePromotionToGeneralNoAddNeedQuantity(promotionOrder);
+        /**
+         *
+         */
     }
 
 }

@@ -59,7 +59,7 @@ public class Order {
             } else if (isOverPromotionMinBuyQuantity(purchaseQuantity - promotion) && quantityDifference >= 0) {
                 return true;
             }
-            
+
         }
         return false;
     }
@@ -68,6 +68,14 @@ public class Order {
     public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.isOverPromotionMinBuyQuantity(noAppliedQuantity);
+        }
+        return false;
+    }
+
+    public boolean isSatisfiedGetPromotion() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            int promotion = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
+            return purchaseQuantity == promotion;
         }
         return false;
     }
