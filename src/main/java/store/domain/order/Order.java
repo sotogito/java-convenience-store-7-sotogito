@@ -38,12 +38,33 @@ public class Order {
     }
 
 
+    /*
     public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             return promotionProduct.calculateQuantityDeduction(purchaseQuantity) >= 0; //note 부족한지만 판단하고있음
         }
         return false;
     }
+
+     */
+
+
+    public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
+        if (product instanceof PromotionProduct promotionProduct) {
+            int quantityDifference = promotionProduct.calculateQuantityDeduction(purchaseQuantity);
+            int promotion = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
+
+            if (quantityDifference > 0) {
+                return true;
+            } else if (isOverPromotionMinBuyQuantity(purchaseQuantity - promotion) && quantityDifference >= 0) {
+                return true;
+            }
+
+
+        }
+        return false;
+    }
+
 
     public boolean isOverPromotionMinBuyQuantity(int noAppliedQuantity) {
         if (product instanceof PromotionProduct promotionProduct) {
