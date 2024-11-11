@@ -21,17 +21,15 @@ public class PromotionService {
         addablePromotionOrdersFinder = new AddablePromotionOrdersFinder();
     }
 
-
+    
     //note @return 현재 {상품명} {수량}개는 프로모션 할인이 적용되지 않습니다. 그래도 구매하시겠습니까? (Y/N)
     public List<Order> getNonApplicablePromotionOrders() {
         return cart.getNonApplicablePromotionOrders(promotionExclusionOrdersFinder);
     }
 
-
     public void handleNonApplicablePromotionOrder(AnswerWhether answer, Order promotionOrder, int shortageQuantity) {
         if (AnswerWhether.isYes(answer)) {
-            promotionOrder.deleteQuantity(shortageQuantity);
-            cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
+            cart.changePromotionToGeneralAsQuantity(promotionOrder, shortageQuantity);
             return;
         }
         promotionOrder.deleteQuantity(shortageQuantity);
@@ -40,26 +38,19 @@ public class PromotionService {
 
     //note 현재 {상품명}은(는) 1개를 무료로 더 받을 수 있습니다. 추가하시겠습니까? (Y/N)
     public List<Order> getAddablePromotionProductOrders() {
-        List<Order> AddablePromotion = cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder,
-                convenienceStoreroom);
-        changePromotionToGeneral(AddablePromotion);
+        List<Order> AddablePromotion =
+                cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder, convenienceStoreroom);
+        cart.changePromotionToGeneralAsNonAddablePromotion(AddablePromotion);
         return AddablePromotion;
-        //return cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder, convenienceStoreroom);
-    }
-
-    private void changePromotionToGeneral(List<Order> addablePromotionOrders) {
-        cart.changePromotionToGeneralAsNonAddablePromotion(addablePromotionOrders);
     }
 
     public void handleCanAddPromotionProductOrder(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.isYes(answer)) {
             promotionOrder.updatePromotionProductQuantity(needAddQuantity);
+            return;
         }
-        //더 안받으면 일반으로??
-        cart.changePromotionToGeneralNoAddNeedQuantity(promotionOrder);
-        /**
-         *
-         */
+        int generalOrderQuantity = promotionOrder.getNonAppliedPromotionQuantity();
+        cart.changePromotionToGeneralAsQuantity(promotionOrder, generalOrderQuantity);
     }
 
 }

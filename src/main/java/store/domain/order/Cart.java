@@ -32,33 +32,36 @@ public class Cart {
 
     public List<Order> getAddablePromotionProductOrders(AddablePromotionOrdersFinder finder,
                                                         ConvenienceStoreroom storeroom) {
-        return finder.find(this, promotionOrders, storeroom);
+        return finder.find(promotionOrders, storeroom);
     }
 
-    public void changePromotionToGeneralAsShortage(Order promotionOrder, int shortageQuantity) {
-        generalOrders.add(promotionOrder.createOrder(shortageQuantity));
-    }
 
     public void changePromotionToGeneralAsNonAddablePromotion(List<Order> addablePromotionOrders) {
         for (Order promotionOrder : promotionOrders) {
-            if (!addablePromotionOrders.contains(promotionOrder)) {
-                if (!promotionOrder.isSatisfiedGetPromotion()) {
-                    int nonAppliedQuantity = promotionOrder.getNonAppliedPromotionQuantity();
-                    promotionOrder.deleteQuantity(nonAppliedQuantity);
-                    changePromotionToGeneralAsShortage(promotionOrder, nonAppliedQuantity);
-                }
+            checkChangeable(addablePromotionOrders, promotionOrder);
+        }
+    }
+
+    private void checkChangeable(List<Order> addablePromotionOrders, Order promotionOrder) {
+        if (!addablePromotionOrders.contains(promotionOrder)) {
+            if (!promotionOrder.isSatisfiedGetPromotion()) {
+                int nonAppliedQuantity = promotionOrder.getNonAppliedPromotionQuantity();
+                changePromotionToGeneralAsQuantity(promotionOrder, nonAppliedQuantity);
             }
         }
     }
 
-    public void changePromotionToGeneralNoAddNeedQuantity(Order promotionOrder) {
-        int generalOrderQuantity = promotionOrder.getNonAppliedPromotionQuantity();
-        promotionOrder.deleteQuantity(generalOrderQuantity);
-        changePromotionToGeneralAsShortage(promotionOrder, generalOrderQuantity);
+    public void changePromotionToGeneralAsQuantity(Order promotionOrder, int quantity) {
+        promotionOrder.deleteQuantity(quantity);
+        generalOrders.add(promotionOrder.createOrder(quantity));
     }
 
     public void decreasePurchasedProductQuantity(ConvenienceStoreroom storeroom) {
         storeroom.decreaseStock(getAllOrderProductQuantity());
+    }
+
+    public boolean isAllGeneralOrder() {
+        return generalOrders.isEmpty() && !promotionOrders.isEmpty();
     }
 
 

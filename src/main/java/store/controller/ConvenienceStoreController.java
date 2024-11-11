@@ -31,14 +31,7 @@ public class ConvenienceStoreController {
         inputView = new InputView();
         outputView = new OutputView();
     }
-
-    /**
-     * 만약 콜랄ㄹ 7개 가져오면 프로모션 할인재품은 6, 일반으로 1개? 콜라 프로모션 상품이 10개일때 3+3+3+1 1개는 기본이 못미치기 때문에 자동으로 일반상품 계산 콜라 7개 주분시 3+3+1 기본에
-     * 못미치기때문에 자동으로 일반상품
-     *
-     * @throws IOException
-     */
-
+    
     public void run() throws IOException {
         ConvenienceStoreroom storeroom = loadProductStock();
         Cart cart = new Cart();

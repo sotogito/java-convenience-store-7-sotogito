@@ -1,9 +1,9 @@
 package store.service;
 
+import store.constants.AnswerWhether;
 import store.domain.ConvenienceStoreroom;
 import store.domain.Receipt;
 import store.domain.order.Cart;
-import store.constants.AnswerWhether;
 
 public class OrderService {
     private final ConvenienceStoreroom convenienceStoreroom;
@@ -35,6 +35,10 @@ public class OrderService {
 
     public void decreaseStockInConvenienceStore() {
         cart.decreasePurchasedProductQuantity(convenienceStoreroom);
+    }
+
+    public boolean isAllGeneralOrder() {
+        return cart.isAllGeneralOrder();
     }
 
     public void clearPurchaseHistory() {
