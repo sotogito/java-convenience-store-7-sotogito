@@ -40,7 +40,7 @@ public class Order {
 
     public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.calculateQuantityDeduction(purchaseQuantity) > 0;
+            return promotionProduct.calculateQuantityDeduction(purchaseQuantity) >= 0; //note 부족한지만 판단하고있음
         }
         return false;
     }

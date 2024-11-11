@@ -4,6 +4,8 @@ import camp.nextstep.edu.missionutils.DateTimes;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import store.constants.AnswerWhether;
+import store.constants.messages.ServiceMessage;
 import store.domain.ConvenienceStoreroom;
 import store.domain.OrderParser;
 import store.domain.Receipt;
@@ -12,8 +14,6 @@ import store.domain.order.Order;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.domain.record.OrderForm;
-import store.constants.AnswerWhether;
-import store.constants.messages.ServiceMessage;
 import store.service.CartService;
 import store.service.OrderService;
 import store.service.PromotionService;
@@ -31,6 +31,13 @@ public class ConvenienceStoreController {
         inputView = new InputView();
         outputView = new OutputView();
     }
+
+    /**
+     * 만약 콜라가 8개이면 6개는 프로모션이고 2개는 아니니까 정가 안내를 ㄸ,ㅣ워야하나/? 프로모션으로 얻을 수 있는 개수를 받아오고 남은 개수가 프모션의 최소를 충당하는지 확인하고 프로모션을 얻은 수량이
+     * 재고에 충당하는지 확인하고 아닐시에
+     *
+     * @throws IOException
+     */
 
     public void run() throws IOException {
         ConvenienceStoreroom storeroom = loadProductStock();

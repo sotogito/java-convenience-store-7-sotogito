@@ -18,7 +18,7 @@ public class Product {
         if (promotionCorrectQuantity >= quantity) {
             return promotionCorrectQuantity - quantity;
         }
-        return 0;
+        return -1;
     }
 
     public void decreaseQuantity(int purchasedQuantity) {
