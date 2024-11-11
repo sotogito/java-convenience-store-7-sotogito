@@ -6,7 +6,7 @@ public enum ReceiptPrintout {
     PURCHASE_PRODUCT_FORMAT("%s\t\t%,d\t%,d\n"),
 
     PROMOTION_PRODUCT("증\t정"),
-    PROMOTION_PRODUCT_FORMAT("%s\t\t%d\n"),
+    PROMOTION_PRODUCT_FORMAT("%s\t\t%,d\n"),
 
     TOTAL_PURCHASE_AMOUNT_FORMAT("총구매액\t\t%,d\t%,d\n"),
     PROMOTION_DISCOUNT_AMOUNT_FORMAT("행사할인\t\t\t-%,d\n"),
