@@ -46,6 +46,7 @@ public class ConvenienceStoreController {
         processBuy(storeroom, receipt);
     }
 
+    //프로모션만 구매했을경우 맴버십 저굥ㅇ 여부?
     private void processBuy(ConvenienceStoreroom storeroom, Receipt receipt) {
         while (orderService.isPurchase()) {
             outputView.printOwnedProducts(storeroom);
@@ -64,7 +65,7 @@ public class ConvenienceStoreController {
     }
 
     private void makeReceipt(Receipt receipt) {
-        orderService.updateReceipt(inputWhetherMembershipDiscount());
+        orderService.updateReceipt(inputWhetherMembershipDiscount()); //만약 프로모션밖에없으며 안물어보나?
         outputView.printReceipt(receipt);
     }
 
