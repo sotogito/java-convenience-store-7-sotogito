@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
+import store.constants.OrderInputForm;
 import store.domain.policies.Promotion;
 import store.domain.reader.constants.PromotionReaderValue;
 
 public class PromotionReader {
-    private final static String VALUE_DELIMITER = ",";
     private final static String DATE_FORMAT_PATTERN = "yyyy-MM-dd";
 
     public List<Promotion> read(String path) throws IOException {
@@ -24,18 +24,18 @@ public class PromotionReader {
     private List<Promotion> addPromotions(BufferedReader br) throws IOException {
         try (br) {
             return br.lines()
-                    .skip(PromotionReaderValue.SKIP_LINE.getValue())
-                    .map(line -> createProduct(line.split(VALUE_DELIMITER)))
+                    .skip(PromotionReaderValue.SKIP_LINE.get())
+                    .map(line -> createProduct(line.split(OrderInputForm.ORDER_DELIMITER.get())))
                     .collect(Collectors.toList());
         }
     }
 
     private Promotion createProduct(String[] splitLine) {
-        String name = splitLine[PromotionReaderValue.NAME.getValue()];
-        int buy = Integer.parseInt(splitLine[PromotionReaderValue.BUY.getValue()]);
-        int get = Integer.parseInt(splitLine[PromotionReaderValue.GET.getValue()]);
-        LocalDateTime startDate = getLocalDateTime(splitLine[PromotionReaderValue.START_DATE.getValue()]);
-        LocalDateTime endDate = getLocalDateTime(splitLine[PromotionReaderValue.END_DATE.getValue()]);
+        String name = splitLine[PromotionReaderValue.NAME.get()];
+        int buy = Integer.parseInt(splitLine[PromotionReaderValue.BUY.get()]);
+        int get = Integer.parseInt(splitLine[PromotionReaderValue.GET.get()]);
+        LocalDateTime startDate = getLocalDateTime(splitLine[PromotionReaderValue.START_DATE.get()]);
+        LocalDateTime endDate = getLocalDateTime(splitLine[PromotionReaderValue.END_DATE.get()]);
 
         return new Promotion(name, buy, get, startDate, endDate);
     }
