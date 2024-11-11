@@ -32,7 +32,7 @@ public class Cart {
 
     public List<Order> getAddablePromotionProductOrders(AddablePromotionOrdersFinder finder,
                                                         ConvenienceStoreroom storeroom) {
-        return finder.find(promotionOrders, storeroom);
+        return finder.find(this, promotionOrders, storeroom);
     }
 
     public void changePromotionToGeneralAsShortage(Order promotionOrder, int shortageQuantity) {

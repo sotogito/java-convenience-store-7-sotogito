@@ -59,8 +59,7 @@ public class Order {
             } else if (isOverPromotionMinBuyQuantity(purchaseQuantity - promotion) && quantityDifference >= 0) {
                 return true;
             }
-
-
+            
         }
         return false;
     }

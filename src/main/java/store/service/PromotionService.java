@@ -1,12 +1,12 @@
 package store.service;
 
 import java.util.List;
+import store.constants.AnswerWhether;
 import store.domain.ConvenienceStoreroom;
 import store.domain.finders.AddablePromotionOrdersFinder;
 import store.domain.finders.PromotionExclusionOrdersFinder;
 import store.domain.order.Cart;
 import store.domain.order.Order;
-import store.constants.AnswerWhether;
 
 public class PromotionService {
     private final PromotionExclusionOrdersFinder promotionExclusionOrdersFinder;
@@ -41,6 +41,12 @@ public class PromotionService {
     public List<Order> getAddablePromotionProductOrders() {
         return cart.getAddablePromotionProductOrders(addablePromotionOrdersFinder, convenienceStoreroom);
     }
+    //total - 적용 가능 = 남는 수량
+    //남는 수량이 최소에 미치면 물어보기, 아니면 일반상품으로
+
+    //
+    //promotionOrder.deleteQuantity(shortageQuantity);
+    //            cart.changePromotionToGeneralAsShortage(promotionOrder, shortageQuantity);
 
     public void handleCanAddPromotionProductOrder(AnswerWhether answer, Order promotionOrder, int needAddQuantity) {
         if (AnswerWhether.isYes(answer)) {
