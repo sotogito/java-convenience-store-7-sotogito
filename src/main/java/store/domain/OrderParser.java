@@ -3,8 +3,8 @@ package store.domain;
 import java.util.ArrayList;
 import java.util.List;
 import store.constants.OrderInputForm;
-import store.domain.record.OrderForm;
 import store.constants.messages.ErrorMessage;
+import store.domain.record.OrderForm;
 
 
 public class OrderParser {
@@ -32,7 +32,7 @@ public class OrderParser {
             String name = splitNameAneQuantity[0].trim();
             int quantity = Integer.parseInt(splitNameAneQuantity[1].trim());
             return new OrderForm(name, quantity);
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(ErrorMessage.INPUT_INCORRECT_ORDER_FORM.get());
         }
     }
