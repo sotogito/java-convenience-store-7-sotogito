@@ -23,15 +23,18 @@ import store.view.OutputView;
 public class ConvenienceStoreController {
     private final InputView inputView;
     private final OutputView outputView;
+
     private PromotionService promotionService;
     private CartService cartService;
     private OrderService orderService;
+
 
     public ConvenienceStoreController() {
         inputView = new InputView();
         outputView = new OutputView();
     }
-    
+
+
     public void run() throws IOException {
         ConvenienceStoreroom storeroom = loadProductStock();
         Cart cart = new Cart();
@@ -127,17 +130,20 @@ public class ConvenienceStoreController {
     }
 
 
-    //fixme 줄수
     private void inputWhetherPurchase() {
         while (true) {
             try {
-                String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.get());
-                orderService.handleKeepPurchase(AnswerWhether.find(answer));
+                processKeepPurchase();
                 return;
             } catch (IllegalArgumentException e) {
                 outputView.printError(e.getMessage());
             }
         }
+    }
+
+    private void processKeepPurchase() {
+        String answer = inputView.inputWhether(ServiceMessage.KEEP_PURCHASE.get());
+        orderService.handleKeepPurchase(AnswerWhether.find(answer));
     }
 
 

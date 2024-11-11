@@ -38,28 +38,20 @@ public class Order {
     }
 
 
-    /*
-    public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
-        if (product instanceof PromotionProduct promotionProduct) {
-            return promotionProduct.calculateQuantityDeduction(purchaseQuantity) >= 0; //note 부족한지만 판단하고있음
-        }
-        return false;
-    }
-
-     */
-
-
     public boolean isShortageStockPromotionProductThanPurchaseQuantity() {
         if (product instanceof PromotionProduct promotionProduct) {
             int quantityDifference = promotionProduct.calculateQuantityDeduction(purchaseQuantity);
             int promotion = promotionProduct.getTotalPromotionProductQuantity(purchaseQuantity);
+            return checkQuantity(quantityDifference, promotion);
+        }
+        return false;
+    }
 
-            if (quantityDifference > 0) {
-                return true;
-            } else if (isOverPromotionMinBuyQuantity(purchaseQuantity - promotion) && quantityDifference >= 0) {
-                return true;
-            }
-
+    private boolean checkQuantity(int quantityDifference, int promotion) {
+        if (quantityDifference > 0) {
+            return true;
+        } else if (isOverPromotionMinBuyQuantity(purchaseQuantity - promotion) && quantityDifference >= 0) {
+            return true;
         }
         return false;
     }
@@ -162,18 +154,6 @@ public class Order {
         productQuantityMap.merge(product, getPromotionProductQuantity(), Integer::sum);
     }
 
-
-    @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Order [product=");
-        builder.append(product.getName());
-        builder.append(", purchaseQuantity=");
-        builder.append(purchaseQuantity);
-        builder.append("]");
-        builder.append("\n");
-        return builder.toString();
-    }
 
 }
 

@@ -2,10 +2,10 @@ package store.domain;
 
 import java.util.List;
 import java.util.Map;
+import store.constants.messages.ErrorMessage;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
-import store.constants.messages.ErrorMessage;
 
 public class StockManager {
 
@@ -25,7 +25,7 @@ public class StockManager {
             totalStick += product.getQuantity();
         }
         if (totalStick < orderQuantity) {
-            throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get() + "stockmanager");
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
     }
 

@@ -9,8 +9,9 @@ public class Application {
         ConvenienceStoreController convenienceStoreController = new ConvenienceStoreController();
         try {
             convenienceStoreController.run();
-        } catch (IllegalArgumentException | IOException | IllegalStateException e) {
+        } catch (IOException | IllegalStateException e) {
             e.printStackTrace();
         }
     }
+
 }

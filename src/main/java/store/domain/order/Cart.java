@@ -60,10 +60,6 @@ public class Cart {
         storeroom.decreaseStock(getAllOrderProductQuantity());
     }
 
-    public boolean isAllGeneralOrder() {
-        return generalOrders.isEmpty() && !promotionOrders.isEmpty();
-    }
-
 
     public int getTotalPurchaseCount() {
         int totalCount = 0;

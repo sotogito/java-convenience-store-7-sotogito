@@ -7,14 +7,14 @@ public enum ProductReaderValue {
     PROMOTION(3),
     SKIP_LINE(1);
 
-    private final int value;
+    private final int index;
 
     ProductReaderValue(int value) {
-        this.value = value;
+        this.index = value;
     }
 
-    public int getValue() {
-        return value;
+    public int get() {
+        return index;
     }
 
 }

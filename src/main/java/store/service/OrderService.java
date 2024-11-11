@@ -37,10 +37,6 @@ public class OrderService {
         cart.decreasePurchasedProductQuantity(convenienceStoreroom);
     }
 
-    public boolean isAllGeneralOrder() {
-        return cart.isAllGeneralOrder();
-    }
-
     public void clearPurchaseHistory() {
         cart.clearCart();
         receipt.clearReceipt();
