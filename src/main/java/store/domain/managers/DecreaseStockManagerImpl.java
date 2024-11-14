@@ -1,13 +1,14 @@
-package store.domain;
+package store.domain.managers;
 
 import java.util.Map;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
 import store.domain.items.item.PromotionProduct;
 
-public class StockManager {
+public class DecreaseStockManagerImpl implements DecreaseStockManager {
 
-    public void decreaseStock(Products products, Map<Product, Integer> productQuantity) {
+    @Override
+    public void process(Products products, Map<Product, Integer> productQuantity) {
         for (Map.Entry<Product, Integer> entry : productQuantity.entrySet()) {
             Product product = entry.getKey();
             Integer quantity = entry.getValue();
@@ -25,7 +26,8 @@ public class StockManager {
     }
 
 
-    private void decreasePromotionStock(Products products, Product product, int quantity) {
+    @Override
+    public void decreasePromotionStock(Products products, Product product, int quantity) {
         int nowDecreaseStockQuantity = getNowDecreasedStockQuantity(product, quantity);
         int remainingQuantity = calculateRemainingQuantity(quantity, nowDecreaseStockQuantity);
 
@@ -41,7 +43,8 @@ public class StockManager {
     }
 
 
-    private void decreaseGeneralStock(Products products, Product product, int quantity) {
+    @Override
+    public void decreaseGeneralStock(Products products, Product product, int quantity) {
         int nowDecreaseStockQuantity = getNowDecreasedStockQuantity(product, quantity);
         int remainingQuantity = calculateRemainingQuantity(quantity, nowDecreaseStockQuantity);
 
