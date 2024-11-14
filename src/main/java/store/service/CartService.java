@@ -41,7 +41,7 @@ public class CartService {
     private Product getProduct(OrderForm order, int quantity, LocalDateTime nowDate) {
         Product product = convenienceStoreroom.findProductByNameAndQuantity(order.name(), quantity);
         if (product instanceof PromotionProduct promotionProduct) {
-            if (!promotionProduct.isValidDate(nowDate)) {
+            if (!promotionProduct.isValidDate(nowDate)) { //todo 이거를 find 내부에서 해야되는거 아닌가? 아닌가?
                 product = convenienceStoreroom.findGeneralProductByNameAndQuantity(order.name(), quantity);
             }
         }

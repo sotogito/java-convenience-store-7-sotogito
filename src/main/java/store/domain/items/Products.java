@@ -78,26 +78,26 @@ public class Products {
     public Product getGeneralProductByNameAndQuantity(String name, int quantity) {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
-                continue;
             } else if (product.isSameName(name)) {
-                return getSufficientStockGeneralProduct(quantity, product);
+                return getSufficientStockGeneralProduct(quantity, product); //fixme 여기 재고 확인이 이상함
             }
         }
         throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
     }
 
     private Product getSufficientStockGeneralProduct(int quantity, Product product) {
-        if (product.isSufficientStock(quantity)) {
-            return product;
+        List<Product> sameNameProduct = getSameNameProducts(product.getName());
+        int stock = calculateAllSameNameProductStock(sameNameProduct);
+        if (quantity >= stock) {
+            throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
-        throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
+        return product;
     }
 
 
     public Product getGeneralProductByName(String name) {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
-                continue;
             } else if (product.isSameName(name)) {
                 return product;
             }
