@@ -1,4 +1,4 @@
-package store.domain.managers;
+package store.domain.stock;
 
 public interface AddStockManager extends StockManager {
 }

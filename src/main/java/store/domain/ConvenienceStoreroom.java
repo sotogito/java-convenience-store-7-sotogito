@@ -5,13 +5,13 @@ import java.util.Map;
 import store.domain.finders.OrderProductFinder;
 import store.domain.items.Products;
 import store.domain.items.item.Product;
-import store.domain.managers.AddStockManagerImpl;
-import store.domain.managers.DecreaseStockManagerImpl;
-import store.domain.managers.StockManager;
 import store.domain.policies.Promotions;
 import store.domain.reader.ProductReader;
 import store.domain.reader.PromotionReader;
 import store.domain.reader.constants.ResourcePath;
+import store.domain.stock.AddStockManagerImpl;
+import store.domain.stock.DecreaseStockManagerImpl;
+import store.domain.stock.StockManager;
 
 
 public class ConvenienceStoreroom implements OrderProductFinder {

@@ -1,4 +1,4 @@
-package store.domain.managers;
+package store.domain.stock;
 
 import store.domain.items.Products;
 import store.domain.items.item.Product;

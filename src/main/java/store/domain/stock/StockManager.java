@@ -1,4 +1,4 @@
-package store.domain.managers;
+package store.domain.stock;
 
 import java.util.Map;
 import store.domain.items.Products;
