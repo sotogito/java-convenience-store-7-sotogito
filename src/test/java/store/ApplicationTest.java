@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import camp.nextstep.edu.missionutils.test.NsTest;
 import java.time.LocalDate;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class ApplicationTest extends NsTest {
@@ -49,6 +50,25 @@ class ApplicationTest extends NsTest {
         assertNowTest(() -> {
             run("[감자칩-2]", "N", "N");
             assertThat(output().replaceAll("\\s", "")).contains("내실돈3,000");
+        }, LocalDate.of(2024, 2, 1).atStartOfDay());
+    }
+
+    @DisplayName("일반상품 차감 후 프로모션 재고 차감")
+    @Test
+    void 기간에_해당하지_않는_프로모션_재고_차감_확인() {
+        assertNowTest(() -> {
+            run("[감자칩-6]", "N", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("내실돈9,000");
+        }, LocalDate.of(2024, 2, 1).atStartOfDay());
+    }
+
+
+    @DisplayName("전체 구매 수량 멤버십 할인 적용")
+    @Test
+    void 기간에_해당하지_않는_프로모션_멤버십_할인_적용() {
+        assertNowTest(() -> {
+            run("[감자칩-10]", "Y", "N");
+            assertThat(output().replaceAll("\\s", "")).contains("내실돈10,500");
         }, LocalDate.of(2024, 2, 1).atStartOfDay());
     }
 
