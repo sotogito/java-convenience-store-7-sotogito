@@ -16,7 +16,6 @@ public class StockManager {
         }
     }
 
-
     private void handePromotionType(Products products, Product product, int quantity) {
         if (product instanceof PromotionProduct) {
             decreasePromotionStock(products, product, quantity);
@@ -25,39 +24,58 @@ public class StockManager {
         decreaseGeneralStock(products, product, quantity);
     }
 
-    private void decreaseGeneralStock(Products products, Product product, int quantity) {
-        int remainingQuantity = 0;
 
+    private void decreasePromotionStock(Products products, Product product, int quantity) {
+        int nowDecreaseStockQuantity = getNowDecreasedStockQuantity(product, quantity);
+        int remainingQuantity = calculateRemainingQuantity(quantity, nowDecreaseStockQuantity);
+
+        if (isKeepDecreaseStock(remainingQuantity)) {
+            decreaseChangingPromotionProductToGeneral(products, product, remainingQuantity);
+        }
+    }
+
+    private static void decreaseChangingPromotionProductToGeneral(
+            Products products, Product product, int remainingQuantity) {
+        Product generalProduct = products.findGeneralProductByName(product.getName());
+        generalProduct.decreaseQuantity(remainingQuantity);
+    }
+
+
+    private void decreaseGeneralStock(Products products, Product product, int quantity) {
+        int nowDecreaseStockQuantity = getNowDecreasedStockQuantity(product, quantity);
+        int remainingQuantity = calculateRemainingQuantity(quantity, nowDecreaseStockQuantity);
+
+        if (isKeepDecreaseStock(remainingQuantity)) {
+            decreaseChangingGeneralProductToPromotion(products, product, nowDecreaseStockQuantity);
+        }
+
+    }
+
+    private void decreaseChangingGeneralProductToPromotion(
+            Products products, Product product, int remainingQuantity) {
+        Product promotionProduct = products.findPromotionProductByName(product.getName());
+        promotionProduct.decreaseQuantity(remainingQuantity);
+    }
+
+
+    private int getNowDecreasedStockQuantity(Product product, int quantity) {
         for (int i = 0; i < quantity; i++) {
             if (!product.isOutOfStock()) {
                 product.decreaseQuantitySingly();
                 continue;
             }
-            remainingQuantity = quantity - i;
-            break;
+            return i;
         }
-        if (remainingQuantity == 0) {
-            return;
-        }
-        Product promotionProduct = products.findPromotionProductByName(product.getName());
-        promotionProduct.decreaseQuantity(remainingQuantity);
+        return quantity;
     }
 
-    private void decreasePromotionStock(Products products, Product product, int quantity) {
-        int remainingQuantity = 0;
-
-        for (int i = 0; i < quantity; i++) {
-            if (!product.isOutOfStock()) {
-                product.decreaseQuantity(quantity);
-                continue;
-            }
-            remainingQuantity = quantity - i;
-            break;
-        }
-        if (remainingQuantity == 0) {
-            return;
-        }
-        Product generalProduct = products.findGeneralProductByName(product.getName());
-        generalProduct.decreaseQuantity(remainingQuantity);
+    private boolean isKeepDecreaseStock(int remainingQuantity) {
+        return remainingQuantity != 0;
     }
+
+    private int calculateRemainingQuantity(int purchaseQuantity, int nowStockDecreasedQuantity) {
+        return purchaseQuantity - nowStockDecreasedQuantity;
+    }
+
 }
+
