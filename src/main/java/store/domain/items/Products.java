@@ -79,31 +79,42 @@ public class Products {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
             } else if (product.isSameName(name)) {
-                return getSufficientStockGeneralProduct(quantity, product); //fixme 여기 재고 확인이 이상함
+                return checkSufficientStockGeneralProduct(quantity, product); //fixme 여기 재고 확인이 이상함
             }
         }
         throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
     }
 
-    private Product getSufficientStockGeneralProduct(int quantity, Product product) {
+    private Product checkSufficientStockGeneralProduct(int quantity, Product product) {
         List<Product> sameNameProduct = getSameNameProducts(product.getName());
         int stock = calculateAllSameNameProductStock(sameNameProduct);
-        if (quantity >= stock) {
+        if (quantity > stock) {
             throw new IllegalArgumentException(ErrorMessage.INPUT_INSUFFICIENT_STOCK_ORDER.get());
         }
         return product;
     }
 
 
-    public Product getGeneralProductByName(String name) {
+    public Product findGeneralProductByName(String name) {
         for (Product product : products) {
             if (product instanceof PromotionProduct) {
             } else if (product.isSameName(name)) {
                 return product;
             }
         }
-        throw new IllegalArgumentException(ErrorMessage.INPUT_NOT_EXIST_ORDER_PRODUCT.get());
+        throw new IllegalStateException(ErrorMessage.NOT_EXIST_PRODUCT.get());
     }
+
+    public Product findPromotionProductByName(String name) {
+        for (Product product : products) {
+            if (!(product instanceof PromotionProduct)) {
+            } else if (product.isSameName(name)) {
+                return product;
+            }
+        }
+        throw new IllegalArgumentException(ErrorMessage.NOT_EXIST_PRODUCT.get());
+    }
+
 
     public boolean isSufficientPromotionStockByNameAndQuantity(String name, int afterGetPromotionQuantity) {
         int productStock = 0;
